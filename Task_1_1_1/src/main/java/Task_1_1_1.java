@@ -1,6 +1,8 @@
 public class Task_1_1_1 {
     /**
      * @param arr массив, который нужно отсортировать
+     *
+     * Метод вызывает метод Heap для балансировки с правильными параметрами, уменьшая изначальный массив
      */
     public static void sort(int[] arr) {
         int n = arr.length;
@@ -13,6 +15,8 @@ public class Task_1_1_1 {
             arr[0] = arr[i];
             arr[i] = temp;
 
+
+
             heap(arr, i, 0);
         }
     }
@@ -21,6 +25,8 @@ public class Task_1_1_1 {
      * @param arr - Массив для сортировки
      * @param n - количество неотсортированных элементом массива
      * @param i - индекс наибольшего элемента оставшегося массива
+     *
+     * Метод балансирует делево на массиве, поднимая наибольший элемент в корень дерева
      */
     static void heap(int[] arr, int n, int i) {
         int largest = i;
