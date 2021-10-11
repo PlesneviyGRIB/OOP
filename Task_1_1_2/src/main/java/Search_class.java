@@ -3,6 +3,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Search_class {
+    /**
+     * @param str - строка для которой нужно вычислить hash-функцию
+     * @return - возвращает массивБ который представляет из себя hash
+     */
     static int[] make_hash(String str) {
         int len = str.length();
         str = new StringBuilder(str).reverse().toString(); //разворот строки (123 -> 321)
@@ -27,6 +31,12 @@ public class Search_class {
         return res;
     }
 
+    /**
+     * @param str - птрока которую нужно искать
+     * @param path - путь файла
+     * @return - массив индексов найденых вхождений
+     * @throws IOException - не найден файл
+     */
     static int[] Search(String str, String path) throws IOException {
         FileReader reader = new FileReader(path);
         if(str.length() == 0){

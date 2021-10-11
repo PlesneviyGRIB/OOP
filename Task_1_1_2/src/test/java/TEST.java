@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class TEST{
     @Test
@@ -50,11 +51,12 @@ public class TEST{
     }
 
     @Test
-    public void NoExistingFile(Throwable thrown) throws IOException {
+    public void NoExistingFile() throws IOException {
         String path = "test123.txt";
         String s = "@#";
-        int[] myres = new int[0];
-        myres = Search_class.Search(s, path);
-        assertEquals(thrown.getMessage(), "no such file");
+        Throwable thrown = assertThrows(IOException.class, () -> {
+            int[] check = Search_class.Search(s, path);
+        });
+        assertEquals(thrown.getMessage(), "test123.txt (Нет такого файла или каталога)");
     }
 }
