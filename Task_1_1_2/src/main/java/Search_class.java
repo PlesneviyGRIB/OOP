@@ -27,10 +27,10 @@ public class Search_class {
         return res;
     }
 
-    static int[] Search(String str, FileReader reader) throws IOException {
+    static int[] Search(String str, String path) throws IOException {
+        FileReader reader = new FileReader(path);
         if(str.length() == 0){
-            int[] tmp = new int[2];
-            tmp[0]=1; tmp[1]=0;
+            int[] tmp = new int[0];
             return tmp;
         }
         int[] hash = make_hash(str);
@@ -87,8 +87,7 @@ public class Search_class {
             cnt++;
         }
         if(cnt==0){
-            int[] tmp1 = new int[2];
-            tmp1[0]=2; tmp1[1]=0;
+            int[] tmp1 = new int[0];
             return tmp1;
         }
         int[] res1 = new int[res.size()];
