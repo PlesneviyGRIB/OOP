@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TEST{
     @Test
@@ -19,7 +20,7 @@ public class TEST{
     public void emptyStringArrayTest() throws IOException {
         String path = "test0.txt";
         String s = "";
-        int[] myres = new int[2];
+        int[] myres = new int[0];
         myres = Search_class.Search(s, path);
         int[] res = new int[0];
 
@@ -30,7 +31,7 @@ public class TEST{
     public void emptyFileArrayTest() throws IOException {
         String path = "test1.txt";
         String s = "aabaab";
-        int[] myres = new int[2];
+        int[] myres = new int[0];
         myres = Search_class.Search(s, path);
         int[] res = new int[0];
 
@@ -46,5 +47,14 @@ public class TEST{
         int[] res = new int[0];
 
         Assertions.assertArrayEquals(res, myres);
+    }
+
+    @Test
+    public void NoExistingFile(Throwable thrown) throws IOException {
+        String path = "test123.txt";
+        String s = "@#";
+        int[] myres = new int[0];
+        myres = Search_class.Search(s, path);
+        assertEquals(thrown.getMessage(), "no such file");
     }
 }
