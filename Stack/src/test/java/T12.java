@@ -29,4 +29,14 @@ public class T12 {
             Assertions.assertEquals(stack2.pop(),stack3.pop());
         }
     }
+
+    @Test
+    public void Simple_withPop_test() {
+        OBJ_stack <Integer> stack = new OBJ_stack<>();
+        stack.push(10);
+        stack.push(11);
+        stack.pop();
+        stack.pop();
+        Assertions.assertEquals(stack.pop(),null);
+    }
 }
