@@ -19,16 +19,18 @@ public class OBJ_stack <T> {
      * @param elem элемент для пуша
      */
     public void push(T elem) {
-        T[] tmp = (T[]) new Object[cntElem];
-        for(int i=0;i< cntElem;i++){
-            tmp[i]= stack[i];
+        if(count()+1 >= stack.length) {
+            T[] tmp = (T[]) new Object[cntElem*2];
+            for (int i = 0; i < cntElem; i++) {
+                tmp[i] = stack[i];
+            }
+            stack = tmp;
+            stack[cntElem] = elem;
         }
-        stack = (T[]) new Object[cntElem+1];
-        for(int i=0;i<cntElem;i++){
-            stack[i] = tmp[i];
+        else {
+            stack[cntElem] = elem;
+            cntElem++;
         }
-        stack[cntElem] = elem;
-        cntElem++;
     }
 
     /**
