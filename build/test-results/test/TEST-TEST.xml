@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TEST" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-10-11T08:39:06" hostname="egor-MRC-WX0" time="0.036">
-  <properties/>
-  <testcase name="emptyFileArrayTest()" classname="TEST" time="0.029"/>
-  <testcase name="emptyStringArrayTest()" classname="TEST" time="0.002"/>
-  <testcase name="NormalArrayTest()" classname="TEST" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
