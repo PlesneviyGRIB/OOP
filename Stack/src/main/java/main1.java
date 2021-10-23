@@ -15,7 +15,6 @@ public class main1 {
         stack1.push(0);
         stack.pushStack(stack1);
 
-
         OBJ_stack <Integer> stack2 = stack.popStack(3);
     }
 }

@@ -1,29 +1,33 @@
 /**
- * @param <T> стэк
+ * Class stack
+ * @param <T> type of elements of object stack
  */
 public class OBJ_stack <T> {
-    private int cntElem = 10;
+    private int cntElem;
     private T[] stack = (T[]) new Object[cntElem];
 
+    /**
+     * Constructor of object stack
+     */
     public OBJ_stack() {
         cntElem = 0;
         stack = (T[]) new Object[cntElem];
     }
 
+    /**
+     * @return count of elements in stack
+     */
     public int count() {
         return cntElem;
     }
 
     /**
-     *
-     * @param elem элемент для пуша
+     * @param elem element for push to stack
      */
     public void push(T elem) {
         if(count()+1 >= stack.length) {
-            T[] tmp = (T[]) new Object[cntElem*2];
-            for (int i = 0; i < cntElem; i++) {
-                tmp[i] = stack[i];
-            }
+            T[] tmp = (T[]) new Object[(cntElem+1)*2];
+            System.arraycopy(tmp, 0,stack,0,cntElem);
             stack = tmp;
             stack[cntElem] = elem;
         }
@@ -34,8 +38,7 @@ public class OBJ_stack <T> {
     }
 
     /**
-     *
-     * @return элемент со стека
+     * @return element from stack
      */
     public T pop() {
         if(cntElem>0) {
@@ -46,8 +49,7 @@ public class OBJ_stack <T> {
     }
 
     /**
-     *
-     * @param stack1 вспомогательный стэк
+     * @param stack1 supportive stack to push your stack in right order
      */
     public void pushStack(OBJ_stack<T> stack1){
         OBJ_stack <T> stack2 = new OBJ_stack<>();
@@ -60,9 +62,8 @@ public class OBJ_stack <T> {
     }
 
     /**
-     *
-     * @param cnt количество элементов дл взятия
-     * @return возвращает стек
+     * @param cnt count of elements for pop from stack
+     * @return returns object of class stack
      */
     public OBJ_stack popStack(int cnt){
         OBJ_stack <T> stack1 = new OBJ_stack<>();
@@ -70,12 +71,10 @@ public class OBJ_stack <T> {
             stack1.push(pop());
             cnt--;
         }
-
         OBJ_stack <T> stack2 = new OBJ_stack<>();
         while(stack1.count()>0){
             stack2.push(stack1.pop());
         }
-
         return stack2;
     }
 }
