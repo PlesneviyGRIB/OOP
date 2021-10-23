@@ -1,6 +1,6 @@
 public class main1 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         OBJ_stack <Integer> stack = new OBJ_stack<>();
 
         stack.push(10);

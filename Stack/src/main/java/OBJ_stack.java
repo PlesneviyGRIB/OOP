@@ -27,9 +27,10 @@ public class OBJ_stack <T> {
     public void push(T elem) {
         if(count()+1 >= stack.length) {
             T[] tmp = (T[]) new Object[(cntElem+1)*2];
-            System.arraycopy(tmp, 0,stack,0,cntElem);
+            System.arraycopy(stack, 0,tmp,0,cntElem);
             stack = tmp;
             stack[cntElem] = elem;
+            cntElem++;
         }
         else {
             stack[cntElem] = elem;
@@ -40,18 +41,20 @@ public class OBJ_stack <T> {
     /**
      * @return element from stack
      */
-    public T pop() {
+    public T pop() throws Exception {
+//        if (cntElem < 1) throw new Exception("Stack is empty!");
         if(cntElem>0) {
             cntElem--;
             return stack[cntElem];
         }
-        return null;
+//        return null;
+        throw new Exception("Stack is empty!");
     }
 
     /**
      * @param stack1 supportive stack to push your stack in right order
      */
-    public void pushStack(OBJ_stack<T> stack1){
+    public void pushStack(OBJ_stack<T> stack1) throws Exception{
         OBJ_stack <T> stack2 = new OBJ_stack<>();
         while(stack1.count()>0){
             stack2.push(stack1.pop());
@@ -65,7 +68,7 @@ public class OBJ_stack <T> {
      * @param cnt count of elements for pop from stack
      * @return returns object of class stack
      */
-    public OBJ_stack popStack(int cnt){
+    public OBJ_stack popStack(int cnt) throws Exception {
         OBJ_stack <T> stack1 = new OBJ_stack<>();
         while(cnt > 0){
             stack1.push(pop());
@@ -77,4 +80,13 @@ public class OBJ_stack <T> {
         }
         return stack2;
     }
+
+    public void prn() {
+
+        for(int i =0 ; i<cntElem;i++)
+            System.out.printf("%d ", stack[i]);
+        System.out.println();
+    }
+
+
 }
