@@ -81,12 +81,4 @@ public class OBJ_stack <T> {
         return stack2;
     }
 
-    public void prn() {
-
-        for(int i =0 ; i<cntElem;i++)
-            System.out.printf("%d ", stack[i]);
-        System.out.println();
-    }
-
-
 }
