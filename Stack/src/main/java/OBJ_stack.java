@@ -42,12 +42,10 @@ public class OBJ_stack <T> {
      * @return element from stack
      */
     public T pop() throws Exception {
-//        if (cntElem < 1) throw new Exception("Stack is empty!");
         if(cntElem>0) {
             cntElem--;
             return stack[cntElem];
         }
-//        return null;
         throw new Exception("Stack is empty!");
     }
 
