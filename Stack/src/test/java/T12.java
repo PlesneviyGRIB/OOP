@@ -48,4 +48,25 @@ public class T12 {
         });
         assertEquals(e.getMessage(), "Stack is empty!");
     }
+
+    @Test
+    public void PopStack_withEmptyStack_test() throws Exception {
+        OBJ_stack <Integer> stack = new OBJ_stack<>();
+        stack.push(10);
+        stack.push(11);
+
+
+        OBJ_stack <Integer> stack1 = new OBJ_stack<>();
+        stack1.push(10);
+        stack1.push(11);
+
+        Throwable e = assertThrows(Exception.class, () -> {
+            stack.popStack(10);
+        });
+        assertEquals(e.getMessage(), "Stack is empty!");
+
+        for(int i=0;i<stack1.count();i++) {
+            Assertions.assertEquals(stack.pop(),stack1.pop());
+        }
+    }
 }
