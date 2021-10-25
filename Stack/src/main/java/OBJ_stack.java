@@ -67,7 +67,7 @@ public class OBJ_stack <T> {
      * @return returns object of class stack
      */
     public OBJ_stack popStack(int cnt) throws Exception {
-        if(cnt > cntElem) throw new Exception("Stack is empty!");
+        if(cnt > cntElem) throw new Exception("Cunt pop such count of elements!");
         OBJ_stack <T> stack1 = new OBJ_stack<>();
         while(cnt > 0){
             stack1.push(pop());

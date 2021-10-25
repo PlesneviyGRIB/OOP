@@ -63,7 +63,7 @@ public class T12 {
         Throwable e = assertThrows(Exception.class, () -> {
             stack.popStack(10);
         });
-        assertEquals(e.getMessage(), "Stack is empty!");
+        assertEquals(e.getMessage(), "Cunt pop such count of elements!");
 
         for(int i=0;i<stack1.count();i++) {
             Assertions.assertEquals(stack.pop(),stack1.pop());
