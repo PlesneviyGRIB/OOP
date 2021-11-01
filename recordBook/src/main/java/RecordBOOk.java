@@ -92,14 +92,19 @@ public class RecordBOOk {
         return sumOfMarks / cntOfMarks;
     }
 
-//    public void prn() {
-//        for(int i = 0; i<cntSemesters + 1; i++) {
-//            for (int j = 0; j < sub.getCount_sub() + 1; j++) {
-//                System.out.printf("%d ", marks[i][j]);
-//            }
-//            System.out.println();
-//        }
-//    }
+    public void prn() {
+        for (int j = 0; j < sub.getCount_sub() + 1; j++) {
+            System.out.printf("%4d", j);
+        }
+        System.out.print("\n");
+        for(int i = 0; i<cntSemesters + 1; i++) {
+            System.out.printf("   %d",i+1);
+            for (int j = 0; j < sub.getCount_sub() + 1; j++) {
+                System.out.printf("%4d", marks[i][j]);
+            }
+            System.out.println();
+        }
+    }
 
     /**
      * Supportive method to set last mark for each subject
@@ -107,8 +112,10 @@ public class RecordBOOk {
     private void setLastMark(int place, int indOfSub, int m) {
         int tmp = 0;
         for(int i = place; i < cntSemesters; i++)
-            tmp = marks[i][indOfSub];
-        if(tmp == 0) marks[cntSemesters][indOfSub] = m;
+            if(marks[i][indOfSub] != 0) {
+                tmp = marks[i][indOfSub];
+            }
+        if(tmp != 0) marks[cntSemesters][indOfSub] = m;
     }
 
     /**

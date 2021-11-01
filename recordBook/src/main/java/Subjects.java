@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 public class Subjects {
-    private int count_sub = 26;
+    private int count_sub = 24;
     private String[] sub = new String[count_sub];
 
     Subjects() {
@@ -33,9 +33,6 @@ public class Subjects {
         sub[i++] = "Теория вероятностей и математическая статистика";
         sub[i++] = "Теория параллелизма";
         sub[i++] = "Философия";
-        sub[i++] = "Физическая культура и спорт";
-        sub[i++] = "Цифровые платформы";
-
         sub[i++] = "Алгоритмы и структуры данных";
     }
 
