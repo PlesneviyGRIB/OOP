@@ -66,10 +66,10 @@ public class Semester {
     /**
      * method for show structure of record book
      */
-    public void prn() {
-        for(int i = 0; i<p.size(); i++) {
-            p.get(i).prn();
-        }
-        System.out.println();
-    }
+//    public void prn() {
+//        for(int i = 0; i<p.size(); i++) {
+//            p.get(i).prn();
+//        }
+//        System.out.println();
+//    }
 }

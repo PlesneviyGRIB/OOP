@@ -17,7 +17,6 @@ public class Main {
         r.addMark("History",3,1);
         r.addMark("PE",2,7);
         r.setQualificationWork(5);
-        r.prn();
 
         System.out.printf("\n%f \n", r.averageScore());
         System.out.println(r.isHighScholarship());

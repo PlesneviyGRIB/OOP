@@ -28,7 +28,7 @@ public class Subject {
     /**
      * method for show structure of rekord book
      */
-    public void prn() {
-        System.out.printf("%s %d   ",title,mark);
-    }
+//    public void prn() {
+//        System.out.printf("%s %d   ",title,mark);
+//    }
 }

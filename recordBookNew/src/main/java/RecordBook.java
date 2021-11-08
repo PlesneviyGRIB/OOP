@@ -87,15 +87,15 @@ public class RecordBook {
     /**
      * method for show structure of rekord book
      */
-    public void prn() {
-        for(int i = 0; i<s.size();i++) {
-            System.out.printf("|%d|  ",s.get(i).getNumber());
-            s.get(i).prn();
-        }
-        System.out.print("|*|  ");
-        for(int i = 0; i<arrS.size(); i++)
-            System.out.printf("%s %d   ", arrS.get(i), arrM.get(i));
-    }
+//    public void prn() {
+//        for(int i = 0; i<s.size();i++) {
+//            System.out.printf("|%d|  ",s.get(i).getNumber());
+//            s.get(i).prn();
+//        }
+//        System.out.print("|*|  ");
+//        for(int i = 0; i<arrS.size(); i++)
+//            System.out.printf("%s %d   ", arrS.get(i), arrM.get(i));
+//    }
 
     public void setQualificationWork(int mark) throws Exception {
         Subject tmp = new Subject("",mark);
