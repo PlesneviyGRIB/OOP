@@ -32,7 +32,6 @@ public class RecordBook {
                 return;
             }
         }
-
         Semester tmp = new Semester(semNumber);
         tmp.addSubject(title,mark);
         s.add(tmp);
