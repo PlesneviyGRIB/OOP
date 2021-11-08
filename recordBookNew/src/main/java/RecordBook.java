@@ -45,6 +45,7 @@ public class RecordBook {
         for(int i =0; i<arrS.size(); i++) {
             if ((arrS.get(i).equals(title)) && (arrSem.get(i) < sem)) {
                 arrM.set(i,mark);
+                arrSem.set(i,sem);
                 return;
             }
             else {
