@@ -42,13 +42,12 @@ public class RecordBook {
      */
     private void lastMark(String title, int mark, int sem) {
         for(int i =0; i<arrS.size(); i++) {
-            if ((arrS.get(i).equals(title)) && (arrSem.get(i) < sem)) {
-                arrM.set(i,mark);
-                arrSem.set(i,sem);
-                return;
-            }
-            else {
-                if(arrS.get(i).equals(title)) return;
+            if (arrS.get(i).equals(title)) {
+                    if(arrSem.get(i) < sem) {
+                        arrM.set(i, mark);
+                        arrSem.set(i, sem);
+                    }
+                    return;
             }
         }
         arrSem.add(sem);
@@ -114,7 +113,7 @@ public class RecordBook {
             else return false;
         }
         double size = arrM.size();
-        if(size * 0.75 <= cnt) {
+        if(size * 0.75 >= cnt) {
             if(qualificationWork == 0) throw new Exception("Set qualification work mark!");
             if(qualificationWork == 5) return true;
         }

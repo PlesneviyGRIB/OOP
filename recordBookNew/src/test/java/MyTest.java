@@ -23,6 +23,7 @@ public class MyTest {
         });
         assertEquals(e2.getMessage(), "Wrong value of mark!");
 
+        r.addMark("Math",5,1);
         Throwable e3 = assertThrows(Exception.class, () -> {
             r.greatDiploma();
         });
