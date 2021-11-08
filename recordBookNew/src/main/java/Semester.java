@@ -21,6 +21,7 @@ public class Semester {
      * Method allows you to store information about a new subject
      */
     public void addSubject(String title, int mark) throws Exception {
+        Subject tmp = new Subject(title, mark);
         for(int i = 0; i<p.size(); i++) {
             if(title.equals(p.get(i).getTitle())) {
                 p.get(i).setMark(mark);
