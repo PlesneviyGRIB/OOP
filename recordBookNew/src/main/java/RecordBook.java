@@ -32,15 +32,10 @@ public class RecordBook {
                 return;
             }
         }
-        s.add(new Semester(semNumber));
-        semCtn++;
-        int tmp =0;
-        for(int i = 0; i< s.size();i++) {
-            if(s.get(i).getNumber() == semNumber) {
-                s.get(i).addSubject(title, mark);
-                break;
-            }
-        }
+
+        Semester tmp = new Semester(semNumber);
+        tmp.addSubject(title,mark);
+        s.add(tmp);
     }
 
     /**
@@ -111,8 +106,6 @@ public class RecordBook {
      * Method for check if great diploma is allows
      */
     public Boolean greatDiploma() throws Exception{
-        if(qualificationWork == 0) throw new Exception("Set qualification work mark!");
-
         double cnt = 0;
         for(int i = 0; i<arrM.size(); i++) {
             if(arrM.get(i) >= 4) {
@@ -121,8 +114,10 @@ public class RecordBook {
             else return false;
         }
         double size = arrM.size();
-        if((size * 0.75 <= cnt) && (qualificationWork == 5)) return true;
-
+        if(size * 0.75 <= cnt) {
+            if(qualificationWork == 0) throw new Exception("Set qualification work mark!");
+            if(qualificationWork == 5) return true;
+        }
         return false;
    }
 }

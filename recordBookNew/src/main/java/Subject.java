@@ -21,6 +21,10 @@ public class Subject {
         return title;
     }
 
+    public void setMark(int _mark) {
+        mark = _mark;
+    }
+
     /**
      * method for show structure of rekord book
      */

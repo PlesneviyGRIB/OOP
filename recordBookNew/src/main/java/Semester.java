@@ -22,7 +22,10 @@ public class Semester {
      */
     public void addSubject(String title, int mark) throws Exception {
         for(int i = 0; i<p.size(); i++) {
-            if(title.equals(p.get(i).getTitle())) return;
+            if(title.equals(p.get(i).getTitle())) {
+                p.get(i).setMark(mark);
+                return;
+            }
         }
         p.add(new Subject(title, mark));
     }
