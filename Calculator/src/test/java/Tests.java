@@ -26,16 +26,22 @@ public class Tests {
         });
         assertEquals(e2.getMessage(), "Value for function log have to be positive!");
 
-        calculations.newTerm("/ / 2 2");
+        calculations.newTerm("/ / 2 2 3 5");
         Throwable e3 = assertThrows(Exception.class, () -> {
             calculations.getResult();
         });
         assertEquals(e3.getMessage(), "Wrong term!");
 
         Throwable e4 = assertThrows(Exception.class, () -> {
-            calculations.newTerm("/ / 2we 2");
+            calculations.newTerm("/ / 2we 2 4");
         });
         assertEquals(e4.getMessage(), "Wrong term!");
+
+        calculations.newTerm("/ / def 2 2 3 5");
+        Throwable e5 = assertThrows(Exception.class, () -> {
+            calculations.getResult();
+        });
+        assertEquals(e5.getMessage(), "Wrong term!");
     }
 
     @Test

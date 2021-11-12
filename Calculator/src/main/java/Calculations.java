@@ -66,6 +66,8 @@ public class Calculations {
                     if(a <= 0) throw new Exception("Value for function log have to be positive!");
                     parser.pushValue(Math.log(a));
                     break;
+                default:
+                    throw new Exception("Wrong term!");
             }
         }
         result = parser.getValue();
