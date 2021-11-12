@@ -1,11 +1,9 @@
-import java.util.Scanner;
-
 public class Main {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String str = scanner.nextLine();
+    public static void main(String[] args) throws Exception {
+        Calculations calculations = new Calculations();
+        calculations.newTerm("pow 2 8");
 
-        Calculations calculations = new Calculations(str);
+        System.out.println(calculations.getResult());
         System.out.println(calculations.getResult());
     }
 }
