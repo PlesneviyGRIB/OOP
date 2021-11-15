@@ -38,5 +38,8 @@ public class Tests {
 
         Calculations c2 = new Calculations("- + sqrt - + * / pow 2 5 8 15 7 3 10 -12");
         assertEquals(c2.getResult() ,  30);
+
+        Calculations c3 = new Calculations("/ 6 + + 2 2 2");
+        assertEquals(c3.getResult() ,  1);
     }
 }
