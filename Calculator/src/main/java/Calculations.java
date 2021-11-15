@@ -62,7 +62,7 @@ public class Calculations {
         }
     }
 
-    public Double getResult() {
+    public Double getResult() throws Exception {
         return atom.pop();
     }
 }

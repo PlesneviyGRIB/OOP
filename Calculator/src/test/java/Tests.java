@@ -25,7 +25,6 @@ public class Tests {
             Calculations c3 = new Calculations("logdd -3");
         });
         assertEquals(e3.getMessage(), "Wrong term!");
-
     }
 
     @Test
