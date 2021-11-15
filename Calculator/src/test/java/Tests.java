@@ -6,56 +6,31 @@ public class Tests {
 
     @Test
     public void AllExceptionsTest() throws Exception{
-        Calculations calculations = new Calculations();
-
-        calculations.newTerm("/ 2 0");
         Throwable e = assertThrows(Exception.class, () -> {
-            calculations.getResult();
+            Calculations c = new Calculations("/ 2 0");
         });
-        assertEquals(e.getMessage(), "Dvision by zero occurred!");
+        assertEquals(e.getMessage(), "Division by zero occurred!");
 
-        calculations.newTerm("sqrt -3");
         Throwable e1 = assertThrows(Exception.class, () -> {
-            calculations.getResult();
+            Calculations c1 = new Calculations("sqrt -3");
         });
         assertEquals(e1.getMessage(), "Negative value under sqrt!");
 
-        calculations.newTerm("log -3");
         Throwable e2 = assertThrows(Exception.class, () -> {
-            calculations.getResult();
+            Calculations c2 = new Calculations("log -3");
         });
         assertEquals(e2.getMessage(), "Value for function log have to be positive!");
-
-        calculations.newTerm("/ / 2 2 3 5");
-        Throwable e3 = assertThrows(Exception.class, () -> {
-            calculations.getResult();
-        });
-        assertEquals(e3.getMessage(), "Wrong term!");
-
-        Throwable e4 = assertThrows(Exception.class, () -> {
-            calculations.newTerm("/ / 2we 2 4");
-        });
-        assertEquals(e4.getMessage(), "Wrong term!");
-
-        calculations.newTerm("/ / def 2 2 3 5");
-        Throwable e5 = assertThrows(Exception.class, () -> {
-            calculations.getResult();
-        });
-        assertEquals(e5.getMessage(), "Wrong term!");
     }
 
     @Test
     public void NormalTest() throws Exception {
-        Calculations calculations = new Calculations();
+        Calculations c = new Calculations("sqrt - + * / pow 2 5 8 15 7 3");
+        assertEquals(c.getResult() ,  8);
 
-        calculations.newTerm("sqrt - + * / pow 2 5 8 15 7 3");
-        assertEquals(calculations.getResult() ,  8);
-        assertEquals(calculations.getResult() ,  8);
+        Calculations c1 = new Calculations("+ sqrt - + * / pow 2 5 8 15 7 3 10");
+        assertEquals(c1.getResult() ,  18);
 
-        calculations.newTerm("+ sqrt - + * / pow 2 5 8 15 7 3 10");
-        assertEquals(calculations.getResult() ,  18);
-
-        calculations.newTerm("- + sqrt - + * / pow 2 5 8 15 7 3 10 -12");
-        assertEquals(calculations.getResult() ,  30);
+        Calculations c2 = new Calculations("- + sqrt - + * / pow 2 5 8 15 7 3 10 -12");
+        assertEquals(c2.getResult() ,  30);
     }
 }
