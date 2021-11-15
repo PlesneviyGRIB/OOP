@@ -9,60 +9,69 @@ public class Calculations {
     private Stack <Double> atom = new Stack<Double>();
 
     Calculations(String str) throws Exception {
-        Double a;
-        Double b;
-
         str = str.trim().replaceAll("\\s{2,}", " ");
         words = str.split(" ");
 
         for (int i = words.length - 1; i >= 0; i--) {
             if (words[i].matches("-?\\d+(\\.\\d+)?")) {
                 atom.push(Double.parseDouble(words[i]));
-            } else {
-                switch (words[i]) {
-                    case "+":
-                        atom.push(atom.pop() + atom.pop());
-                        break;
-                    case "-":
-                        atom.push(atom.pop() - atom.pop());
-                        break;
-                    case "*":
-                        atom.push(atom.pop() * atom.pop());
-                        break;
-                    case "/":
-                        a = atom.pop();
-                        b = atom.pop();
-                        if (b.equals(0.0)) throw new Exception("Division by zero occurred!");
-
-                        atom.push(a / b);
-                        break;
-                    case "sin":
-                        atom.push(Math.sin(atom.pop()));
-                        break;
-                    case "cos":
-                        atom.push(Math.cos(atom.pop()));
-                        break;
-                    case "sqrt":
-                        a = atom.pop();
-                        if(a < 0) throw new Exception("Negative value under sqrt!");
-                        atom.push(Math.sqrt(a));
-                        break;
-                    case "pow":
-                        atom.push(Math.pow(atom.pop(),atom.pop()));
-                        break;
-                    case "log":
-                        a = atom.pop();
-                        if(a <= 0) throw new Exception("Value for function log have to be positive!");
-                        atom.push(Math.log(a));
-                        break;
-                    default:
-                        throw new Exception("Wrong term!");
-                }
-            }
+            } else Sw(words[i]);
         }
     }
 
-    public Double getResult() throws Exception {
+    private void Sw(String words) throws Exception{
+        Double a;
+        Double b;
+
+        switch (words) {
+            case "+":
+                atom.push(p() + p());
+                break;
+            case "-":
+                atom.push(p() - p());
+                break;
+            case "*":
+                atom.push(p() * p());
+                break;
+            case "/":
+                a = p();
+                b = p();
+                if (b.equals(0.0)) throw new Exception("Division by zero occurred!");
+
+                atom.push(a / b);
+                break;
+            case "sin":
+                atom.push(Math.sin(p()));
+                break;
+            case "cos":
+                atom.push(Math.cos(p()));
+                break;
+            case "sqrt":
+                a = p();
+                if(a < 0) throw new Exception("Negative value under sqrt!");
+                atom.push(Math.sqrt(a));
+                break;
+            case "pow":
+                atom.push(Math.pow(p(),p()));
+                break;
+            case "log":
+                a = p();
+                if(a <= 0) throw new Exception("Value for function log have to be positive!");
+                atom.push(Math.log(a));
+                break;
+            default:
+                throw new Exception("Wrong term!");
+        }
+    }
+
+    private Double p() throws Exception{
+        if(atom.empty()) throw new Exception("Wrong term!");
         return atom.pop();
+    }
+
+    public Double getResult() throws Exception {
+        Double res = atom.pop();
+        if(!atom.empty()) throw new Exception("Wrong term!");
+        return res;
     }
 }

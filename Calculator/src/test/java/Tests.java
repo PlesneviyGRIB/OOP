@@ -25,6 +25,11 @@ public class Tests {
             Calculations c3 = new Calculations("logdd -3");
         });
         assertEquals(e3.getMessage(), "Wrong term!");
+
+        Throwable e4 = assertThrows(Exception.class, () -> {
+            Calculations c4 = new Calculations("sqrt - + * / pow 2");
+        });
+        assertEquals(e4.getMessage(), "Wrong term!");
     }
 
     @Test
