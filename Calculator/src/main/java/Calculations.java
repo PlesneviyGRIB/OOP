@@ -8,15 +8,18 @@ public class Calculations {
     private String[] words;
     private Stack <Double> atom = new Stack<Double>();
 
-    Calculations(String str) throws Exception {
+    public Double newCalculation (String str) throws Exception {
         str = str.trim().replaceAll("\\s{2,}", " ");
         words = str.split(" ");
 
         for (int i = words.length - 1; i >= 0; i--) {
             if (words[i].matches("-?\\d+(\\.\\d+)?")) {
                 atom.push(Double.parseDouble(words[i]));
-            } else Sw(words[i]);
+            } else {
+                Sw(words[i]);
+            }
         }
+        return getResult();
     }
 
     private void Sw(String words) throws Exception{
@@ -69,7 +72,7 @@ public class Calculations {
         return atom.pop();
     }
 
-    public Double getResult() throws Exception {
+    private Double getResult() throws Exception {
         Double res = atom.pop();
         if(!atom.empty()) throw new Exception("Wrong term!");
         return res;
