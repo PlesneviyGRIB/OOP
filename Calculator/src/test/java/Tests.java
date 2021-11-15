@@ -20,6 +20,12 @@ public class Tests {
             Calculations c2 = new Calculations("log -3");
         });
         assertEquals(e2.getMessage(), "Value for function log have to be positive!");
+
+        Throwable e3 = assertThrows(Exception.class, () -> {
+            Calculations c3 = new Calculations("logdd -3");
+        });
+        assertEquals(e3.getMessage(), "Wrong term!");
+
     }
 
     @Test
