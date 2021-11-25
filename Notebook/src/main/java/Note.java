@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Note {
@@ -11,19 +12,14 @@ public class Note {
         date = new Date();
     }
 
-    public void setText(String _text) {
-        text =  _text;
-    }
-
     public String getTitle() {
         return title;
     }
 
-    public Date getDate() {
-        return date;
-    }
+    public Date getDate() { return date; }
 
-    public String getText() {
-        return text;
+    public void pr() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy HH:mm");
+        System.out.printf("[%S] <%s> %s\n",simpleDateFormat.format(date), title, text);
     }
 }
