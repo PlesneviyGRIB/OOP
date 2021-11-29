@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestNotebook {
     @Test
-    public void NormalTest() throws Exception {
+    public void NormalTestNotes() throws Exception {
         String path = "/home/egor/GitHub/OOP/Notebook/data";
         File f = new File(path);
         f.mkdir();
@@ -32,5 +32,16 @@ public class TestNotebook {
             ArrayList<Note> noteBookNotes = noteBook.getNotes();
             assertEquals(notesTest.get(i), noteBookNotes.get(i));
         }
+    }
+
+    @Test
+    public void NormalTestParser() {
+        String[] args = new String[] {"-add", "Hello", "Hello world", "-rm", "-add", "-show", "-rm", "Hello", "-swo"};
+        Parser parser = new Parser(args);
+
+        int[] res = new int[] {0,5,6};
+
+        for(int i = 0; i < res.length; i++)
+            assertEquals(parser.ind(),res[i]);
     }
 }
