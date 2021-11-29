@@ -47,18 +47,19 @@ public class NoteBook {
 
     public void pr(Param param) {
         ArrayList<String> words = param.getWords();
-        int ind = 1;
+        int ind = 0;
 
         for(int i = 0; i < notes.size(); i++) {
             if((notes.get(i).getDate().after(param.getDate0())) && (notes.get(i).getDate().before(param.getDate1()))) {
+                if(words.size() == 0) ind = 1;
                 for (int j = 0; j < words.size(); j++) {
-                    if (!(notes.get(i).getTitle().contains(words.get(j)))) {
-                        ind = 0;
+                    if ((notes.get(i).getTitle().contains(words.get(j)))) {
+                        ind = 1;
                         break;
                     }
                 }
                 if(ind == 1) notes.get(i).pr();
-                ind = 1;
+                ind = 0;
             }
         }
     }
