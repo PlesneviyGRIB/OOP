@@ -32,6 +32,9 @@ public class TestNotebook {
             ArrayList<Note> noteBookNotes = noteBook.getNotes();
             assertEquals(notesTest.get(i), noteBookNotes.get(i));
         }
+        notesTest.clear();
+        noteBook.rmNote("*");
+        assertEquals(noteBook.getNotes(), notesTest);
     }
 
     @Test
