@@ -62,4 +62,8 @@ public class NoteBook {
             }
         }
     }
+
+    public ArrayList<Note> getNotes() {
+        return notes;
+    }
 }
