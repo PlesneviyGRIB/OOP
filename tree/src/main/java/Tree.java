@@ -126,43 +126,6 @@ public class Tree <T> implements Iterator {
         }
         while (!queue.isEmpty());
     }
-//    public void rmWithDFS(T child) {
-//        if(root == null) return;
-//        Stack<Node> stack = new Stack<>();
-//        Node tmp = root;
-//        stack.add(tmp);
-//
-//        do{
-//            tmp = stack.pop();
-//            if(tmp.data.equals(child)) {
-//                tmp.data = null;
-//                clear();
-//                return;
-//            }
-//            for (int i = tmp.children.size() - 1; i >= 0; i--)
-//                stack.add((Node) tmp.children.get(i));
-//        }while(!stack.isEmpty());
-//    }
-//
-//    private void clear() {
-//        if(root == null) return;
-//        ArrayDeque<Node> queue = new ArrayDeque<>();
-//        Node tmp = root;
-//        queue.add(root);
-//        ArrayList<Node> r;
-//        T child = null;
-//        do {
-//            tmp = queue.poll();
-//            r = tmp.children;
-//            for(int i = 0; i<r.size();i++) {
-//                if(r.get(i).data == child) {
-//                    tmp.children.remove(i);
-//                }
-//            }
-//            queue.addAll(tmp.children);
-//        }
-//        while (!queue.isEmpty());
-//    }
 
     @Override
     public boolean hasNext() {
