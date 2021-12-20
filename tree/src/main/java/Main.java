@@ -2,11 +2,12 @@ public class Main {
     public static void main(String[] args) {
         Tree tree = new Tree();
 
-        tree.addNode(null,"hi");
-        tree.addNode("hi","Kirill");
-        tree.addNode("hi","Egor");
-        tree.addNode("hi","Semen");
-        tree.addNode("Semen",1);
+        tree.addWithBFS(null,"hi");
+        tree.addWithBFS("hi","Kirill");
+        tree.addWithBFS("hi","Egor");
+        tree.addWithBFS("hi","Semen");
+        tree.addWithBFS("Semen",1);
+        tree.rmWithBFS("hi");
 
         while(tree.hasNext()) {
             System.out.println(tree.next().toString());
