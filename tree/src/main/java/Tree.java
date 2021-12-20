@@ -140,9 +140,9 @@ public class Tree <T> implements Iterator {
 //        return current < DFS().size();
     }
 
-    public void pr() {
-        for(Node current: BFS()) System.out.println(current.data);
-        System.out.println();
-        for(Node current: DFS()) System.out.println(current.data);
-    }
+//    public void pr() {
+//        for(Node current: BFS()) System.out.println(current.data);
+//        System.out.println();
+//        for(Node current: DFS()) System.out.println(current.data);
+//    }
 }
