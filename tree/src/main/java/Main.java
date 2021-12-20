@@ -3,12 +3,13 @@ public class Main {
         Tree tree = new Tree();
 
         tree.addNode(null,"hi");
+        tree.addNode("hi","Kirill");
         tree.addNode("hi","Egor");
-        tree.addNode("hi","Misha");
-        tree.addNode("Misha","Love");
-        tree.addNode("Egor","Computer");
-        tree.addNode("hi", 13);
+        tree.addNode("hi","Semen");
+        tree.addNode("Semen",1);
 
-        tree.pr();
+        while(tree.hasNext()) {
+            System.out.println(tree.next().toString());
+        }
     }
 }

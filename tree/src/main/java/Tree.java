@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.ArrayDeque;
+import java.util.Iterator;
 import java.util.Stack;
 
-public class Tree <T> {
+public class Tree <T> implements Iterator {
     private static class Node <T> {
         T data;
         ArrayList<Node> children;
@@ -17,7 +18,40 @@ public class Tree <T> {
         }
     }
 
+    private int current = 0;
     private Node root = null;
+
+    private ArrayList<Node> BFS() {
+        ArrayList<Node> sequence = new ArrayList<>();
+        if(root == null) return sequence;
+        ArrayDeque<Node> queue = new ArrayDeque<>();
+        Node tmp = root;
+        queue.add(tmp);
+
+        do {
+            tmp = queue.poll();
+            sequence.add(tmp);
+            queue.addAll(tmp.children);
+        }
+        while (!queue.isEmpty());
+        return sequence;
+    }
+
+    private ArrayList<Node> DFS() {
+        ArrayList<Node> sequence = new ArrayList<>();
+        if(root == null) return sequence;
+        Stack<Node> stack = new Stack<>();
+        Node tmp = root;
+        stack.add(tmp);
+
+        do{
+            tmp = stack.pop();
+            sequence.add(tmp);
+            for (int i = tmp.children.size() - 1; i >= 0; i--)
+                stack.add((Node) tmp.children.get(i));
+        }while(!stack.isEmpty());
+        return sequence;
+    }
 
     private void addWithBFS(T parent, T child) {
         if(root == null) root = new Node(child);
@@ -53,36 +87,29 @@ public class Tree <T> {
         }while(!stack.isEmpty());
     }
 
-    private ArrayList<Node> BFS() {
-        ArrayList<Node> sequence = new ArrayList<>();
-        if(root == null) return sequence;
+
+    private void rmWithBFS(T child) {
+        if(root == null) root = new Node(child);
+        if(root.data.equals(child)){
+            root = null;
+            return;
+        }
         ArrayDeque<Node> queue = new ArrayDeque<>();
         Node tmp = root;
-        queue.add(tmp);
+        queue.add(root);
 
         do {
             tmp = queue.poll();
-            sequence.add(tmp);
+            ArrayList<Node> r = tmp.children;
+            for(int i = 0; i<r.size();i++) {
+                if(r.get(i).data.equals(child)) {
+                    tmp.children.remove(i);
+                    return;
+                }
+            }
             queue.addAll(tmp.children);
         }
         while (!queue.isEmpty());
-        return sequence;
-    }
-
-    private ArrayList<Node> DFS() {
-        ArrayList<Node> sequence = new ArrayList<>();
-        if(root == null) return sequence;
-        Stack<Node> stack = new Stack<>();
-        Node tmp = root;
-        stack.add(tmp);
-
-        do{
-            tmp = stack.pop();
-            sequence.add(tmp);
-            for (int i = tmp.children.size() - 1; i >= 0; i--)
-                stack.add((Node) tmp.children.get(i));
-        }while(!stack.isEmpty());
-        return sequence;
     }
 
     public void addNode(T parent, T child) {
@@ -90,9 +117,26 @@ public class Tree <T> {
         //addWithDFS(parent,child);
     }
 
-    public void pr() {
-        for(Node current: BFS()) System.out.println(current.data);
-        System.out.println();
-        for(Node current: DFS()) System.out.println(current.data);
+    public void rmNode (T child) {
+        rmWithBFS(child);
     }
+
+    @Override
+    public boolean hasNext() {
+        return current < BFS().size();
+//        return current < DFS().size();
+    }
+
+    @Override
+    public Object next() {
+        current++;
+        return BFS().get(current - 1).data;
+//        return current < DFS().size();
+    }
+
+//    public void pr() {
+//        for(Node current: BFS()) System.out.println(current.data);
+//        System.out.println();
+//        for(Node current: DFS()) System.out.println(current.data);
+//    }
 }
