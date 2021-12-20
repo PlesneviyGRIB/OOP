@@ -53,6 +53,10 @@ public class Tree <T> implements Iterator {
         return sequence;
     }
 
+    /**
+     * get sequence with BFS
+     * @return
+     */
     public ArrayList<T> getBFS() {
         ArrayList<T> cur = new ArrayList<>();
         for(Node<T> current: BFS())
@@ -60,6 +64,10 @@ public class Tree <T> implements Iterator {
         return cur;
     }
 
+    /**
+     * get sequence with DFS
+     * @return
+     */
     public ArrayList<T> getDFS() {
         ArrayList<T> cur = new ArrayList<>();
         for(Node<T> current: DFS())
@@ -67,6 +75,10 @@ public class Tree <T> implements Iterator {
         return cur;
     }
 
+    /**
+     * add with BFS
+     * @return
+     */
     public void addWithBFS(T parent, T child) throws Exception{
         if(root == null) {
             root = new Node(child);
@@ -88,6 +100,10 @@ public class Tree <T> implements Iterator {
         throw new Exception("No such parent in tree!");
     }
 
+    /**
+     * add with DFS
+     * @return
+     */
     public void addWithDFS(T parent, T child) throws Exception{
         if(root == null) {
             root = new Node(child);
