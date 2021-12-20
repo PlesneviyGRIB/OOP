@@ -67,8 +67,11 @@ public class Tree <T> implements Iterator {
         return cur;
     }
 
-    public void addWithBFS(T parent, T child) {
-        if(root == null) root = new Node(child);
+    public void addWithBFS(T parent, T child) throws Exception{
+        if(root == null) {
+            root = new Node(child);
+            return;
+        }
         ArrayDeque<Node> queue = new ArrayDeque<>();
         Node tmp = root;
         queue.add(tmp);
@@ -82,10 +85,14 @@ public class Tree <T> implements Iterator {
             queue.addAll(tmp.children);
         }
         while (!queue.isEmpty());
+        throw new Exception("No such parent in tree!");
     }
 
-    public void addWithDFS(T parent, T child) {
-        if(root == null) root = new Node(child);
+    public void addWithDFS(T parent, T child) throws Exception{
+        if(root == null) {
+            root = new Node(child);
+            return;
+        }
         Stack<Node> stack = new Stack<>();
         Node tmp = root;
         stack.add(tmp);
@@ -99,10 +106,11 @@ public class Tree <T> implements Iterator {
             for (int i = tmp.children.size() - 1; i >= 0; i--)
                 stack.add((Node) tmp.children.get(i));
         }while(!stack.isEmpty());
+        throw new Exception("No such parent in tree!");
     }
 
 
-    public void rmWithBFS(T child) {
+    public void rmWithBFS(T child) throws Exception{
         if(root == null) return;
         if(root.data.equals(child)){
             root = null;
@@ -125,6 +133,7 @@ public class Tree <T> implements Iterator {
             queue.addAll(tmp.children);
         }
         while (!queue.isEmpty());
+        throw new Exception("No such node in tree!");
     }
 
     @Override
