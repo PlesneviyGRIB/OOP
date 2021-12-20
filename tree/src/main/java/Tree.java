@@ -53,6 +53,20 @@ public class Tree <T> implements Iterator {
         return sequence;
     }
 
+    public ArrayList<T> getBFS() {
+        ArrayList<T> cur = new ArrayList<>();
+        for(Node<T> current: BFS())
+            cur.add(current.data);
+        return cur;
+    }
+
+    public ArrayList<T> getDFS() {
+        ArrayList<T> cur = new ArrayList<>();
+        for(Node<T> current: DFS())
+            cur.add(current.data);
+        return cur;
+    }
+
     private void addWithBFS(T parent, T child) {
         if(root == null) root = new Node(child);
         ArrayDeque<Node> queue = new ArrayDeque<>();
