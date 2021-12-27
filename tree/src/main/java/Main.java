@@ -8,9 +8,5 @@ public class Main {
         tree.addWithBFS("hi","Semen");
         tree.addWithBFS("Semen",1);
         tree.rmWithBFS("hi");
-
-        while(tree.hasNext()) {
-            System.out.println(tree.next().toString());
-        }
     }
 }

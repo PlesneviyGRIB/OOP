@@ -18,10 +18,8 @@ public class MyTest {
         tree.rmWithBFS('d');
 
         String[] res = new String[]{"hi","Kirill","Egor","Semen","1","2","3"};
-
         int i = 0;
-        for (Tree it = tree; it.hasNext(); ) {
-            Object current = it.next();
+        for (Object current: tree) {
             assertEquals(current.toString(), res[i++]);
         }
 
@@ -38,8 +36,7 @@ public class MyTest {
         tree.rmWithBFS('d');
 
         i = 0;
-        for (Tree it = tree; it.hasNext(); ) {
-            Object current = it.next();
+        for (Object current: tree) {
             assertEquals(current.toString(), res[i++]);
         }
 

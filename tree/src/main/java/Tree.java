@@ -3,7 +3,7 @@ import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.Stack;
 
-public class Tree <T> implements Iterator {
+public class Tree <T> implements Iterable <T> {
     private static class Node <T> {
         T data;
         ArrayList<Node> children;
@@ -152,17 +152,22 @@ public class Tree <T> implements Iterator {
         throw new Exception("No such node in tree!");
     }
 
-    @Override
-    public boolean hasNext() {
-        return current < BFS().size();
-//        return current < DFS().size();
+    private class iter <T> implements Iterator<T> {
+        @Override
+        public boolean hasNext() {
+            return current < BFS().size();
+        }
+
+        @Override
+        public T next() {
+            current++;
+            return (T) BFS().get(current - 1).data;
+        }
     }
 
     @Override
-    public Object next() {
-        current++;
-        return BFS().get(current - 1).data;
-//        return current < DFS().size();
+    public Iterator iterator() {
+        return new iter();
     }
 
 //    public void pr() {
