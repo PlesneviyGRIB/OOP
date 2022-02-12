@@ -9,8 +9,6 @@ public class Main {
 
         List<Integer> list  = new ArrayList<>(generator.getList());
 
-        //list.set(799800,25);
-
         StepByStep stepByStep = new StepByStep(list);
         Parallel parallel = new Parallel(list, 8);
         ParallelStream parallelStream = new ParallelStream(list);
