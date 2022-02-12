@@ -2,11 +2,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.lang.Thread.State.TERMINATED;
+
 class Parallel extends Thread {
     private int cnt;
     private List<Thread> threads;
     private List<Integer> list;
-    private boolean result;
+    private boolean result = false;
     private long startTime;
     private long finishTime;
 
@@ -26,19 +28,28 @@ class Parallel extends Thread {
         for (Thread thread: threads)
             thread.start();
 
-        for(Thread thread: threads)
-            try {
-                thread.join();
-            }
-            catch (Exception e) { System.out.println(e.getMessage()); }
+        loop:
+        for(;;) {
+            for (Thread thread : threads)
+                if (thread.getState().equals(TERMINATED) && ((Checker) thread).getResult()) {
+                    result = true;
+                    break loop;
+                }
+            if(threads.stream().allMatch(th -> th.getState().equals(TERMINATED))) break;
+        }
 
-        Checker checker;
-        for(Thread thread: threads) {
-            result |= ((Checker) thread).getResult();
+//        for(Thread thread: threads)
+//            System.out.println(thread.getState());
+
+        if(!result) {
+            Checker checker;
+            for (Thread thread : threads) {
+                result |= ((Checker) thread).getResult();
+            }
         }
 
         finishTime = System.currentTimeMillis()-startTime;
-        System.out.format("Thread Parallel finished in %ds %dms\n", finishTime / 1000, finishTime % 1000);
+        System.out.format("Thread Parallel finished in %ds %3dms\n", finishTime / 1000, finishTime % 1000);
     }
 
     private void delitel(){
@@ -46,9 +57,9 @@ class Parallel extends Thread {
         int step = list1.size() / cnt;
 
         while(!list1.isEmpty()){
-            if(list1.size() > step) {
-                threads.add(new Checker(new ArrayList<>(list1.subList(0, step))));
-                list1 = new ArrayList(list1.subList(step, list1.size()));
+            if(list1.size() >= step) {
+                threads.add(new Checker(new LinkedList(list1.subList(0, step))));
+                list1 = new LinkedList(list1.subList(step, list1.size()));
             }
             else {
                 threads.add(new Checker(list1));

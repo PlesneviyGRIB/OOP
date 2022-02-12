@@ -15,10 +15,15 @@ public class ParallelStream extends Thread {
     @Override
     public void run() {
         System.out.println("Thread ParallelStream started..");
-        //result = list.parallelStream().anyMatch(n ->isPrime(n));
+        result = list.parallelStream().anyMatch(n -> !isPrime(n));
 
         finishTime = System.currentTimeMillis()-startTime;
-        System.out.format("Thread ParallelStream finished in %ds %dms\n", finishTime / 1000, finishTime % 1000);
+        System.out.format("Thread ParallelStream finished in %ds %3dms\n", finishTime / 1000, finishTime % 1000);
+    }
+
+    private boolean isPrime(int n) {
+        for (int i = 2; i * i <= n; i++) if (n % i == 0) return false;
+        return true;
     }
 
     public boolean getResult() throws Exception {

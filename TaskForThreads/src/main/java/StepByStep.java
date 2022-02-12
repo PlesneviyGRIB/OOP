@@ -24,7 +24,7 @@ public class StepByStep extends Thread{
 
         result = checker.getResult();
         finishTime = System.currentTimeMillis() -startTime;
-        System.out.format("Thread StepByStep finished in %ds %dms\n", finishTime / 1000, finishTime % 1000);
+        System.out.format("Thread StepByStep finished in %ds %3dms\n", finishTime / 1000, finishTime % 1000);
     }
 
     public boolean getResult() throws Exception {

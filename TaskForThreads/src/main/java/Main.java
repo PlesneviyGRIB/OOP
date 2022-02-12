@@ -1,4 +1,5 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -6,9 +7,13 @@ public class Main {
         Generator generator = new Generator(800000);
         System.out.println("Generator complete...");
 
-        StepByStep stepByStep = new StepByStep(generator.getList());
-        Parallel parallel = new Parallel(generator.getList(), 8);
-        ParallelStream parallelStream = new ParallelStream(generator.getList());
+        List<Integer> list  = new ArrayList<>(generator.getList());
+
+        //list.set(799800,25);
+
+        StepByStep stepByStep = new StepByStep(list);
+        Parallel parallel = new Parallel(list, 8);
+        ParallelStream parallelStream = new ParallelStream(list);
 
         try{
             stepByStep.join();
