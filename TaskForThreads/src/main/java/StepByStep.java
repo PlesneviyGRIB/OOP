@@ -19,10 +19,10 @@ public class StepByStep extends Thread{
         checker.start();
         try {
             checker.join();
+            result = checker.getResult();
         }
         catch (Exception e ){ System.out.println(e.getMessage());}
 
-        result = checker.getResult();
         finishTime = System.currentTimeMillis() -startTime;
         System.out.format("Thread StepByStep finished in %ds %3dms\n", finishTime / 1000, finishTime % 1000);
     }

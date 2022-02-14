@@ -4,7 +4,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Generator generator = new Generator(800000);
+        Generator generator = new Generator(700000);
         System.out.println("Generator complete...");
 
         List<Integer> list  = new ArrayList<>(generator.getList());

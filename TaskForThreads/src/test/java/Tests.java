@@ -20,7 +20,7 @@ public class Tests {
     }
 
     @Test
-    public void checkerTest(){
+    public void checkerTest() throws Exception{
         Checker checker = new Checker(List.of(123,12,10));
         processing(checker);
         Assertions.assertEquals(true, checker.getResult());
@@ -35,7 +35,7 @@ public class Tests {
     }
 
     @Test
-    public void GeneratorTest(){
+    public void GeneratorTest() throws Exception{
         Generator generator = new Generator(10);
         Assertions.assertEquals(10,generator.getList().size());
         Assertions.assertEquals(generator.getList(), generator.getList());

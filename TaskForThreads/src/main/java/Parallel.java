@@ -28,25 +28,28 @@ class Parallel extends Thread {
         for (Thread thread: threads)
             thread.start();
 
-        loop:
-        for(;;) {
-            for (Thread thread : threads)
-                if (thread.getState().equals(TERMINATED) && ((Checker) thread).getResult()) {
-                    result = true;
-                    break loop;
+        try{
+            loop:
+            for(;;) {
+                for (Thread thread : threads)
+                    if (thread.getState().equals(TERMINATED) && ((Checker) thread).getResult()) {
+                        result = true;
+                        break loop;
+                    }
+                if(threads.stream().allMatch(th -> th.getState().equals(TERMINATED))) break;
+            }
+
+    //        for(Thread thread: threads)
+    //            System.out.println(thread.getState());
+
+            if(!result) {
+                Checker checker;
+                for (Thread thread : threads) {
+                    result |= ((Checker) thread).getResult();
                 }
-            if(threads.stream().allMatch(th -> th.getState().equals(TERMINATED))) break;
-        }
-
-//        for(Thread thread: threads)
-//            System.out.println(thread.getState());
-
-        if(!result) {
-            Checker checker;
-            for (Thread thread : threads) {
-                result |= ((Checker) thread).getResult();
             }
         }
+        catch (Exception e){ e.fillInStackTrace(); }
 
         finishTime = System.currentTimeMillis()-startTime;
         System.out.format("Thread Parallel finished in %ds %3dms\n", finishTime / 1000, finishTime % 1000);
