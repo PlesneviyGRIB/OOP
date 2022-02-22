@@ -4,22 +4,20 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        Generator generator = new Generator(700000);
+        Generator generator = new Generator(10000);
         System.out.println("Generator complete...");
 
-        List<Integer> list  = new ArrayList<>(generator.getList());
-
-        StepByStep stepByStep = new StepByStep(list);
-        Parallel parallel = new Parallel(list, 8);
-        ParallelStream parallelStream = new ParallelStream(list);
+        Thread stepByStep = new StepByStep(generator.getList());
+        Thread parallel = new Parallel(generator.getList(), 6);
+        Thread parallelStream = new ParallelStream(generator.getList());
 
         try{
             stepByStep.join();
             parallel.join();
             parallelStream.join();
-            System.out.println(stepByStep.getResult());
-            System.out.println(parallel.getResult());
-            System.out.println(parallelStream.getResult());
+            System.out.println(((StepByStep)stepByStep).getResult());
+            System.out.println(((Parallel)parallel).getResult());
+            System.out.println(((ParallelStream)parallelStream).getResult());
         }
         catch (Exception e){ System.out.println(e.fillInStackTrace()); }
     }

@@ -16,7 +16,6 @@ public class ParallelStream extends Thread {
     public void run() {
         System.out.println("Thread ParallelStream started..");
         result = list.parallelStream().anyMatch(n -> !isPrime(n));
-
         finishTime = System.currentTimeMillis()-startTime;
         System.out.format("Thread ParallelStream finished in %ds %3dms\n", finishTime / 1000, finishTime % 1000);
     }

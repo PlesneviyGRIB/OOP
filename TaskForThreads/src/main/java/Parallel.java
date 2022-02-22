@@ -39,9 +39,6 @@ class Parallel extends Thread {
                 if(threads.stream().allMatch(th -> th.getState().equals(TERMINATED))) break;
             }
 
-    //        for(Thread thread: threads)
-    //            System.out.println(thread.getState());
-
             if(!result) {
                 Checker checker;
                 for (Thread thread : threads) {
@@ -57,7 +54,7 @@ class Parallel extends Thread {
 
     private void delitel(){
         List list1 = new LinkedList(list);
-        int step = list1.size() / cnt;
+        int step = (int)(Math.ceil((double)list1.size() / cnt));
 
         while(!list1.isEmpty()){
             if(list1.size() >= step) {
