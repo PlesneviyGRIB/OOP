@@ -1,0 +1,52 @@
+02-25 18:28:42 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:29:28 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:29:40 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:30:40 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:31:42 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:32:39 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:33:04 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:33:20 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:36:04 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:38:41 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:39:46 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:39:56 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
+02-25 18:40:33 jdbc[2]: exception
+org.h2.jdbc.JdbcSQLException: Таблица "PC" не найдена
+Table "PC" not found; SQL statement:
+SELECT * FROM PC [42102-148]
