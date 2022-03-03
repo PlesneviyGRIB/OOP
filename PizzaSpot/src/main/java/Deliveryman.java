@@ -1,0 +1,33 @@
+import java.util.ArrayList;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
+
+public class Deliveryman implements Runnable{
+    private BlockingQueue storage;
+    private int capacity;
+
+    Deliveryman(BlockingQueue storage, int capacity){
+        this.storage = storage;
+        this.capacity = capacity;
+    }
+
+    @Override
+    public void run() {
+        while(!Thread.interrupted()){
+            try {
+                ArrayList<Order> backPack = new ArrayList<>();
+                storage.drainTo(backPack, capacity);
+                delivery(backPack);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void delivery(ArrayList<Order> backPack) throws InterruptedException {
+        for (Order order: backPack) {
+            TimeUnit.SECONDS.sleep(order.getDeliveryTimeRequired());
+            System.out.println(order);
+        }
+    }
+}
