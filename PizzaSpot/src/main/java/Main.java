@@ -1,35 +1,28 @@
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class Main {
-    public static void createOrders(BlockingQueue<Order> orders){
-        orders.add(new Order(new Pizza(Pizza.KindOfPizza.FOURCHEESES, Pizza.PizzaSize.MEDIUM),2));
-        orders.add(new Order(new Pizza(Pizza.KindOfPizza.CRUDO, Pizza.PizzaSize.LARGE),30));
-        orders.add(new Order(new Pizza(Pizza.KindOfPizza.CARBONARA, Pizza.PizzaSize.LARGE),2));
-        orders.add(new Order(new Pizza(Pizza.KindOfPizza.FOURCHEESES, Pizza.PizzaSize.EXTRALARGE),13));
-        orders.add(new Order(new Pizza(Pizza.KindOfPizza.MARINARA, Pizza.PizzaSize.MEDIUM),7));
-        orders.add(new Order(new Pizza(Pizza.KindOfPizza.CARBONARA, Pizza.PizzaSize.MEDIUM),19));
-        orders.add(new Order(new Pizza(Pizza.KindOfPizza.MARGARITA, Pizza.PizzaSize.EXTRALARGE),4));
-        orders.add(new Order(new Pizza(Pizza.KindOfPizza.FOURCHEESES, Pizza.PizzaSize.SMALL),6));
+    private static final String path = "/home/egor/IdeaProjects/PizzaSpot/src/data.json";
 
+    public static void createOrders(BlockingQueue<Order> orders, int cnt){
+        OrdersGenerator ordersGenerator = new OrdersGenerator();
+        while(cnt-- > 0) orders.add(ordersGenerator.next());
     }
+
     public  static void main(String... args) throws Exception{
 
+        DataForSystem dataForSystem  = DataForSystem.getDataForSystemFromFile(path);
+
         Orders orders = new Orders();
-        createOrders(orders);
-        Storage storage = new Storage(10);
+        Storage storage = new Storage(dataForSystem.getStorageSize());
+        createOrders(orders, dataForSystem.getOrdersCount());
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
-        executorService.execute(new Cook(orders,storage));
-        executorService.execute(new Cook(orders,storage));
-        executorService.execute(new Deliveryman(storage,2));
-        executorService.execute(new Deliveryman(storage,1));
-        executorService.execute(new Deliveryman(storage,4));
 
-        TimeUnit.SECONDS.sleep(50);
+        for(int i = 0 ; i< dataForSystem.getCooksCount(); i++) executorService.execute(new Cook(orders, storage));
+
+        int[] deliveries = dataForSystem.getCapacitiesOfDeliveriesBags();
+        for(int i = 0; i< deliveries.length; i++) executorService.execute(new Deliveryman(storage,deliveries[i]));
 
         executorService.shutdown();
     }

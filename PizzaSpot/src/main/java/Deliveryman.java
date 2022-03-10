@@ -13,7 +13,7 @@ public class Deliveryman implements Runnable{
 
     @Override
     public void run() {
-        while(!Thread.interrupted()){
+        while(!storage.isEmpty()){
             try {
                 ArrayList<Order> backPack = new ArrayList<>();
                 storage.drainTo(backPack, capacity);
@@ -22,6 +22,7 @@ public class Deliveryman implements Runnable{
                 e.printStackTrace();
             }
         }
+        System.out.println("Deliveryman done..");
     }
 
     private void delivery(ArrayList<Order> backPack) throws InterruptedException {
