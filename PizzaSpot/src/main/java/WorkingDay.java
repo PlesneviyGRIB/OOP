@@ -1,5 +1,8 @@
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Special class for determine if all connected process can close
+ */
 public class WorkingDay extends Thread {
     private final int time;
 

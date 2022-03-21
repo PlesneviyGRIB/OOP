@@ -1,6 +1,11 @@
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * class processing actions of cook
+ * thread finish if queue of orders become empty
+ */
+
 public class Cook implements Runnable{
     private BlockingQueue ordersQueue;
     private BlockingQueue storage;

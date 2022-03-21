@@ -1,3 +1,6 @@
+/**
+ * class that demonstrate simple order
+ */
 public class Order {
     private static int cnt = 0;
     private final int id = ++cnt;

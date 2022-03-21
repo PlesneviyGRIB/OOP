@@ -1,5 +1,9 @@
 import java.util.Random;
 
+/**
+ * class for generate orders
+ */
+
 public class OrdersGenerator{
     private Random random;
 

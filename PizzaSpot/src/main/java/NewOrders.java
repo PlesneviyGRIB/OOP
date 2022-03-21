@@ -2,6 +2,11 @@ import java.util.Random;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * class for set new orders in special Queue
+ * all orders came wile Thread.currentThread.isAlive()
+ */
+
 public class NewOrders implements Runnable{
     private final BlockingQueue ordersQueue;
     private Random random;

@@ -1,3 +1,6 @@
+/**
+ * class of one kind of food with two appropriate enums
+ */
 public class Pizza implements Food{
     public enum PizzaSize {SMALL, MEDIUM, LARGE, EXTRALARGE}
     public enum KindOfPizza {MARGARITA,MARINARA,FOURSEASONS,CARBONARA,WITHSEAFOOD,FOURCHEESES,NEAPOLITANO,CRUDO}

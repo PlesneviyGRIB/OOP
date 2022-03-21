@@ -25,22 +25,22 @@ public class Tests {
         Assertions.assertEquals(4,ordersGenerator.next().getId());
         Assertions.assertEquals(5,ordersGenerator.next().getId());
 
-        Assertions.assertEquals("|id:  6 |time: 12 | pizza NEAPOLITANO SMALL", new Order(new Pizza(Pizza.KindOfPizza.NEAPOLITANO, Pizza.PizzaSize.SMALL), 12).toString());
+        Assertions.assertEquals("|id:  6| pizza NEAPOLITANO SMALL", new Order(new Pizza(Pizza.KindOfPizza.NEAPOLITANO, Pizza.PizzaSize.SMALL), 12).toString());
     }
 
-//    @Test
-//    public void storageTest() throws InterruptedException {
-//        Storage storage = new Storage(15);
-//
-//        Assertions.assertEquals(15, storage.remainingCapacity());
-//
-//        ExecutorService executorService = Executors.newCachedThreadPool();
-//
-//        executorService.execute(new Deliveryman(storage, 1));
-//        executorService.execute(new Deliveryman(storage, 2));
-//
-//        TimeUnit.SECONDS.sleep(1);
-//
-//        Assertions.assertEquals(true, storage.isEmpty());
-//    }
+    @Test
+    public void storageTest() throws InterruptedException {
+        Storage storage = new Storage(15);
+
+        Assertions.assertEquals(15, storage.remainingCapacity());
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        executorService.execute(new Deliveryman(storage, 1));
+        executorService.execute(new Deliveryman(storage, 2));
+
+        TimeUnit.SECONDS.sleep(1);
+
+        Assertions.assertEquals(true, storage.isEmpty());
+    }
 }

@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * class processing actions of deliveryman
+ * thread finish if storage become empty
+ */
 public class Deliveryman implements Runnable{
     private BlockingQueue storage;
     private int capacity;

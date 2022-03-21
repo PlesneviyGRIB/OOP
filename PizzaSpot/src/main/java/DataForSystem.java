@@ -3,6 +3,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * class with static method for take data for system from file with
+ * serialized object-DataForSystem
+ */
+
 public class DataForSystem {
     private final int storageSize;
     private final int cooksCount;
