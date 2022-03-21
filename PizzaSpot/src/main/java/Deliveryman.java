@@ -16,8 +16,11 @@ public class Deliveryman implements Runnable{
         while(!storage.isEmpty()){
             try {
                 ArrayList<Order> backPack = new ArrayList<>();
-                storage.drainTo(backPack, capacity);
-                delivery(backPack);
+                storage.drainTo(backPack,capacity);
+                if(backPack.size() > 0) {
+                    System.out.println("deliveries backpack: " + backPack);
+                    delivery(backPack);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -28,7 +31,7 @@ public class Deliveryman implements Runnable{
     private void delivery(ArrayList<Order> backPack) throws InterruptedException {
         for (Order order: backPack) {
             TimeUnit.SECONDS.sleep(order.getDeliveryTimeRequired());
-            System.out.println(order);
+            System.out.println(order + " - DELIVERED");
         }
     }
 }

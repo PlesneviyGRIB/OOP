@@ -1,10 +1,9 @@
-import java.time.LocalDateTime;
 import java.util.Random;
 
 public class OrdersGenerator{
     private Random random;
 
-    OrdersGenerator(){ random = new Random(LocalDateTime.now().getSecond()); }
+    OrdersGenerator(){ random = new Random(); }
 
     public Order next(){
         return new Order(new Pizza(Pizza.KindOfPizza.values()[Math.abs(random.nextInt()) % Pizza.KindOfPizza.values().length],

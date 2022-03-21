@@ -1,30 +1,41 @@
 import com.google.gson.GsonBuilder;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
 public class DataForSystem {
     private final int storageSize;
     private final int cooksCount;
     private final int[] capacitiesOfDeliveriesBags;
-    private final int ordersCount;
+    private final int workingTime;
 
-    DataForSystem(int storageSize, int cooksCount, int[]capacitiesOfDeliveriesBags, int ordersCount){
-        this.storageSize = storageSize;
+    DataForSystem(int storageSize, int cooksCount, int[] capacitiesOfDeliveriesBags, int workingTime) {
+        this.workingTime = workingTime;
         this.cooksCount = cooksCount;
         this.capacitiesOfDeliveriesBags = capacitiesOfDeliveriesBags;
-        this.ordersCount = ordersCount;
+        this.storageSize = storageSize;
     }
 
-    public static DataForSystem getDataForSystemFromFile(String path) throws FileNotFoundException {
-        return new GsonBuilder().create().fromJson(new Scanner(new FileReader(path)).next(), DataForSystem.class);
+    public static DataForSystem getDataForSystemFromFile(String path) {
+        try(FileReader fileReader = new FileReader(path)) {
+            return new GsonBuilder().create().fromJson(new Scanner(fileReader).next(), DataForSystem.class);
+        } catch (IOException e) { e.printStackTrace(); }
+        return null;
     }
 
-    public int getStorageSize() { return storageSize; }
+    public int getStorageSize() {
+        return storageSize;
+    }
 
-    public int getCooksCount() { return cooksCount; }
+    public int getCooksCount() {
+        return cooksCount;
+    }
 
-    public int[] getCapacitiesOfDeliveriesBags() { return capacitiesOfDeliveriesBags; }
+    public int[] getCapacitiesOfDeliveriesBags() {
+        return capacitiesOfDeliveriesBags;
+    }
 
-    public int getOrdersCount() { return ordersCount; }
+    public int getWorkingTime() {
+        return workingTime;
+    }
 }

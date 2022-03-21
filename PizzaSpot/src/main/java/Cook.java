@@ -2,21 +2,25 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class Cook implements Runnable{
-    private BlockingQueue orders, storage;
+    private BlockingQueue ordersQueue;
+    private BlockingQueue storage;
 
-    Cook(BlockingQueue orders, BlockingQueue storage){
-        this.orders = orders;
+    Cook(BlockingQueue ordersQueue, BlockingQueue storage){
+        this.ordersQueue = ordersQueue;
         this.storage = storage;
     }
 
     @Override
     public void run() {
         ((Storage)storage).cookProccecing();
-        while (!orders.isEmpty()){
+        while (!ordersQueue.isEmpty()){
             try {
-                Order order = (Order) orders.take();
-                cooking(order);
-                storage.put(order);
+                Order order = (Order) ordersQueue.poll();
+                if(order != null){
+                    cooking(order);
+                    storage.put(order);
+                    System.out.println("|id: "+ String.format("%2d",order.getId()) + "| WAS PUT TO STORAGE");
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -25,5 +29,8 @@ public class Cook implements Runnable{
         ((Storage)storage).cookStopedProccecing();
     }
 
-    private void cooking(Order order) throws InterruptedException { TimeUnit.SECONDS.sleep(order.getFood().getTime()); }
+    private void cooking(Order order) throws InterruptedException {
+        TimeUnit.SECONDS.sleep(order.getFood().getTime());
+        System.out.println("|id: "+ String.format("%2d",order.getId()) + "| WAS COOKED");
+    }
 }

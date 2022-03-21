@@ -17,6 +17,6 @@ public class Order {
 
     @Override
     public String toString(){
-        return "id: " + getId() + " time: " + String.format("%2d",deliveryTimeRequired) + "  " + food.getInfo();
+        return "|id: " + String.format("%2d",id) + "| " + food.getInfo();
     }
 }
