@@ -1,5 +1,10 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.concurrent.*;
 
 public class Tests {
@@ -42,5 +47,23 @@ public class Tests {
         TimeUnit.SECONDS.sleep(1);
 
         Assertions.assertEquals(true, storage.isEmpty());
+    }
+
+    @Test
+    public void dataForSystemTest() throws IOException {
+
+        String path = "/home/egor/tmpFile";
+
+        File file = new File(path);
+        file.createNewFile();
+
+        DataForSystem dataForSystem = new DataForSystem(10,2,new int[]{1,2,2},10);
+        new FileWriter(file).write("{\"storageSize\":10,\"cooksCount\":2,\"capacitiesOfDeliveriesBags\":[1,2,2],\"workingTime\":10}");
+
+        DataForSystem dataForSystem1 = DataForSystem.getDataForSystemFromFile(path);
+
+        Assertions.assertEquals(dataForSystem,dataForSystem1);
+
+        file.deleteOnExit();
     }
 }

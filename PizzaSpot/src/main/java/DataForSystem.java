@@ -43,4 +43,12 @@ public class DataForSystem {
     public int getWorkingTime() {
         return workingTime;
     }
+
+    @Override
+    public boolean equals(Object o){
+        return o instanceof DataForSystem && ((DataForSystem) o).getCapacitiesOfDeliveriesBags().equals(this.capacitiesOfDeliveriesBags)
+                && ((DataForSystem) o).cooksCount == this.cooksCount
+                && ((DataForSystem) o).storageSize == this.storageSize
+                && ((DataForSystem) o).workingTime == this.workingTime;
+    }
 }
