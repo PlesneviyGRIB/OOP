@@ -46,7 +46,7 @@ public class DataForSystem {
 
     @Override
     public boolean equals(Object o){
-        return o instanceof DataForSystem && ((DataForSystem) o).getCapacitiesOfDeliveriesBags().equals(this.capacitiesOfDeliveriesBags)
+        return o instanceof DataForSystem && Arrays.equals(((DataForSystem) o).capacitiesOfDeliveriesBags, this.capacitiesOfDeliveriesBags)
                 && ((DataForSystem) o).cooksCount == this.cooksCount
                 && ((DataForSystem) o).storageSize == this.storageSize
                 && ((DataForSystem) o).workingTime == this.workingTime;

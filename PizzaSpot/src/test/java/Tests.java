@@ -1,10 +1,8 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.util.Arrays;
 import java.util.concurrent.*;
 
 public class Tests {
@@ -50,20 +48,25 @@ public class Tests {
     }
 
     @Test
-    public void dataForSystemTest() throws IOException {
-
+    public void dataForSystemTest() {
         String path = "/home/egor/tmpFile";
-
         File file = new File(path);
-        file.createNewFile();
+
+        try {
+            file.createNewFile();
+        } catch (IOException e){ e.printStackTrace(); }
 
         DataForSystem dataForSystem = new DataForSystem(10,2,new int[]{1,2,2},10);
-        new FileWriter(file).write("{\"storageSize\":10,\"cooksCount\":2,\"capacitiesOfDeliveriesBags\":[1,2,2],\"workingTime\":10}");
+
+        try( PrintWriter out = new PrintWriter(file) ){
+            out.print("{\"storageSize\":10,\"cooksCount\":2,\"capacitiesOfDeliveriesBags\":[1,2,2],\"workingTime\":10}");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
         DataForSystem dataForSystem1 = DataForSystem.getDataForSystemFromFile(path);
-
-        Assertions.assertEquals(dataForSystem,dataForSystem1);
-
         file.deleteOnExit();
+
+        Assertions.assertEquals(dataForSystem, dataForSystem1);
     }
 }
