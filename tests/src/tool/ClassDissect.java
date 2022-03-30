@@ -5,8 +5,8 @@ import java.util.*;
 
 @Descroption(ds = "class for parse other given classes with annotations")
 public class ClassDissect {
-    private Class<?> objClass;
-    private String pattern = "([a-zA-Z]+\\.)+";
+    private final Class<?> objClass;
+    private final String pattern = "([a-zA-Z]+\\.)+";
 
     public ClassDissect (Class<?> objClass){
         this.objClass = objClass;
@@ -30,6 +30,7 @@ public class ClassDissect {
         if(type == Field.class) types = (T[])objClass.getDeclaredFields();
         if(type == Constructor.class) types = (T[])objClass.getDeclaredConstructors();
         if(type == Method.class) types = (T[])objClass.getDeclaredMethods();
+        assert types != null;
 
         for (T entity: types) {
             Descroption descroption = ((AnnotatedElement)entity).getAnnotation(Descroption.class);
@@ -45,18 +46,18 @@ public class ClassDissect {
 
         stringBuilder.append(getAnnotation(getClassName().getValue())).append(getClassName().getKey()).append("{\n");
 
-        for(Map.Entry entry: getEntity(Field.class).entrySet()){
-            stringBuilder1.append(getAnnotation(entry.getValue().toString())).append(entry.getKey()).append("\n");
+        for(Map.Entry<String,String> entry: getEntity(Field.class).entrySet()){
+            stringBuilder1.append(getAnnotation(entry.getValue())).append(entry.getKey()).append("\n");
         }
         stringBuilder1.append("\n");
 
-        for(Map.Entry entry: getEntity(Constructor.class).entrySet()){
-            stringBuilder1.append(getAnnotation(entry.getValue().toString())).append(entry.getKey()).append("\n");
+        for(Map.Entry<String,String> entry: getEntity(Constructor.class).entrySet()){
+            stringBuilder1.append(getAnnotation(entry.getValue())).append(entry.getKey()).append("\n");
         }
         stringBuilder1.append("\n");
 
-        for(Map.Entry entry: getEntity(Method.class).entrySet()){
-            stringBuilder1.append(getAnnotation(entry.getValue().toString())).append(entry.getKey()).append("\n");
+        for(Map.Entry<String,String> entry: getEntity(Method.class).entrySet()){
+            stringBuilder1.append(getAnnotation(entry.getValue())).append(entry.getKey()).append("\n");
         }
 
         for (String str: stringBuilder1.toString().split("\n"))
@@ -69,7 +70,7 @@ public class ClassDissect {
         return str.length() > 0 ? "\n>>" + str + "\n": "";
     }
 
-    public static void main(String[] args) throws ClassNotFoundException {
+    public static void main(String[] args) {
         if(args.length < 1) {
             System.out.println("type classes for parse as params");
             System.exit(0);
