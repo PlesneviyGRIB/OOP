@@ -4,10 +4,12 @@ namespace TestProject
 {
     public class Program
     {
-        private static readonly String path = "C:\\Users\\unsto\\source\\repos\\TestProject\\TestProject\\data.json";
+        private static readonly String path = "C:\\Users\\unsto\\Documents\\GitHub\\OOP\\TestProject\\TestProject\\data.json";
 
         public static void Main(string[] args)
         {
+            Console.Write("enter temperature: ");
+
             double temperature = Convert.ToDouble(Console.ReadLine());
 
             TimeSpan timeSpan = EngineStand.TestEngineOverheating(new InternalEngine(DataForSimulation.GetDataForSimulation(path), temperature));
