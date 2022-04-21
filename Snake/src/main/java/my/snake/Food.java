@@ -11,7 +11,7 @@ public class Food extends Canvas implements Let, Changeable {
     private final Random random = new Random();
     private PointsOfLets pointsOfLets = PointsOfLets.getInstance();
 
-    private static final String PATH = "/home/egor/IdeaProjects/Snake/src/data";
+    private static final String PATH = "/home/egor/IdeaProjects/Snake/src/main/resources/data/FoodImages";
     private static Image[] images;
     static{
         File[] imageFiles = new File(PATH).listFiles((dir, name) -> name.matches("\\w+.png"));
@@ -36,15 +36,15 @@ public class Food extends Canvas implements Let, Changeable {
         do {
             point = new Point(Math.abs(random.nextInt()) % field.COLUMNS(), Math.abs(random.nextInt()) % field.ROWS());
         } while (foodLocation.containsKey(point) || pointsOfLets.contains(point));
-        pointsOfLets.addLetPoint(point);
 
+        pointsOfLets.addLetPoint(point);
         foodLocation.put(point, images[Math.abs(random.nextInt()) % images.length]);
     }
 
     private void rmFood(Point point){
         foodLocation.remove(point);
-        pointsOfLets.rmLetPoint(point);
         addFood();
+        pointsOfLets.rmLetPoint(point);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class Food extends Canvas implements Let, Changeable {
     @Override
     public void actionWithSnake(Snakes.Snake snake) {
         if(foodLocation.containsKey(snake.getHead())){
-            snake.addNode();
             rmFood(snake.getHead());
+            snake.addNode();
         }
     }
 }

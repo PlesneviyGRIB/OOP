@@ -35,4 +35,6 @@ public class AllLets implements Changeable{
 
         lets = newLets;
     }
+
+    void newObject(){ allLets = new AllLets(); }
 }

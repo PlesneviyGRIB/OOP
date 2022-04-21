@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Integer?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="my.snake.Controller.SettingsPageController">
+   <children>
+      <Button fx:id="saveButton" layoutX="418.0" layoutY="463.0" mnemonicParsing="false" onMouseClicked="#saveButtonMouseClicked" onMouseEntered="#saveButtonMouseEntered" onMouseExited="#savebuttonMouseExited" prefHeight="63.0" prefWidth="164.0" text="save" />
+      <Slider fx:id="botsCount" blockIncrement="50.0" layoutX="623.0" layoutY="226.0" max="50.0" prefHeight="26.0" prefWidth="298.0" showTickMarks="true" value="0.0" />
+      <Slider fx:id="countOfFood" layoutX="129.0" layoutY="384.0" max="5000.0" min="1.0" prefHeight="1.0" prefWidth="298.0" value="1.0" />
+      <ChoiceBox fx:id="complicityChoiceBox" layoutX="128.0" layoutY="214.0" prefWidth="150.0" value="NOOB">
+         <styleClass>
+            <String fx:value="NOOB" />
+            <String fx:value="EASY" />
+            <String fx:value="MEDIUM" />
+            <String fx:value="HARD" />
+         </styleClass>
+      </ChoiceBox>
+      <Label layoutX="128.0" layoutY="154.0" prefHeight="39.0" prefWidth="150.0" text="Complicity">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="129.0" layoutY="327.0" text="Count of food">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Slider fx:id="velocityGrade" layoutX="623.0" layoutY="384.0" max="500.0" min="1.0" prefHeight="250.0" prefWidth="298.0" />
+      <Label layoutX="623.0" layoutY="327.0" prefHeight="30.0" prefWidth="102.0" text="Velocity">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="fieldSizeChoiceBox" layoutX="356.0" layoutY="213.0" prefHeight="26.0" prefWidth="108.0" value="20">
+         <styleClass>
+            <Integer fx:value="10" />
+            <Integer fx:value="20" />
+            <Integer fx:value="40" />
+            <Integer fx:value="50" />
+            <Integer fx:value="100" />
+         </styleClass>
+      </ChoiceBox>
+      <Label layoutX="356.0" layoutY="159.0" text="Size">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="623.0" layoutY="163.0" text="Count of bots">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

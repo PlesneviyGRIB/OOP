@@ -2,10 +2,10 @@ package my.snake;
 
 import java.util.*;
 
-class PointsOfLets{
+class PointsOfLets {
     private static PointsOfLets pointsOfLets = new PointsOfLets();
     private PointsOfLets(){};
-    private List<Point> points = new ArrayList<>();
+    private Set<Point> points = new HashSet<>();
 
     static PointsOfLets getInstance(){
         return pointsOfLets;
@@ -34,4 +34,6 @@ class PointsOfLets{
     void rmLetPoint(List<Point> points){
         points.forEach(this::rmLetPoint);
     }
+
+    void newObject(){ points = new HashSet<>(); }
 }

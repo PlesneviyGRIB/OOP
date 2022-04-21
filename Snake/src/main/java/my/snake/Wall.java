@@ -24,16 +24,17 @@ class Wall extends Canvas implements Let{
         int cntOfBars = (field.HEIGHT() / field.SQUARE()) * (field.WIDTH() / field.SQUARE());
 
         switch (complicity){
+            case NOOB -> cntOfBars = 0;
             case EASY -> cntOfBars = (int)(cntOfBars * 0.04);
             case MEDIUM -> cntOfBars = (int)(cntOfBars * 0.10);
             case HARD -> cntOfBars = (int)(cntOfBars * 0.15);
         }
 
         for (int i = 0; i< cntOfBars; i++) generateWalls();
+        frame();
     }
 
     private void generateWalls(){
-        frame();
         Point point;
         do {
             point = new Point(Math.abs(random.nextInt()) % field.COLUMNS(), Math.abs(random.nextInt()) % field.ROWS());
@@ -74,7 +75,9 @@ class Wall extends Canvas implements Let{
 
     @Override
     public void actionWithSnake(Snakes.Snake snake) {
-        if(points.contains(snake.getHead()))
+        if(points.contains(snake.getHead())) {
             snake.die();
+            PointsOfLets.getInstance().addLetPoint(snake.getHead());
+        }
     }
 }

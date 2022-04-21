@@ -34,14 +34,15 @@ class Snakes extends Canvas implements Changeable {
                 body.add(head);
                 head = newHead(currentDirection, head);
                 PointsOfLets.getInstance().addLetPoint(head);
-                checkLets();
                 if (!grow) PointsOfLets.getInstance().rmLetPoint(body.remove());
                 grow = false;
+                checkLets();
             }
         }
 
         void addNode(){
             grow = true;
+            PointsOfLets.getInstance().addLetPoint(head);
         }
 
         void setDirection(Direction direction){
@@ -92,8 +93,13 @@ class Snakes extends Canvas implements Changeable {
         }
 
         void cutBody(Point point){
+            Point tmp;
             if(body.contains(point)){
-                while(!body.poll().equals(point));
+                do{
+                    tmp = body.poll();
+                    PointsOfLets.getInstance().rmLetPoint(tmp);
+                }
+                while(!tmp.equals(point));
             }
         }
 
@@ -143,7 +149,7 @@ class Snakes extends Canvas implements Changeable {
         }
     }
 
-    private static final List<Snake> snakes = new ArrayList<>();
+    private static List<Snake> snakes = new ArrayList<>();
     private final Field field;
     private final InitSnake initSnake;
     private List<SnakeBotController> snakeBotControllers = new ArrayList<>();
@@ -199,5 +205,9 @@ class Snakes extends Canvas implements Changeable {
 
         getGraphicsContext2D().setFill(head);
         getGraphicsContext2D().fillRoundRect(snake.getHead().x() * field.SQUARE(), snake.getHead().y() * field.SQUARE(), field.SQUARE(), field.SQUARE(), field.SQUARE(), field.SQUARE());
+    }
+
+    static void newObject(){
+        snakes = new ArrayList<>();
     }
 }
