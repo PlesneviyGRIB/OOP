@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Item</title>
+</head>
+<body>
+    <label for="type">Type: </label>
+    <a th:text="${item.getType()}" id="type">VALUE</a>
+    <br/>
+
+    <label for="country">Country: </label>
+    <a th:text="${item.getCountry()}" id="country">VALUE</a>
+    <br/>
+
+    <label for="manufacture">Manufacture: </label>
+    <a th:text="${item.getManufacture()}" id="manufacture">VALUE</a>
+    <br/>
+
+    <label for="orderOnline">Order online: </label>
+    <a th:text="${item.getOnlineOrder()}" id="orderOnline">VALUE</a>
+    <br/>
+
+    <label for="creditAvailable">Credit available: </label>
+    <a th:text="${item.getCredit()}" id="creditAvailable">Credit available: VALUE</a>
+    <br/>
+
+<hr/>
+<p><a th:href="@{/items/{id}/edit(id=${item.getId()})}">Edit</a></p>
+<form th:method="DELETE" th:action="@{/items/{id}(id=${item.getId()})}">
+<input type="submit" value="Delete"/>
+</form>
+</body>
+</html>

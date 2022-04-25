@@ -1,0 +1,10 @@
+<div>Filter: </div>
+<p th:text="${search.toString()}" >VALUE</p>
+<hr/>
+
+    <div th:each="item : ${items}">
+        <a th:href="@{/items/{id}(id=${item.getId()})}" th:text="${item.toString()}">item</a>
+    </div>
+
+<hr/>
+<a href="/items">back</a>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New item</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/items}" th:object="${item}">
+    <div style="color:red" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">error</div>
+    <label for="type">Enter type: </label>
+    <input type="text" th:field="*{type}" id="type"/>
+    <br/>
+
+    <div style="color:red" th:if="${#fields.hasErrors('country')}" th:errors="*{country}">error</div>
+    <label for="country">Enter country: </label>
+    <input type="text" th:field="*{country}" id="country"/>
+    <br/>
+
+    <div style="color:red" th:if="${#fields.hasErrors('manufacture')}" th:errors="*{manufacture}">error</div>
+    <label for="manufacture">Enter manufacture: </label>
+    <input type="text" th:field="*{manufacture}" id="manufacture"/>
+    <br/>
+
+    <label for="onlineOrder">Enable online order </label>
+    <input type="checkbox" th:field="*{onlineOrder}" id="onlineOrder"/>
+    <br/>
+
+    <label for="credit">Enable credit </label>
+    <input type="checkbox" th:field="*{credit}" id="credit"/>
+    <br/>
+
+    <input type="submit" value="Create!"/>
+    <br/>
+    <br/>
+    <a href="/items">back</a>
+</form>
+
+</body>
+</html>

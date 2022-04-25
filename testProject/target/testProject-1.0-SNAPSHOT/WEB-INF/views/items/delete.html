@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New person</title>
+</head>
+<body>
+
+<form th:method="DELETE" th:action="@{/items}">
+    <label for="type">Enter id of deleting type: </label>
+    <input type="text" id="type"/>
+    <br/>
+    <input type="submit" value="Delete"/>
+</form>
+
+</body>
+</html>

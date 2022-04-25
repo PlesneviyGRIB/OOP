@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All items</title>
+</head>
+<body>
+    <div th:each="item : ${items}">
+        <a th:href="@{/items/{id}(id=${item.getId()})}" th:text="${item.toString()}">item</a>
+</div>
+<br/>
+<hr/>
+    <form th:method="GET" th:action="@{/items/filter}" th:object="${search}">
+    <p>Filter params: </p>
+    <label for="type">Type: </label>
+    <input type="text" th:field="*{type}" id="type"/>
+    <br/>
+    <label for="country">Country: </label>
+    <input type="text" th:field="*{country}" id="country"/>
+    <br/>
+    <label for="manufacture">Manufacture: </label>
+    <input type="text" th:field="*{manufacture}" id="manufacture"/>
+    <br/>
+
+    <label for="onlineOrder">Enable online order </label>
+    <input type="checkbox" th:field="*{onlineOrder}" id="onlineOrder"/>
+    <label for="consider1">  Consider field</label>
+    <input type="checkbox" th:field="*{considerOnlineOrder}" id="consider1"/>
+    <br/>
+    <label for="credit">Enable credit </label>
+    <input type="checkbox" th:field="*{credit}" id="credit"/>
+    <label for="consider2">  Consider field</label>
+    <input type="checkbox" th:field="*{considerCredit}" id="consider2"/>
+    <br/>
+    <input type="submit" value="Show"/></form>
+<br/>
+<hr/>
+    <a href="/items/new">Create new item</a>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>All items</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div th:each="item : ${items}">-->
+<!--    <a th:href="@{/items/{id}(id=${item.getId()})}" th:text="${item.toString()}">user</a>-->
+<!--</div>-->
+<!--<br/>-->
+<!--<hr/>-->
+<!--<form th:method="GET" th:action="@{/items/filter}" th:object="${search}">-->
+<!--    <p>Search params: </p>-->
+<!--    <label for="type">Type: </label>-->
+<!--    <input type="text" th:field="${search.setType('hi')}" id="type"/>-->
+
+<!--    <input type="submit" value="Show"/></form>-->
+<!--<br/>-->
+<!--<hr/>-->
+<!--<a href="/items/new">Create new item</a>-->
+<!--</body>-->
+<!--</html>-->
