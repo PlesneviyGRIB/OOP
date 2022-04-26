@@ -1,16 +1,17 @@
-package my.snake.Controller;
+package my.snake.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import my.snake.*;
+
+
 
 public class FirstPageController {
     public static Scene mainScene;
@@ -24,8 +25,6 @@ public class FirstPageController {
     @FXML
     private ImageView buttonSettings;
 
-    @FXML
-    private Label snakeLabel;
 
     private GameData getField() throws Exception {
         Pane pane = (Pane) SceneManager.getSceneManager().getScene(SceneName.SETTINGS).getRoot();
@@ -51,7 +50,9 @@ public class FirstPageController {
         ImageView button = (ImageView) pane.getChildren().get(0);
         pane.getChildren().clear();
         mainScene = new Scene(pane);
-        pane.getChildren().addAll(Main.play(getField()));
+        Game game = new Game();
+
+        pane.getChildren().addAll(game.play(getField()));
         pane.getChildren().add(button);
 
         SceneManager.getSceneManager().addScene(mainScene, SceneName.PLAY);
@@ -67,8 +68,7 @@ public class FirstPageController {
     }
 
     @FXML
-    void questionButtonMouseClicked(MouseEvent event) {
-    }
+    void questionButtonMouseClicked(MouseEvent event) {}
     @FXML
     void questionButtonMouseEntered(MouseEvent event) {
         buttonQuestion.setBlendMode(BlendMode.RED);
@@ -89,14 +89,5 @@ public class FirstPageController {
     @FXML
     void settingsButtonMouseExited(MouseEvent event) {
         buttonSettings.setBlendMode(BlendMode.DARKEN);
-    }
-
-    @FXML
-    void snakeLabelMouseEntered(MouseEvent event) {
-        snakeLabel.setBlendMode(BlendMode.BLUE);
-    }
-    @FXML
-    void snakeLabelMouseExited(MouseEvent event) {
-        snakeLabel.setBlendMode(BlendMode.DARKEN);
     }
 }

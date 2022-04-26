@@ -4,7 +4,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="my.snake.Controller.PausePageController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="my.snake.controllers.PausePageController">
    <children>
       <ImageView fx:id="restartButton" fitHeight="92.0" fitWidth="82.0" layoutX="309.0" layoutY="265.0" onMouseClicked="#restartButtonMouseClicked" onMouseEntered="#restartButtonMouseEntered" onMouseExited="#restartButtonMouseExited" pickOnBounds="true" preserveRatio="true">
          <image>

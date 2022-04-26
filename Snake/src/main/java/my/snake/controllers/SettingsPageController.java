@@ -1,10 +1,7 @@
-package my.snake.Controller;
+package my.snake.controllers;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import my.snake.SceneManager;
 import my.snake.SceneName;
@@ -12,25 +9,10 @@ import my.snake.SceneName;
 public class SettingsPageController {
 
     @FXML
-    private Slider botsCount;
-
-    @FXML
-    private CheckBox botsStatus;
-
-    @FXML
     private ChoiceBox<String> complicityChoiceBox;
 
     @FXML
     private ChoiceBox<Integer> fieldSizeChoiceBox;
-
-    @FXML
-    private Slider countOfFood;
-
-    @FXML
-    private Button saveButton;
-
-    @FXML
-    private Slider velocityGrade;
 
     public void initialize(){
         complicityChoiceBox.getItems().add("NOOB");
@@ -48,15 +30,5 @@ public class SettingsPageController {
     @FXML
     void saveButtonMouseClicked(MouseEvent event) {
         SceneManager.getSceneManager().select(SceneName.FIRST);
-    }
-
-    @FXML
-    void saveButtonMouseEntered(MouseEvent event) {
-
-    }
-
-    @FXML
-    void savebuttonMouseExited(MouseEvent event) {
-
     }
 }

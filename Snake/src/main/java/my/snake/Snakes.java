@@ -5,9 +5,9 @@ import javafx.scene.paint.Color;
 import java.util.*;
 import java.util.stream.Collectors;
 
-class Snakes extends Canvas implements Changeable {
+public class Snakes extends Canvas implements Changeable {
 
-    static class Snake implements Let{
+    class Snake implements Let{
         private long smoothStart = 5;
 
         private Point head;
@@ -149,7 +149,7 @@ class Snakes extends Canvas implements Changeable {
         }
     }
 
-    private static List<Snake> snakes = new ArrayList<>();
+    private List<Snake> snakes = new ArrayList<>();
     private final Field field;
     private final InitSnake initSnake;
     private List<SnakeBotController> snakeBotControllers = new ArrayList<>();
@@ -205,9 +205,5 @@ class Snakes extends Canvas implements Changeable {
 
         getGraphicsContext2D().setFill(head);
         getGraphicsContext2D().fillRoundRect(snake.getHead().x() * field.SQUARE(), snake.getHead().y() * field.SQUARE(), field.SQUARE(), field.SQUARE(), field.SQUARE(), field.SQUARE());
-    }
-
-    static void newObject(){
-        snakes = new ArrayList<>();
     }
 }

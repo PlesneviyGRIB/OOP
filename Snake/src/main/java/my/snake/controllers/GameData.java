@@ -1,4 +1,4 @@
-package my.snake.Controller;
+package my.snake.controllers;
 
 import my.snake.Complicity;
 

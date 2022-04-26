@@ -1,4 +1,4 @@
-package my.snake.Controller;
+package my.snake.controllers;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,6 @@ import my.snake.SceneManager;
 import my.snake.SceneName;
 
 import java.io.IOException;
-
 
 public class PlayPageController {
 
