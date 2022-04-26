@@ -1,0 +1,15 @@
+I didn’t manage to connect swagger, after the standard implementation of dependencies and creating the necessary bean, the documentation on the local host did not work. I don't know what's wrong, but I spent enough time before giving up.
+
+There is a PostgreSql database dump in the folder. All connection settings can be viewed in resources/HibernateConfiguration.properties
+
+Server rises on Apache TomCat
+Since there is no documentation, I will write standart mapping
+
+http://localhost:8080/items/           - main page with items list
+http://localhost:8080/items/{id}       - page with selected item
+http://localhost:8080/items/{id}/edit  - edit page for selected item
+http://localhost:8080/items/new        - form with validation to create a new item
+http://localhost:8080/items/filter     - filtered list of items
+
+
+in the task it was indicated to implement a registry of household appliances, I understand that it was necessary to create the Entity class and inherit it with specific types of equipment, but I am not strong in SQL, so I don’t know how to properly link tables.
