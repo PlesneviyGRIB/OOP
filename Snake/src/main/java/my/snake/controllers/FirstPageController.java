@@ -3,6 +3,7 @@ package my.snake.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.BlendMode;
@@ -33,6 +34,7 @@ public class FirstPageController {
         int cntOfFood = (int) ((Slider) pane.getChildren().get(2)).getValue();
         int velocity = (int) ((Slider) pane.getChildren().get(6)).getValue();
         int size = Integer.parseInt( ((ChoiceBox) pane.getChildren().get(8)).getValue().toString());
+        boolean secondPlayer = ((CheckBox) pane.getChildren().get(12)).isSelected();
         Complicity complicity = Complicity.valueOf(((ChoiceBox) pane.getChildren().get(3)).getValue().toString());
 
         Field field = new my.snake.Field(1000,600,  (600 / (1000 / size)),size, (1000/size));
@@ -41,7 +43,7 @@ public class FirstPageController {
         System.out.println(field + " cntOfBots");
         System.out.println(velocity + " velocity");
 
-        return new GameData(field, complicity, botsCount, cntOfFood,velocity);
+        return new GameData(field, complicity, botsCount, cntOfFood,velocity, secondPlayer);
     }
 
     @FXML

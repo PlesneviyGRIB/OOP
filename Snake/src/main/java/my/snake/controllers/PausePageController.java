@@ -3,6 +3,7 @@ package my.snake.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Slider;
 import javafx.scene.effect.BlendMode;
@@ -25,24 +26,21 @@ public class PausePageController {
     private GameData getField() throws Exception {
         Pane pane = (Pane) SceneManager.getSceneManager().getScene(SceneName.SETTINGS).getRoot();
 
-        int botsCount = (int) ((Slider) pane.getChildren().get(1)).getValue();
-        int cntOfFood = (int) ((Slider) pane.getChildren().get(2)).getValue();
-        int velocity = (int) ((Slider) pane.getChildren().get(6)).getValue();
-        int size = Integer.parseInt( ((ChoiceBox) pane.getChildren().get(8)).getValue().toString());
-        Complicity complicity = Complicity.valueOf(((ChoiceBox) pane.getChildren().get(3)).getValue().toString());
+        int botsCount = (int) ((Slider) pane.getChildren().get(1)).getValue();//
+        int cntOfFood = (int) ((Slider) pane.getChildren().get(2)).getValue();//
+        int velocity = (int) ((Slider) pane.getChildren().get(6)).getValue();//
+        int size = Integer.parseInt( ((ChoiceBox) pane.getChildren().get(8)).getValue().toString());//
+        boolean secondPlayer = ((CheckBox) pane.getChildren().get(12)).isSelected();
+        Complicity complicity = Complicity.valueOf(((ChoiceBox) pane.getChildren().get(3)).getValue().toString());//
 
         Field field = new my.snake.Field(1000,600,  (600 / (1000 / size)),size, (1000/size));
-        System.out.println(field);
-        System.out.println(cntOfFood  + " cntOfFood");
-        System.out.println(field + " cntOfBots");
-        System.out.println(velocity + " velocity");
 
-        return new GameData(field, complicity, botsCount, cntOfFood,velocity);
+        return new GameData(field, complicity, botsCount, cntOfFood,velocity, secondPlayer);
     }
 
     @FXML
     void continueButtonMouseClicked(MouseEvent event) {
-        Main.continuePlaying();
+        Game.continuePlaying();
         SceneManager.getSceneManager().select(SceneName.PLAY);
     }
 
@@ -59,7 +57,7 @@ public class PausePageController {
 
     @FXML
     void exitButtonMouseClicked(MouseEvent event) {
-        Main.exitGame();
+        Game.exitGame();
         SceneManager.getSceneManager().select(SceneName.FIRST);
     }
 
@@ -75,12 +73,12 @@ public class PausePageController {
 
     @FXML
     void restartButtonMouseClicked(MouseEvent event) throws Exception{
-        Main.exitGame();
+        Game.exitGame();
 
         Pane pane = (new FXMLLoader(getClass().getClassLoader().getResource("PlayPage.fxml"))).load();
         ImageView button = (ImageView) pane.getChildren().get(0);
         pane.getChildren().clear();
-        pane.getChildren().addAll(Main.play(getField()));
+        pane.getChildren().addAll(Game.play(getField()));
         pane.getChildren().add(button);
 
         SceneManager.getSceneManager().addScene(new Scene(pane), SceneName.PLAY);

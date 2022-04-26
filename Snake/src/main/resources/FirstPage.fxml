@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="my.snake.controllers.FirstPageController">
    <children>
-      <Label fx:id="snakeLabel" alignment="CENTER" layoutX="302.0" layoutY="175.0" onMouseEntered="#snakeLabelMouseEntered" onMouseExited="#snakeLabelMouseExited" prefHeight="92.0" prefWidth="397.0" text="Snake" textAlignment="CENTER" textOverrun="CLIP">
+      <Label fx:id="snakeLabel" alignment="CENTER" layoutX="302.0" layoutY="175.0" prefHeight="92.0" prefWidth="397.0" text="Snake" textAlignment="CENTER" textOverrun="CLIP">
          <font>
             <Font name="D050000L" size="90.0" />
          </font>

@@ -16,7 +16,7 @@ public class Game {
 
     private static Timeline timeline;
 
-    public List<Canvas> play(GameData gameData) throws IOException {
+    public static List<Canvas> play(GameData gameData) throws IOException {
 
         Field field = gameData.field;
         BackGround backGround = new BackGround(field);
@@ -38,6 +38,7 @@ public class Game {
 
         snakes.addBots(gameData.cntOfBoots);
         SnakeController snakeController = snakes.addPlayer();
+        SnakeController snakeController1 = snakes.addPlayer();
 
         FirstPageController.mainScene.setOnKeyPressed(event -> {
             KeyCode keyCode = event.getCode();
@@ -45,7 +46,15 @@ public class Game {
             if (keyCode == KeyCode.UP) snakeController.setDirection(Direction.TOP);
             if (keyCode == KeyCode.LEFT) snakeController.setDirection(Direction.LEFT);
             if (keyCode == KeyCode.DOWN) snakeController.setDirection(Direction.BOTTOM);
+
+            if(gameData.secondPlayer) {
+                if (keyCode == KeyCode.D) snakeController1.setDirection(Direction.RIGHT);
+                if (keyCode == KeyCode.W) snakeController1.setDirection(Direction.TOP);
+                if (keyCode == KeyCode.A) snakeController1.setDirection(Direction.LEFT);
+                if (keyCode == KeyCode.S) snakeController1.setDirection(Direction.BOTTOM);
+            }
         });
+
 
         changeables.forEach(Changeable::change);
 
@@ -60,15 +69,15 @@ public class Game {
         return canvas;
     }
 
-    public void stopPlaying(){
+    public static void stopPlaying(){
         timeline.stop();
     }
 
-    public void continuePlaying(){
+    public static void continuePlaying(){
         timeline.play();
     }
 
-    public void exitGame(){
+    public static void exitGame(){
         PointsOfLets.getInstance().newObject();
         AllLets.getInstance().newObject();
         timeline.stop();

@@ -8,12 +8,14 @@ public class GameData {
     public final int cntOfBoots;
     public final int cntOfFood;
     public final int velocity;
+    public final boolean secondPlayer;
 
-    public GameData(my.snake.Field field, Complicity complicity, int cntOfBoots, int cntOfFood, int velocity) {
+    public GameData(my.snake.Field field, Complicity complicity, int cntOfBoots, int cntOfFood, int velocity, boolean secondPlayer) {
         this.field = field;
         this.complicity = complicity;
         this.cntOfBoots = cntOfBoots;
         this.cntOfFood = cntOfFood;
         this.velocity = velocity;
+        this.secondPlayer = secondPlayer;
     }
 }

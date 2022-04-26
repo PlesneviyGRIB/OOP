@@ -11,7 +11,7 @@ public class Food extends Canvas implements Let, Changeable {
     private final Random random = new Random();
     private PointsOfLets pointsOfLets = PointsOfLets.getInstance();
 
-    private static final String PATH = "/home/egor/IdeaProjects/Snake/src/main/resources/data/FoodImages";
+    private static final String PATH = "/home/egor/GitHub/OOP/Snake/src/main/resources/data/FoodImages";
     private static Image[] images;
     static{
         File[] imageFiles = new File(PATH).listFiles((dir, name) -> name.matches("\\w+.png"));

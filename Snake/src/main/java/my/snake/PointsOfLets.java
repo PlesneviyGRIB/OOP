@@ -5,6 +5,7 @@ import java.util.*;
 class PointsOfLets {
     private static PointsOfLets pointsOfLets = new PointsOfLets();
     private PointsOfLets(){};
+    private int cnt = 0;
     private Set<Point> points = new HashSet<>();
 
     static PointsOfLets getInstance(){
@@ -12,6 +13,7 @@ class PointsOfLets {
     }
 
     void addLetPoint(Point point){
+        cnt++;
         points.add(point);
     }
 
@@ -28,12 +30,16 @@ class PointsOfLets {
     }
 
     void rmLetPoint(Point point){
+        cnt --;
         points.remove(point);
     }
 
-    void rmLetPoint(List<Point> points){
-        points.forEach(this::rmLetPoint);
+    void rmLetPoint(List<Point> points){points.forEach(this::rmLetPoint);
     }
 
     void newObject(){ points = new HashSet<>(); }
+
+    int getCount(){
+        return cnt;
+    }
 }
