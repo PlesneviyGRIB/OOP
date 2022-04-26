@@ -37,11 +37,13 @@ public class FirstPageController {
         boolean secondPlayer = ((CheckBox) pane.getChildren().get(12)).isSelected();
         Complicity complicity = Complicity.valueOf(((ChoiceBox) pane.getChildren().get(3)).getValue().toString());
 
-        Field field = new my.snake.Field(1000,600,  (600 / (1000 / size)),size, (1000/size));
-        System.out.println(field);
-        System.out.println(cntOfFood  + " cntOfFood");
-        System.out.println(field + " cntOfBots");
-        System.out.println(velocity + " velocity");
+        Field field = new my.snake.Field(1000,600,  (600 / (1000 / size)), size, (1000/size));
+        double tmp =((600 / (1000 / (double)size)) * (double) size) / 100;
+        System.out.println("tmp " + tmp);
+        cntOfFood = (int)(tmp * cntOfFood);
+        System.out.println("Columns " + (600 / (1000 / size)));
+        System.out.println("Rows " + size);
+        System.out.println("Cnt " + cntOfFood);
 
         return new GameData(field, complicity, botsCount, cntOfFood,velocity, secondPlayer);
     }
