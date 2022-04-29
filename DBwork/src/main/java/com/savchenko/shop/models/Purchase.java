@@ -8,7 +8,7 @@ import java.util.Date;
 @Getter @Setter
 @ToString
 public class Purchase {
-    private int id;
+    private transient int id;
     private int customerId;
     private int productId;
     private Date date;

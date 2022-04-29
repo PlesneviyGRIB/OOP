@@ -7,7 +7,7 @@ import lombok.*;
 @Getter @Setter
 @ToString
 public class Product {
-    private int id;
+    private transient int id;
     private String title;
     private double cost;
 }

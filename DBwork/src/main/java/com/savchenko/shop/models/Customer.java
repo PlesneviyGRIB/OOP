@@ -7,7 +7,7 @@ import lombok.*;
 @Getter @Setter
 @ToString
 public class Customer {
-    private int id;
+    private transient int id;
     private String name;
     private String lastName;
 }
