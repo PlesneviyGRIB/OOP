@@ -22,11 +22,11 @@ public class CustomerDAO {
         return jdbcTemplate.query("SELECT * FROM customer WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Customer.class)).stream().findAny().orElse(null);
     }
 
-    public List<Customer> getByLastname(String lastname){
-        return jdbcTemplate.query("SELECT * FROM customer WHERE lastname=?", new Object[]{lastname}, new BeanPropertyRowMapper<>(Customer.class));
-    }
-
     public List<Customer> getAll(){
         return jdbcTemplate.query("SELECT * FROM customer", new BeanPropertyRowMapper<>(Customer.class));
+    }
+
+    public List<Customer> getByLastname(String lastname){
+        return jdbcTemplate.query("SELECT * FROM customer WHERE lastname=?", new Object[]{lastname}, new BeanPropertyRowMapper<>(Customer.class));
     }
 }

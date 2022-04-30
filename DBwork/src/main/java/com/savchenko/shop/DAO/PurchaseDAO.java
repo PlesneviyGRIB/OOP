@@ -17,11 +17,12 @@ public class PurchaseDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Purchase getById(int id){
-        return jdbcTemplate.query("SELECT * FROM purchase WHERE id=?", new Object[]{id}, new BeanPropertyRowMapper<>(Purchase.class)).stream().findAny().orElse(null);
+    public List<Purchase> getByProductId(int id){
+        return jdbcTemplate.query("SELECT * FROM purchase WHERE productid=?", new Object[]{id}, new BeanPropertyRowMapper<>(Purchase.class));
     }
 
-    public List<Purchase> getAll(){
-        return jdbcTemplate.query("SELECT * FROM purchase", new BeanPropertyRowMapper<>(Purchase.class));
+    public List<Purchase> getByCustomerId(int id){
+        return jdbcTemplate.query("SELECT * FROM purchase WHERE customerid=?", new Object[]{id}, new BeanPropertyRowMapper<>(Purchase.class));
     }
+
 }

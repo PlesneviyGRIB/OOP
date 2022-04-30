@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchResponse {
-    private static final String type = "search";
+    private final String type = "search";
     private List<CurrentSearchResponse> results = new ArrayList<>();
 
     public void addCurrentSearchResponse( CurrentSearchResponse currentSearchResponse){

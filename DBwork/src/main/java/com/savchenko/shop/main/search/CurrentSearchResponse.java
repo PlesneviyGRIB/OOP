@@ -3,12 +3,13 @@ package com.savchenko.shop.main.search;
 import com.savchenko.shop.models.Customer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 class CurrentSearchResponse{
-    private Criteria criteria;
+    private Map<?, ?> criteria;
     private List<Customer> results;
 
-    public CurrentSearchResponse(Criteria criteria){
+    public CurrentSearchResponse(Map<?,?> criteria){
         this.criteria = criteria;
         results = new ArrayList<>();
     }

@@ -1,13 +1,10 @@
 package com.savchenko.shop.main;
 
-import com.savchenko.shop.DAO.CustomerDAO;
 import com.savchenko.shop.config.SpringConfig;
 import com.savchenko.shop.main.search.Search;
 import com.savchenko.shop.main.stat.Stat;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-
 import java.io.File;
-import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,7 +21,7 @@ public class Main {
 
         switch (type.toLowerCase()){
             case "search": {
-                new Search(inFile, outFile, (CustomerDAO) applicationContext.getBean("customerDAO"));
+                ((Search) applicationContext.getBean("search")).search(inFile, outFile);
                 break;
             }
             case "stat": {
