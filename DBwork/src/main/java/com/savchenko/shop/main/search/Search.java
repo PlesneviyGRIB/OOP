@@ -1,6 +1,7 @@
 package com.savchenko.shop.main.search;
 
 import com.google.gson.Gson;
+import com.savchenko.shop.main.supportive.OperationType;
 import com.savchenko.shop.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,11 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class Search {
+public class Search implements OperationType {
     @Autowired
-    private Request request;
+    private SearchRequest request;
 
-    public void search(File in, File out){
+    @Override
+    public void makeResponse(File in, File out){
         writeOutputJson(searchResponse(readInputJson(in)), out);
     }
 

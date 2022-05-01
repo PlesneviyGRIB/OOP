@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class Request {
+public class SearchRequest {
     @Autowired
     private CustomerDAO customerDAO;
     @Autowired
@@ -48,7 +48,7 @@ public class Request {
         for (Customer customer: customerDAO.getAll()){
             map.put(customer.getId(), 0.0);
             for(Purchase purchase: purchaseDAO.getByCustomerId(customer.getId())){
-                map.put(customer.getId(), map.get(customer.getId()) + productDAO.getById(purchase.getProductId()).getCost());
+                map.put(customer.getId(), map.get(customer.getId()) + productDAO.getById(purchase.getProductId()).getExpenses());
             }
         }
         List<Customer> customers = new ArrayList<>();

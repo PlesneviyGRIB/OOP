@@ -8,6 +8,7 @@ import lombok.*;
 @ToString
 public class Product {
     private transient int id;
-    private String title;
-    private double cost;
+    private String name;
+    private double expenses;
 }
+

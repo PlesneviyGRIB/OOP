@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Component
@@ -25,4 +26,7 @@ public class PurchaseDAO {
         return jdbcTemplate.query("SELECT * FROM purchase WHERE customerid=?", new Object[]{id}, new BeanPropertyRowMapper<>(Purchase.class));
     }
 
+    public List<Purchase> getByIdWithPeriod(int id, LocalDate firstDate, LocalDate secondDate){
+        return jdbcTemplate.query("SELECT * FROM purchase WHERE customerid=? AND date BETWEEN ? AND ?", new Object[]{id,firstDate, secondDate}, new BeanPropertyRowMapper<>(Purchase.class));
+    }
 }
