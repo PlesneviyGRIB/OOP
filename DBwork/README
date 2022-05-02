@@ -4,6 +4,8 @@
 У меня настроен gitignore, поэтому мой jar я загрузил на диск. Для скачивания, пройдите по ссылке:
 	https://drive.google.com/drive/folders/1Y6wW2VHP4-AtQjo87eWo87_fhlpgwq96?usp=sharing
 	
-
+Дамп базы данных postgresql находится рядом с jar, для восстановления бд из дампа использовать команду:
+	psql имя_базы < файл_дампа     (пользователь root, пароль 1234)
+	
 Пример запуска:
 	java -jar DBwork.jar search /home/egor/Downloads/input.json /home/egor/Downloads/output.json
