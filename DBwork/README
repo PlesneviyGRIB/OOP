@@ -1,0 +1,9 @@
+В тестовом задании был указан стек технологий, я принял его как минимальный и расширил, использовав Spring. Если нельзя было выходить за рамки перечисленных технологий, пожалуйста, оповестите меня.
+
+
+У меня настроен gitignore, поэтому мой jar я загрузил на диск. Для скачивания, пройдите по ссылке:
+	https://drive.google.com/drive/folders/1Y6wW2VHP4-AtQjo87eWo87_fhlpgwq96?usp=sharing
+	
+
+Пример запуска:
+	java -jar DBwork.jar search /home/egor/Downloads/input.json /home/egor/Downloads/output.json
