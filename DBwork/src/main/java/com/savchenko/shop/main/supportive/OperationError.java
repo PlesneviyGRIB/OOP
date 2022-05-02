@@ -3,11 +3,11 @@ package com.savchenko.shop.main.supportive;
 import lombok.Getter;
 
 @Getter
-public class Error {
+public class OperationError {
     private final String type = "error";
     private String message;
 
-    public Error(String message) {
+    public OperationError(String message) {
         this.message = message;
     }
 }

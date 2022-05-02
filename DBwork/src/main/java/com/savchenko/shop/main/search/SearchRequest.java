@@ -63,7 +63,7 @@ public class SearchRequest {
         List<Map.Entry<Integer, Integer>> entries = map.entrySet().stream().sorted(Map.Entry.comparingByValue()).toList();
 
         List<Customer> customers = new ArrayList<>();
-
+        if(cnt > entries.size()) cnt = entries.size();
         for(int i = 0; i< cnt; i++) customers.add(customerDAO.getById(entries.get(i).getKey()));
 
         return customers;

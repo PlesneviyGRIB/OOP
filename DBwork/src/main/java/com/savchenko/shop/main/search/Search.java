@@ -1,6 +1,7 @@
 package com.savchenko.shop.main.search;
 
 import com.google.gson.Gson;
+import com.savchenko.shop.main.supportive.OperationError;
 import com.savchenko.shop.main.supportive.OperationType;
 import com.savchenko.shop.models.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +18,27 @@ import java.util.Map;
 public class Search implements OperationType {
     @Autowired
     private SearchRequest request;
+    private File out;
+    private Gson gson = new Gson();
 
     @Override
     public void makeResponse(File in, File out){
-        writeOutputJson(searchResponse(readInputJson(in)), out);
+        this.out = out;
+        writeOutputJson(searchResponse(readInputJson(in)));
     }
 
     private Criterias readInputJson(File in) {
-        Gson gson = new Gson();
         Criterias criterias = null;
         try(FileReader fileReader = new FileReader(in)) {
             criterias = gson.fromJson(fileReader, Criterias.class);
-        } catch (IOException e){ e.printStackTrace(); }
+            if(criterias.getCriterias() == null){
+                writeOutputJson(new OperationError("Wrong input json syntax for search type"));
+                System.exit(0);
+            }
+        } catch (IOException e){
+            writeOutputJson(new OperationError("Problem with input file"));
+            System.exit(0);
+        }
         return criterias;
     }
 
@@ -49,10 +59,15 @@ public class Search implements OperationType {
         return searchResponse;
     }
 
-    private void writeOutputJson(SearchResponse searchResponse, File out){
-        Gson gson = new Gson();
+    private void writeOutputJson(SearchResponse searchResponse){
         try(FileWriter fileWriter = new FileWriter(out)) {
             fileWriter.append(gson.toJson(searchResponse));
+        } catch (IOException e){ e.printStackTrace(); }
+    }
+
+    private void writeOutputJson(OperationError operationError){
+        try(FileWriter fileWriter = new FileWriter(out)) {
+            fileWriter.append(gson.toJson(operationError));
         } catch (IOException e){ e.printStackTrace(); }
     }
 }

@@ -16,8 +16,8 @@ public class ProductDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Product> getByTitle(String title){
-        return jdbcTemplate.query("SELECT * FROM product WHERE title=?", new Object[]{title}, new BeanPropertyRowMapper<>(Product.class));
+    public List<Product> getByTitle(String name){
+        return jdbcTemplate.query("SELECT * FROM product WHERE name=?", new Object[]{name}, new BeanPropertyRowMapper<>(Product.class));
     }
 
     public Product getById(int id){

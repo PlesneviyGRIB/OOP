@@ -8,6 +8,7 @@ import com.savchenko.shop.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -22,7 +23,7 @@ public class StatRequest {
     public List<CustomerData> getDataForeachCustomer(Period period){
         List<CustomerData> customersData = new ArrayList<>();
         customerDAO.getAll().forEach(customer -> customersData.add(getCustomerData(customer, period)));
-        return customersData;
+        return customersData.stream().sorted(Comparator.comparingDouble(CustomerData::getTotalExpenses).reversed()).toList();
     }
 
     private CustomerData getCustomerData(Customer customer, Period period){

@@ -2,6 +2,7 @@ package com.savchenko.shop.main.stat;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
+import com.savchenko.shop.main.supportive.OperationError;
 import com.savchenko.shop.main.supportive.OperationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,10 +18,12 @@ import java.util.Map;
 public class Stat implements OperationType {
     @Autowired
     private StatRequest statRequest;
+    private File out;
 
     @Override
     public void makeResponse(File in, File out) {
-        writeOutputJson(statResponse(readInputJson(in)), out);
+        this.out = out;
+        writeOutputJson(statResponse(readInputJson(in)));
     }
 
     private StatResponse statResponse(Period period){
@@ -45,14 +48,24 @@ public class Stat implements OperationType {
             Map<?,?> map = gson.fromJson(fileReader, LinkedTreeMap.class);
             period.setFirstDate(LocalDate.parse(map.get("startDate").toString()));
             period.setSecondDate(LocalDate.parse(map.get("endDate").toString()));
-        } catch (IOException e){ e.printStackTrace(); }
+        } catch (Exception e){
+            writeOutputJson(new OperationError("Wrong date format"));
+            System.exit(0);
+        }
         return period;
     }
 
-    private void writeOutputJson(StatResponse statResponse, File out){
+    private void writeOutputJson(StatResponse statResponse){
         Gson gson = new Gson();
         try(FileWriter fileWriter = new FileWriter(out)) {
             fileWriter.append(gson.toJson(statResponse));
+        } catch (IOException e){ e.printStackTrace(); }
+    }
+
+    private void writeOutputJson(OperationError operationError){
+        Gson gson = new Gson();
+        try(FileWriter fileWriter = new FileWriter(out)) {
+            fileWriter.append(gson.toJson(operationError));
         } catch (IOException e){ e.printStackTrace(); }
     }
 }
