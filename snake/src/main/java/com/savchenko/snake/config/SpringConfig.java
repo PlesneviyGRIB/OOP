@@ -1,6 +1,6 @@
 package com.savchenko.snake.config;
 
-import com.savchenko.snake.controllers.GameData;
+import com.savchenko.snake.gamecore.GameData;
 import com.savchenko.snake.enums.Complicity;
 import com.savchenko.snake.enums.SceneName;
 import com.savchenko.snake.gamecore.AllLets;
@@ -119,3 +119,4 @@ public class SpringConfig  extends Application {
         launch();
     }
 }
+//--module-path ${javafx} --add-modules javafx.fxml,javafx.controls,javafx.graphics

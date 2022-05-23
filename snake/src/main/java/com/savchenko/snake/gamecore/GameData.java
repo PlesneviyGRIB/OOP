@@ -1,4 +1,4 @@
-package com.savchenko.snake.controllers;
+package com.savchenko.snake.gamecore;
 
 import com.savchenko.snake.enums.Complicity;
 import lombok.AllArgsConstructor;

@@ -50,7 +50,6 @@ public class Snakes extends Canvas implements Changeable {
                 body.add(head);
                 head = newHead(currentDirection, head);
                 if(boundCheck(head) && smoothStart <= 0) {
-                    System.out.println("Die");
                     this.die();
                     allLets.rmLet(this);
                     pointsOfLets.rmLetPoint(new ArrayList<>(body));
@@ -162,7 +161,7 @@ public class Snakes extends Canvas implements Changeable {
         private final Random random = new Random();
         private final Field field;
         private final AllLets allLets;
-        private String[] names = new String[]{"Sasha", "Ara", "Nebula", "Igor", "Bot", "Blob"};
+        private String[] names = new String[]{"Sasha", "Ara", "Nebula", "Igor", "Bot", "Blob", "Pro", "Noob", "Champion", "Darkness", "Glory", "Brother", "Snake"};
 
         public InitSnake(Field field, AllLets allLets) {
             this.allLets = allLets;
@@ -252,6 +251,7 @@ public class Snakes extends Canvas implements Changeable {
 
     public List<Map.Entry<String, Integer>> currentResult(){
         List<Map.Entry<String,Integer>> list = new ArrayList<>();
+
         snakes.forEach(snake -> list.add(new Map.Entry<>() {
             @Override
             public String getKey() {

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -22,10 +23,10 @@
             <Font size="22.0" />
          </font>
       </Text>
-      <Text layoutX="112.0" layoutY="389.0" strokeType="OUTSIDE" strokeWidth="0.0" text="https://github.com/PlesneviyGRIB" textAlignment="CENTER" wrappingWidth="795.93310546875">
+      <Hyperlink layoutX="325.0" layoutY="367.0" text="https://github.com/PlesneviyGRIB">
          <font>
             <Font size="22.0" />
          </font>
-      </Text>
+      </Hyperlink>
    </children>
 </AnchorPane>

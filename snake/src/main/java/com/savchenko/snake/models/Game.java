@@ -4,7 +4,7 @@ import com.savchenko.snake.canvases.*;
 import com.savchenko.snake.config.SpringConfig;
 import com.savchenko.snake.control.ScoreBoard;
 import com.savchenko.snake.control.SnakeController;
-import com.savchenko.snake.controllers.GameData;
+import com.savchenko.snake.gamecore.GameData;
 import com.savchenko.snake.enums.Direction;
 import com.savchenko.snake.enums.SceneName;
 import com.savchenko.snake.gamecore.AllLets;
