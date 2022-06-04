@@ -1,0 +1,13 @@
+#       ID       POINTS       DESCRIPTION(optional)
+
+Task_1_1_1           30       -
+Task_1_1_2           10       -
+Task_1_2_1           15       stack
+Task_1_2_2           20       -
+Task_1_3_2           18       -
+Task_1_4_1           20       -
+Task_1_4_2           40       -
+Task_2_1_1           30       task for threads
+Task_2_2_1           30       pizza spot
+Task_2_3_1           40       snake game
+Task_2_4_1           40       groovy DSL
