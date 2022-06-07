@@ -14,7 +14,7 @@ public class TasksReader {
     private String group;
 
     public List<Task> read(){
-        String path = ProjectPropertiesLoader.instance.getProperty("groupsLocation") + "/" + group + "/tasks";
+        String path = ProjectPropertiesLoader.instance.getProperty("groupsLocation") + group + "/tasks";
         List<Task> tasks = new ArrayList<>();
 
         try(Scanner scanner = new Scanner(new File(path))) {
