@@ -11,7 +11,7 @@ class ConfigDSL {
 
     static void main(String[] args) {
 
-        GitGroupLoaderScript
+        //new GroovyShell(GitGroupLoaderScript)
 
         List<Student> students = new GroupStudentsReader(group).read().students
         List<Task> tasks = new TasksReader(group).read()
