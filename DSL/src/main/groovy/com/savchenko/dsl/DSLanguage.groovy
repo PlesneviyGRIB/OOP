@@ -1,6 +1,6 @@
 package com.savchenko.dsl
 
-import static com.savchenko.dsl.DSL.*
+import static com.savchenko.dsl.closure.DSL.*
 
 println "╔═══╦╗─╔═══╦══╦╗─╔╦═══╦╗╔╦══╦╗╔╗ ╔═══╦═══╦══╦══╗ \n" +
         "║╔═╗║║─║╔══╣╔═╣╚═╝║╔══╣║║╠╗╔╣║║║ ║╔══╣╔═╗╠╗╔╣╔╗║ \n" +
@@ -19,26 +19,51 @@ configuration {
         group('20215'){
             students {
                 student(new Student('PlesneviyGRIB','https://github.com/PlesneviyGRIB/OOP','ad','asd','asd','main'))
-                student(new Student('EresK','https://github.com/EresK/OOP','ad','asd','asd','main'))
-            }
-
-            tasks {
-                task(new Task('Task_1_1_1',30,'first'))
-            }
-
-            incomingTasks {
-                incomingTask(new IncomingTask('Task_1_1_1', '10-10-2022'))
             }
         }
+        group('20214'){
+            students {
+                student(new Student('PlesneviyGRIB','https://github.com/PlesneviyGRIB/OOP','ad','asd','asd','main'))
+            }
+        }
+    }
+
+    tasks {
+        task(new Task('Task_1_1_1', 30,'10-12-2022', 'first task'))
+    }
+
+    lessons {
+        lesson(new Lesson('4-6-2022'))
     }
 }
 
 buildconfig {
     group('20215'){
         //gitLoader()
-        assemble()
+        //assemble()
+        //javaDoc()
+        attendance()
+    }
+    group('20214'){
+        //gitLoader()
+        //assemble()
+        //javaDoc()
+        attendance()
     }
 }
 
+attributes {
+    group('20215'){
+        student('PlesneviyGRIB'){
+            attendance()
+            passedTasks()
+            extraPoints()
+        }
 
-
+        student('EresK'){
+            attendance()
+            passedTasks()
+            extraPoints()
+        }
+    }
+}

@@ -1,5 +1,10 @@
-package com.savchenko.dsl
+package com.savchenko.dsl.config
 
+import com.savchenko.dsl.ControlPoint
+
+import com.savchenko.dsl.Lesson
+import com.savchenko.dsl.Student
+import com.savchenko.dsl.Task
 import lombok.Getter
 import lombok.ToString
 
@@ -13,7 +18,6 @@ class ModelConfiguration {
     List<Student> studentsList = new ArrayList<>()
     List<ControlPoint> controlPointsList = new ArrayList()
     List<Lesson> lessonsList = new ArrayList()
-    List<IncomingTask> incomingTasksList = new ArrayList()
 
     public final TaskParam taskParam = new TaskParam()
 
@@ -47,14 +51,6 @@ class ModelConfiguration {
         }
     }
 
-    public final IncomingTaskParam  incomingTaskParam = new IncomingTaskParam()
-
-    class IncomingTaskParam{
-        void incomingTask(IncomingTask incomingTask){
-            incomingTasksList.add(incomingTask)
-        }
-    }
-
     void tasks (@DelegatesTo(value = TaskParam, strategy = DELEGATE_ONLY) Closure closure) {
         closure.delegate = taskParam
         closure.resolveStrategy = DELEGATE_ONLY
@@ -75,12 +71,6 @@ class ModelConfiguration {
 
     void controlPoints(@DelegatesTo(value = ControlPointParam, strategy = DELEGATE_ONLY) Closure closure){
         closure.delegate = controlPointParam
-        closure.resolveStrategy = DELEGATE_ONLY
-        closure.call()
-    }
-
-    void incomingTasks(@DelegatesTo(value = IncomingTaskParam, strategy = DELEGATE_ONLY) Closure closure){
-        closure.delegate = incomingTaskParam
         closure.resolveStrategy = DELEGATE_ONLY
         closure.call()
     }

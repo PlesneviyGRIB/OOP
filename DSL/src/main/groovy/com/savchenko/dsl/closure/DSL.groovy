@@ -1,5 +1,7 @@
-package com.savchenko.dsl
+package com.savchenko.dsl.closure
 
+
+import com.savchenko.dsl.config.GroupsLvlConfiguration
 import lombok.Getter
 import static groovy.lang.Closure.DELEGATE_ONLY
 
@@ -23,6 +25,12 @@ class DSL{
 
     static void buildconfig(@DelegatesTo(value = BuildGroup, strategy = DELEGATE_ONLY) Closure closure){
         closure.delegate = new BuildGroup(environmentParams, groupsLvlConfiguration.groupConfiguration)
+        closure.resolveStrategy = DELEGATE_ONLY
+        closure.call()
+    }
+
+    static void attributes(@DelegatesTo(value = Attributes, strategy = DELEGATE_ONLY) Closure closure){
+        closure.delegate = new Attributes()
         closure.resolveStrategy = DELEGATE_ONLY
         closure.call()
     }

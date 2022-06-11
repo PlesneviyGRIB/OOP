@@ -1,4 +1,6 @@
-package com.savchenko.dsl
+package com.savchenko.dsl.config
+
+import com.savchenko.dsl.Group
 
 import static groovy.lang.Closure.DELEGATE_ONLY
 
@@ -13,7 +15,6 @@ class GroupsLvlConfiguration{
             closure.delegate = modelConfiguration
             closure.resolveStrategy = DELEGATE_ONLY
             closure.call()
-
             groupsConfigurations.add(matchMCtoGC(new Group(group), modelConfiguration))
         }
     }
@@ -36,12 +37,6 @@ class GroupsLvlConfiguration{
         closure.call()
     }
 
-    void incomingTasks(@DelegatesTo(value = ModelConfiguration.IncomingTaskParam, strategy = DELEGATE_ONLY) Closure closure){
-        closure.delegate = modelConfiguration.incomingTaskParam
-        closure.resolveStrategy = DELEGATE_ONLY
-        closure.call()
-    }
-
     void controlPoints(@DelegatesTo(value = ModelConfiguration.ControlPointParam, strategy = DELEGATE_ONLY) Closure closure){
         closure.delegate = modelConfiguration.controlPointParam
         closure.resolveStrategy = DELEGATE_ONLY
@@ -53,10 +48,8 @@ class GroupsLvlConfiguration{
         mc.getStudentsList().forEach(s -> group.addStudent(s))
         gc.setGroup(group)
         gc.setControlPoints(mc.controlPointsList)
-        gc.setIncomingTasks(mc.incomingTasksList)
         gc.setLessons(mc.lessonsList)
         gc.setTasks(mc.tasksList)
-
         return gc
     }
 
@@ -64,7 +57,6 @@ class GroupsLvlConfiguration{
         Set set
         groupsConfigurations.forEach(gc ->{
             set = new HashSet(gc.getControlPoints()); set.addAll(modelConfiguration.getControlPointsList()); gc.setControlPoints(new ArrayList<>(set))
-            set = new HashSet(gc.getIncomingTasks()); set.addAll(modelConfiguration.getIncomingTasksList()); gc.setIncomingTasks(new ArrayList<IncomingTask>(set))
             set = new HashSet(gc.getLessons()); set.addAll(modelConfiguration.getLessonsList()); gc.setLessons(new ArrayList<>(set))
             set = new HashSet(gc.getTasks()); set.addAll(modelConfiguration.getTasksList()); gc.setTasks(new ArrayList<>(set))
         })
