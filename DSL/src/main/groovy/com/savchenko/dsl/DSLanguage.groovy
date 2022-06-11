@@ -21,14 +21,22 @@ configuration {
                 student(new Student('PlesneviyGRIB','https://github.com/PlesneviyGRIB/OOP','ad','asd','asd','main'))
                 student(new Student('EresK','https://github.com/EresK/OOP','ad','asd','asd','main'))
             }
+
+            tasks {
+                task(new Task('Task_1_1_1',30,'first'))
+            }
+
+            incomingTasks {
+                incomingTask(new IncomingTask('Task_1_1_1', '10-10-2022'))
+            }
         }
     }
 }
 
 buildconfig {
     group('20215'){
-        gitLoader()
-
+        //gitLoader()
+        assemble()
     }
 }
 

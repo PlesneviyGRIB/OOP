@@ -1,7 +1,6 @@
 package com.savchenko.dsl
 
 import lombok.Getter
-
 import static groovy.lang.Closure.DELEGATE_ONLY
 
 class DSL{
