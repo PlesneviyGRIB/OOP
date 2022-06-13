@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 @Data
-public class Task {
+public class Task implements Comparable{
     private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     private final String id;
     private final int points;
@@ -20,5 +20,12 @@ public class Task {
         this.points = points;
         this.deadLine = formatter.parse(deadLine);
         this.title = title;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o instanceof ControlPoint) return deadLine.compareTo(((ControlPoint)o).getDate());
+        if(!(o instanceof Task)) return 0;
+        return deadLine.compareTo(((Task)o).getDeadLine());
     }
 }

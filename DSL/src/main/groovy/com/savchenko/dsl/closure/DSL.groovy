@@ -1,6 +1,8 @@
 package com.savchenko.dsl.closure
 
 import com.savchenko.dsl.config.GroupsLvlConfiguration
+import com.savchenko.dsl.supportive.HtmlFile
+import com.savchenko.dsl.supportive.Response
 import lombok.Getter
 import static groovy.lang.Closure.DELEGATE_ONLY
 
@@ -39,7 +41,14 @@ class DSL{
         println('४०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰००॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०॰०४')
         println("html file location: \"${environmentParams.getHtmlResponseDirectory()}\"")
 
-        println allData
+        HtmlFile htmlFile = new HtmlFile(environmentParams.getHtmlResponseDirectory() + '/response.html')
+        groupsLvlConfiguration.getGroupConfiguration().forEach(glc-> {
+            Response response = new Response(allData, glc)
+            htmlFile.append(response.header())
+            htmlFile.append(response.academicPerformance())
+            htmlFile.append(response.attendance())
+        })
+        htmlFile.make()
     }
 }
 

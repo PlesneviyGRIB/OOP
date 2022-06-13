@@ -1,5 +1,6 @@
 package com.savchenko.dsl.closure
 
+import com.savchenko.dsl.Student
 import com.savchenko.dsl.config.GroupConfiguration
 import com.savchenko.dsl.supportive.DateMatcher
 import static groovy.lang.Closure.DELEGATE_ONLY
@@ -23,12 +24,18 @@ class BuildGroup {
         }
 
         void gitLoader() {
+            List<Student> exclude = new ArrayList<>()
             groupConfiguration.getGroup().getStudents().forEach(s->{
                 def path = "${env.getDownloadDirectory()}/${s.nickName}"
-                new ProcessBuilder('git', 'clone', '-b', s.getBranchName(), s.getUrl().toString(), path).start().waitFor()
-                map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}gitLoader","LOADED_FROM_GIT")
-                println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} repositoriy ${s.getUrl().toString()} [-b ${s.getBranchName()}] LOADED_FROM_GIT"
+                Process process = new ProcessBuilder('git', 'clone', '-b', s.getBranchName(), s.getUrl().toString(), path).start()
+                def output = new StringWriter(), error = new StringWriter()
+                process.waitForProcessOutput(output, error)
+                if(!error.toString().contains("fatal:")) {
+                    map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}gitLoader", "LOADED_FROM_GIT")
+                    println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} repositoriy ${s.getUrl().toString()} [-b ${s.getBranchName()}] LOADED_FROM_GIT"
+                } else if(error.toString().contains("Could not resolve host:")) exclude.add(s)
             })
+            exclude.forEach(s->groupConfiguration.getGroup().getStudents().remove(s))
         }
 
         void assemble() {
@@ -60,7 +67,9 @@ class BuildGroup {
 
         void attendance(){
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getLessons().forEach(l ->{
-                Process process = new ProcessBuilder('git', 'log', '--pretty=format:\"%ad\"', '--date=format:%d %m %Y').start()
+                ProcessBuilder processBuilder = new ProcessBuilder('git', 'log', '--pretty=format:\"%ad\"', '--date=format:%d %m %Y')
+                processBuilder.directory(new File("${env.getDownloadDirectory()}/${s.nickName}"))
+                Process process = processBuilder.start()
                 process.waitFor()
                 boolean status = new DateMatcher(process.text,l.getDate()).match()
                 map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}attendance${l.getDate()}","${status}")

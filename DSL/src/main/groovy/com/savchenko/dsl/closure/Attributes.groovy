@@ -18,7 +18,7 @@ class Attributes {
             class Passed{
                 private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 void passed(String taskId, String date, int points, String text){
-                    map.put("${name}${studentId}passed${taskId}${formatter.parse(date).toString()}","${points} ${text}")
+                    map.put("${name}${studentId}passed${taskId}","${points} ${formatter.parse(date).toString()} ${text}")
                     println("${name} ${studentId} PASSED ${taskId} [${formatter.parse(date).toString()}]: \"${points}\" (${text})")
                 }
             }
