@@ -1,11 +1,8 @@
 package com.savchenko.dsl.closure
 
-import lombok.Data
 import lombok.Getter
 import lombok.ToString
-
 import java.text.SimpleDateFormat
-
 import static groovy.lang.Closure.DELEGATE_ONLY
 
 @ToString
@@ -18,7 +15,7 @@ class Attributes {
             class Passed{
                 private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 void passed(String taskId, String date, int points, String text){
-                    map.put("${name}${studentId}passed${taskId}","${points} ${formatter.parse(date).toString()} ${text}")
+                    map.put("${name}${studentId}passed${taskId}","${points} ${text}")
                     println("${name} ${studentId} PASSED ${taskId} [${formatter.parse(date).toString()}]: \"${points}\" (${text})")
                 }
             }
@@ -93,33 +90,5 @@ class Attributes {
         closure.resolveStrategy = DELEGATE_ONLY
         closure.call()
         groups.add(gr)
-    }
-}
-
-@Data
-class PointsRepresentation{
-    String id;
-    int points
-    String description
-
-    PointsRepresentation(String id, int points, String description) {
-        this.id = id
-        this.points = points
-        this.description = description
-    }
-}
-
-@Data
-class PassedTaskRepresentation{
-    String id;
-    String date
-    int points
-    String text
-
-    PassedTaskRepresentation(String id, String date, int points, String text) {
-        this.id = id
-        this.date = date
-        this.points = points
-        this.text = text
     }
 }

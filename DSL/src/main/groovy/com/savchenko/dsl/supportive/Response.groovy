@@ -7,8 +7,9 @@ class Response {
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     Map<String, String> map
     GroupConfiguration gConfig
-    StringBuilder attTable = new StringBuilder()
-    StringBuilder apTable = new StringBuilder()
+    StringBuilder attTable = new StringBuilder("<h3>ATTENDANCE</h3><table border=\"1\" cellspacing=\"0\">")
+    StringBuilder apTable = new StringBuilder("<h3>ACADEMIC PERFORMANCE</h3><table border=\"1\" cellspacing=\"0\">")
+    StringBuilder tdTable = new StringBuilder("<h3>TASKS DETAILS</h3><table border=\"1\" cellspacing=\"0\">")
 
     Response(Map<String, String> map, GroupConfiguration groupConfiguration){
         this.map = map
@@ -19,10 +20,65 @@ class Response {
         return "<br><h2>${gConfig.group.getGroupName()}<h2>"
     }
 
-    String academicPerformance(){
-        StringBuilder tmp = new StringBuilder("<h3>ACADEMIC PERFORMANCE</h3><table border=\"1\" cellspacing=\"0\">")
-        appendTag(apTable,"tr", tmp.toString())
+    String tasksDetails(){
+        StringBuilder tmp = new StringBuilder()
+        appendTag(tmp,"th", "")
+        gConfig.tasks.sort().forEach(t -> {
+            appendTag(tmp,"th", t.getId())
+            appendTag(tmp, 'td',"(${t.getTitle()})")
+        })
+        appendTag(tdTable,"tr", tmp.toString())
+
+        gConfig.getGroup().getStudents().sort().forEach(s->{
+            tmp.setLength(0)
+            appendTag(tmp,"th align=\"left\"", "${s.getSurname()} ${s.getName()} ${s.getPatronymic()}")
+            gConfig.getTasks().sort().forEach(t -> {
+
+                String res = map.get("${gConfig.group.getGroupName()}${s.getNickName()}passed${t.getId()}")
+                if(res != null) {
+                    appendTag(tmp, "td align=\"center\"", internalTable(s.getNickName(),t.getId()))
+                    appendTag(tmp, "td align=\"center\"", "\"${res.split(' ', 2)[1]}\"")
+                } else {
+                    appendTag(tmp, "td align=\"center\"", 'did not passed')
+                    appendTag(tmp, "td align=\"center\"", '-')
+                }
+            })
+            appendTag(tdTable,"tr", tmp.toString())
+        })
+
+        tdTable.append("</table>")
+
+        return tdTable.toString()
+    }
+
+    private String internalTable(String nick, String taskId){
+        StringBuilder temp = new StringBuilder("<table border=\"1\" cellspacing=\"0\" width=\"100%\">" )
+
+        StringBuilder tmp = new StringBuilder()
+        appendTag(tmp,"td align=\"center\"", "assemble")
+        appendTag(tmp,"td align=\"center\"", "test")
+        appendTag(tmp,"td align=\"center\"", "javaDoc")
+        appendTag(temp,"tr", tmp.toString())
         tmp.setLength(0)
+
+        String res = map.get("${gConfig.group.getGroupName()}${nick}assemble${taskId}")
+        if(res != null) appendTag(tmp, "td align=\"center\"", "${res}")
+        else appendTag(tmp, "td align=\"center\"", "-")
+        res = map.get("${gConfig.group.getGroupName()}${nick}test${taskId}")
+        if(res != null) appendTag(tmp, "td align=\"center\"", "${res}")
+        else appendTag(tmp, "td align=\"center\"", "-")
+        res = map.get("${gConfig.group.getGroupName()}${nick}javaDoc${taskId}")
+        if(res != null) appendTag(tmp, "td align=\"center\"", "${res}")
+        else appendTag(tmp, "td align=\"center\"", "-")
+
+        appendTag(temp,"tr", tmp.toString())
+        temp.append("</table>")
+
+        return temp.toString()
+    }
+
+    String academicPerformance(){
+        StringBuilder tmp = new StringBuilder()
         appendTag(tmp,"th", "")
         gConfig.getTasks().sort().forEach(t -> {appendTag(tmp,"th", t.getId())})
         gConfig.getControlPoints().sort().forEach(c -> {appendTag(tmp,"th", "${c.getControlPointName()} [${formatter.format(c.getDate()).toString()}]")})
@@ -61,9 +117,7 @@ class Response {
 
 
     String attendance(){
-        StringBuilder tmp = new StringBuilder("<h3>ATTENDANCE</h3><table border=\"1\" cellspacing=\"0\">")
-        appendTag(attTable,"tr", tmp.toString())
-        tmp.setLength(0)
+        StringBuilder tmp = new StringBuilder()
         appendTag(tmp,"th", "")
         gConfig.getLessons().sort().forEach(l -> {
             appendTag(tmp,"th", formatter.format(l.getDate()).toString())

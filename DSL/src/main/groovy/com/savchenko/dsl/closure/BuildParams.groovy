@@ -41,10 +41,9 @@ class BuildGroup {
         void assemble() {
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getTasks().forEach(t ->{
                 def path = "${env.getDownloadDirectory()}/${s.nickName}/${t.getId()}"
-                boolean status = processed(new ProcessBuilder("gradle", "assemble"), path)
-                map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}assemble", "${status}")
-                println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} ${t.getId()} ASSEMBLE ${status}"
-
+                    boolean status = processed(new ProcessBuilder("gradle", "assemble"), path)
+                    map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}assemble${t.getId()}", "${status}")
+                    println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} ${t.getId()} ASSEMBLE ${status}"
             })})
         }
 
@@ -52,7 +51,7 @@ class BuildGroup {
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getTasks().forEach(t ->{
                 def path = "${env.getDownloadDirectory()}/${s.nickName}/${t.getId()}"
                 boolean status = processed(new ProcessBuilder("gradle", "test"), path)
-                map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}test","${status} - internal mistake")
+                map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}test${t.getId()}","${status} - internal mistake")
                 println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} ${t.getId()} TEST ${status}"
             })})
         }
@@ -61,7 +60,7 @@ class BuildGroup {
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getTasks().forEach(t ->{
                 def path = "${env.getDownloadDirectory()}/${s.nickName}/${t.getId()}"
                 boolean status = processed(new ProcessBuilder("gradle", "javadoc"), path)
-                map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}javaDoc","${status}")
+                map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}javaDoc${t.getId()}","${status}")
                 println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} ${t.getId()} JAVADOC ${status}"
             })})
         }
@@ -79,10 +78,12 @@ class BuildGroup {
         }
 
         private boolean processed(ProcessBuilder processBuilder, String path){
-            processBuilder.directory(new File(path))
-            Process process = processBuilder.start()
-            process.waitFor()
-            return parseOut(process.text)
+            try{
+                processBuilder.directory(new File(path))
+                Process process = processBuilder.start()
+                process.waitFor()
+                return parseOut(process.text)
+            }catch (Exception ignored){ return false }
         }
 
         private boolean parseOut(String out){

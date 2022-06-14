@@ -47,6 +47,7 @@ class DSL{
             htmlFile.append(response.header())
             htmlFile.append(response.academicPerformance())
             htmlFile.append(response.attendance())
+            htmlFile.append(response.tasksDetails())
         })
         htmlFile.make()
     }
