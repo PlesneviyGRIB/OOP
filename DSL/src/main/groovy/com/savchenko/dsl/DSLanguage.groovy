@@ -1,5 +1,6 @@
 package com.savchenko.dsl
 
+import java.text.SimpleDateFormat
 import static com.savchenko.dsl.closure.DSL.*
 
 println "╔═══╦╗─╔═══╦══╦╗─╔╦═══╦╗╔╦══╦╗╔╗ ╔═══╦═══╦══╦══╗ \n" +
@@ -11,6 +12,14 @@ println "╔═══╦╗─╔═══╦══╦╗─╔╦═══╦�
 
 
 //date format! dd-mm-yyyy
+
+def addTwoWeeks(String date){
+    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+    Calendar calendar = Calendar.getInstance()
+    calendar.setTime(formatter.parse(date))
+    calendar.add(Calendar.DAY_OF_MONTH, 14)
+    return formatter.format(calendar.getTime()).toString()
+}
 
 environment {
     downloadDirectory '/home/egor/Downloads/tmp'

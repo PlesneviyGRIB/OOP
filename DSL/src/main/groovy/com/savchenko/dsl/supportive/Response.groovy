@@ -39,7 +39,7 @@ class Response {
                     appendTag(tmp, "td align=\"center\"", internalTable(s.getNickName(),t.getId()))
                     appendTag(tmp, "td align=\"center\"", "\"${res.split(' ', 2)[1]}\"")
                 } else {
-                    appendTag(tmp, "td align=\"center\"", 'did not passed')
+                    appendTag(tmp, "td align=\"center\"", 'did not pass')
                     appendTag(tmp, "td align=\"center\"", '-')
                 }
             })
@@ -55,9 +55,9 @@ class Response {
         StringBuilder temp = new StringBuilder("<table border=\"1\" cellspacing=\"0\" width=\"100%\">" )
 
         StringBuilder tmp = new StringBuilder()
-        appendTag(tmp,"td align=\"center\"", "assemble")
-        appendTag(tmp,"td align=\"center\"", "test")
-        appendTag(tmp,"td align=\"center\"", "javaDoc")
+        appendTag(tmp,"th align=\"center\"", "assemble ⚙")
+        appendTag(tmp,"th align=\"center\"", "test 🛠")
+        appendTag(tmp,"th align=\"center\"", "javaDoc 📖")
         appendTag(temp,"tr", tmp.toString())
         tmp.setLength(0)
 
@@ -136,7 +136,7 @@ class Response {
                     if (res == 'true') {
                         cnt++
                         appendTag(tmp, "td align=\"center\"", "+")
-                    } else appendTag(tmp, "td align=\"center\"", "-")
+                    } else appendTag(tmp, "td align=\"center\"", "н")
                 } else appendTag(tmp, "td align=\"center\"", "error")
             })
             appendTag(tmp,"td align=\"center\"", "${cnt}/${gConfig.getLessons().size()}")

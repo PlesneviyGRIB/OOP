@@ -51,7 +51,7 @@ class BuildGroup {
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getTasks().forEach(t ->{
                 def path = "${env.getDownloadDirectory()}/${s.nickName}/${t.getId()}"
                 boolean status = processed(new ProcessBuilder("gradle", "test"), path)
-                map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}test${t.getId()}","${status} - internal mistake")
+                map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}test${t.getId()}","${status}")
                 println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} ${t.getId()} TEST ${status}"
             })})
         }
