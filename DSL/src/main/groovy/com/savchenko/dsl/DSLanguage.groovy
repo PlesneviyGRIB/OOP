@@ -13,12 +13,12 @@ println "╔═══╦╗─╔═══╦══╦╗─╔╦═══╦�
 
 //date format! dd-mm-yyyy
 
-def addTwoWeeks(String date){
+static String addTwoWeeks(String date){
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     Calendar calendar = Calendar.getInstance()
     calendar.setTime(formatter.parse(date))
     calendar.add(Calendar.DAY_OF_MONTH, 14)
-    return formatter.format(calendar.getTime()).toString()
+    return formatter.format(calendar.getTime())
 }
 
 environment {
@@ -44,12 +44,12 @@ configuration {
     }
 
     controlPoints {
-        controlPoint('Control P1', '10-6-2022')
-        controlPoint('Control P2', '11-6-2022')
+        controlPoint('Control P1', '12-6-2022')
+        //controlPoint('Control P2', '11-6-2022')
     }
 
     tasks {
-        task('Task_1_1_1', 30, '8-6-2022','task for threads')
+        task('Task_1_1_1', 30, DSLanguage.addTwoWeeks('8-6-2022'),'task for threads')
         task('Task_1_1_2', 20, '9-6-2022','task for executor services')
         task('Task_1_2_1', 40, '10-6-2022','task multiple resources')
     }
@@ -83,12 +83,14 @@ buildconfig {
 }
 
 attributes {
+    addToMap('DEADLINE_20215PlesneviyGRIBTask_1_1_1','11-6-2022')
+
     group('20215'){
         student('PlesneviyGRIB') {
             passedTasks {
                 passed('Task_1_1_1', '10-6-2022', 28,'almost done')
                 passed('Task_1_1_2', '10-6-2022', 8,'nice job')
-                passed('Task_1_2_1', '10-6-2022', 28,'bad')
+                passed('Task_1_2_1', '10-6-2022', 35,'bad')
                 passed('Task_1_2_2', '10-6-2022', 128,'')
             }
         }

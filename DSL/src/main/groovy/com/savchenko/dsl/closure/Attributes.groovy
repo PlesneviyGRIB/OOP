@@ -15,7 +15,7 @@ class Attributes {
             class Passed{
                 private SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
                 void passed(String taskId, String date, int points, String text){
-                    map.put("${name}${studentId}passed${taskId}","${points} ${text}")
+                    map.put("${name}${studentId}passed${taskId}","${points} ${date} ${text}")
                     println("${name} ${studentId} PASSED ${taskId} [${formatter.parse(date).toString()}]: \"${points}\" (${text})")
                 }
             }
@@ -81,6 +81,8 @@ class Attributes {
     Attributes(Map<String, String> map){
         this.map = map
     }
+
+    void addToMap(String key, String value){ map.put(key, value) }
 
     static List<Group> groups = new ArrayList<>()
 

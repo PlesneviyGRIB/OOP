@@ -37,7 +37,7 @@ class Response {
                 String res = map.get("${gConfig.group.getGroupName()}${s.getNickName()}passed${t.getId()}")
                 if(res != null) {
                     appendTag(tmp, "td align=\"center\"", internalTable(s.getNickName(),t.getId()))
-                    appendTag(tmp, "td align=\"center\"", "\"${res.split(' ', 2)[1]}\"")
+                    appendTag(tmp, "td align=\"center\"", "\"${res.split(' ', 3)[2]}\"")
                 } else {
                     appendTag(tmp, "td align=\"center\"", 'did not pass')
                     appendTag(tmp, "td align=\"center\"", '-')
