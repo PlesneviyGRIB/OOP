@@ -26,7 +26,7 @@ class BuildGroup {
         void gitLoader() {
             List<Student> exclude = new ArrayList<>()
             groupConfiguration.getGroup().getStudents().forEach(s->{
-                def path = "${env.getDownloadDirectory()}/${s.nickName}"
+                def path = "${env.getDownloadDirectory()}${EnvironmentParams.separator}${s.nickName}"
                 Process process = new ProcessBuilder('git', 'clone', '-b', s.getBranchName(), s.getUrl().toString(), path).start()
                 def output = new StringWriter(), error = new StringWriter()
                 process.waitForProcessOutput(output, error)
@@ -40,7 +40,7 @@ class BuildGroup {
 
         void assemble() {
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getTasks().forEach(t ->{
-                def path = "${env.getDownloadDirectory()}/${s.nickName}/${t.getId()}"
+                def path = "${env.getDownloadDirectory()}${EnvironmentParams.separator}${s.nickName}${EnvironmentParams.separator}${t.getId()}"
                     boolean status = processed(new ProcessBuilder("gradle", "assemble"), path)
                     map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}assemble${t.getId()}", "${status}")
                     println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} ${t.getId()} ASSEMBLE ${status}"
@@ -49,7 +49,7 @@ class BuildGroup {
 
         void test() {
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getTasks().forEach(t ->{
-                def path = "${env.getDownloadDirectory()}/${s.nickName}/${t.getId()}"
+                def path = "${env.getDownloadDirectory()}${EnvironmentParams.separator}${s.nickName}${EnvironmentParams.separator}${t.getId()}"
                 boolean status = processed(new ProcessBuilder("gradle", "test"), path)
                 map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}test${t.getId()}","${status}")
                 println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} ${t.getId()} TEST ${status}"
@@ -58,7 +58,7 @@ class BuildGroup {
 
         void javaDoc() {
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getTasks().forEach(t ->{
-                def path = "${env.getDownloadDirectory()}/${s.nickName}/${t.getId()}"
+                def path = "${env.getDownloadDirectory()}${EnvironmentParams.separator}${s.nickName}${EnvironmentParams.separator}${t.getId()}"
                 boolean status = processed(new ProcessBuilder("gradle", "javadoc"), path)
                 map.put("${groupConfiguration.getGroup().getGroupName()}${s.getNickName()}javaDoc${t.getId()}","${status}")
                 println "${groupConfiguration.getGroup().getGroupName()} ${s.getNickName()} ${t.getId()} JAVADOC ${status}"
@@ -68,7 +68,7 @@ class BuildGroup {
         void attendance(){
             groupConfiguration.getGroup().getStudents().forEach(s->{ groupConfiguration.getLessons().forEach(l ->{
                 ProcessBuilder processBuilder = new ProcessBuilder('git', 'log', '--pretty=format:\"%ad\"', '--date=format:%d %m %Y')
-                processBuilder.directory(new File("${env.getDownloadDirectory()}/${s.nickName}"))
+                processBuilder.directory(new File("${env.getDownloadDirectory()}${EnvironmentParams.separator}${s.nickName}"))
                 Process process = processBuilder.start()
                 process.waitFor()
                 boolean status = new DateMatcher(process.text,l.getDate()).match()

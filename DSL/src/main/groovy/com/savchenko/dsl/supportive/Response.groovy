@@ -137,7 +137,7 @@ class Response {
                         cnt++
                         appendTag(tmp, "td align=\"center\"", "+")
                     } else appendTag(tmp, "td align=\"center\"", "н")
-                } else appendTag(tmp, "td align=\"center\"", "error")
+                } else appendTag(tmp, "td align=\"center\"", "no data")
             })
             appendTag(tmp,"td align=\"center\"", "${cnt}/${gConfig.getLessons().size()}")
             appendTag(attTable,"tr", tmp.toString())

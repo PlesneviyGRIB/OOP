@@ -13,12 +13,16 @@ println "╔═══╦╗─╔═══╦══╦╗─╔╦═══╦�
 
 //date format! dd-mm-yyyy
 
-static String addTwoWeeks(String date){
+static String addTwoWeeks(String date, int sdvig){
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
     Calendar calendar = Calendar.getInstance()
     calendar.setTime(formatter.parse(date))
-    calendar.add(Calendar.DAY_OF_MONTH, 14)
+    calendar.add(Calendar.DAY_OF_MONTH, sdvig)
     return formatter.format(calendar.getTime())
+}
+
+class TMP {
+    static String date = '8-6-2022'
 }
 
 environment {
@@ -31,14 +35,14 @@ configuration {
         group('20215'){
             students {
                 student('PlesneviyGRIB','https://github.com/PlesneviyGRIB/OOP','Savchenko','Egor','Vladimirovich','main')
-                student('EresK','https://github.com/EresK/OOP','Kuular','Eres','Vladimirovich','main')
+                student('EresK','https://github.com/EresK/OOP','Kuular','Eres','Albertovich','main')
             }
         }
 
         group('20214'){
             students {
                 student('AnarCom','https://github.com/AnarCom/OOP','Dolgii','Alexander','Dmitrievich','main')
-                student('luchshiyDed','https://github.com/luchshiyDed/OOP','Ivanov','Oleg','Irdemovich','main')
+                student('luchshiyDed','https://github.com/luchshiyDed/OOP','Ivanov','Oleg','Irdemovich')
             }
         }
     }
@@ -49,9 +53,9 @@ configuration {
     }
 
     tasks {
-        task('Task_1_1_1', 30, DSLanguage.addTwoWeeks('8-6-2022'),'task for threads')
-        task('Task_1_1_2', 20, '9-6-2022','task for executor services')
-        task('Task_1_2_1', 40, '10-6-2022','task multiple resources')
+        task('Task_1_1_1', 30, DSLanguage.addTwoWeeks(TMP.date,0),'task for threads')
+        task('Task_1_1_2', 20, DSLanguage.addTwoWeeks(TMP.date,7),'task for executor services')
+        task('Task_1_2_1', 40, '8-6-2022','task multiple resources')
     }
 
     lessons {
@@ -72,14 +76,6 @@ buildconfig {
         javaDoc()
         attendance()
     }
-
-    group('20214'){
-        gitLoader()
-        assemble()
-        test()
-        javaDoc()
-        attendance()
-    }
 }
 
 attributes {
@@ -92,6 +88,13 @@ attributes {
                 passed('Task_1_1_2', '10-6-2022', 8,'nice job')
                 passed('Task_1_2_1', '10-6-2022', 35,'bad')
                 passed('Task_1_2_2', '10-6-2022', 128,'')
+            }
+            extraPoints {
+                points('Task_1_1_1',7,'extended functionality')
+            }
+            attendance {
+                absent('10-6-2022')
+                attended('2-6-2022')
             }
         }
         student('EresK') {

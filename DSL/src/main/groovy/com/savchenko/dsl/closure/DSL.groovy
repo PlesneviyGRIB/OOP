@@ -1,12 +1,10 @@
 package com.savchenko.dsl.closure
 
-import com.savchenko.dsl.DSLanguage
 import com.savchenko.dsl.config.GroupsLvlConfiguration
 import com.savchenko.dsl.supportive.HtmlFile
 import com.savchenko.dsl.supportive.Response
 import lombok.Getter
-
-import static groovy.lang.Closure.DELEGATE_FIRST
+import java.nio.file.FileSystems
 import static groovy.lang.Closure.DELEGATE_ONLY
 
 @Getter
@@ -57,8 +55,9 @@ class DSL{
 
 @Getter
 class EnvironmentParams{
-    String downloadDirectory = '/home/egor/tmp'
-    String htmlResponseDirectory = '/home/egor/tmp/response'
+    static String separator = FileSystems.getDefault().getSeparator();
+    String downloadDirectory = "${separator}home${separator}data"
+    String htmlResponseDirectory = "${separator}home${separator}response"
 
     void downloadDirectory (String path){
         downloadDirectory = path
