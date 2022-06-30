@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+  <title>Banners</title>
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <nav class="header__nav">
+      <a href="/bid/banners" class="header__link header__link_active">Banners</a>
+      <a href="/bid/categories" class="header__link">Categories</a>
+    </nav>
+  </header>
+
+  <main class="main">
+    <aside class="sidebar">
+      <header class="sidebar__header">Banners:</header>
+
+      <section class="sidebar__content">
+        <div class="sidebar__search">
+          <input class="sidebar__search-input" type="text" placeholder="Enter banner name..." />
+          <span class="sidebar__search-icon"></span>
+        </div>
+        <div class="sidebar__menu" th:each="banner : ${banners}">
+          <a th:href="@{/bid/banners/{id}(id=${banner.getId()})}" class="sidebar__menu-item" th:text="${banner.getName()}"/>
+        </div>
+      </section>
+
+      <footer class="sidebar__footer">
+        <button onclick="location.href='/bid/banners/new'" class="sidebar__submit-button">Create new Banner</button>
+      </footer>
+    </aside>
+
+    <section class="content">
+      <div class="content__body">
+        <div class="content__form">
+          <div class="content__form-item">
+            <div class="content__form-item-title">Name</div>
+            <div class="content__form-item-content">
+              <text class="content__textarea" th:text="${banner.getName()}"/>
+            </div>
+          </div>
+          <div class="content__form-item">
+            <div class="content__form-item-title">Price</div>
+            <div class="content__form-item-content">
+              <text class="content__textarea" th:text="${banner.getPrice()}"/>
+            </div>
+          </div>
+          <div class="content__form-item">
+            <div class="content__form-item-title">Category</div>
+            <div class="content__form-item-content">
+              <text class="content__textarea" th:text="${banner.getCategories()}"/>
+            </div>
+          </div>
+          <div class="content__form-item">
+            <div class="content__form-item-title">Text</div>
+            <div class="content__form-item-content">
+              <text class="content__textarea" th:text="${banner.getText()}" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="content__footer">
+        <div class="content__buttons">
+          <button onclick="location.href='/bid/banners'" class="content__button content__button_red">Delete</button>
+        </div>
+      </footer>
+    </section>
+  </main>
+</div>
+</body>
+</html>
