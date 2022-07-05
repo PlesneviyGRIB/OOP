@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Logs</title>
+</head>
+<body>
+
+    <form th:method="delete" th:action="@{/bid/logs}">
+        <input type="submit" value="Clean logs" />
+        <hr/>
+    </form>
+
+  <form th:each="log : ${logs}">
+    <p th:text="${log.toString()}"></p>
+  </form>
+
+</body>
+</html>

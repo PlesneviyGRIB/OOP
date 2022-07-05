@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/static/css/style.css" />
+    <title>Banners</title>
+</head>
+<body>
+<div class="container">
+    <main class="main">
+        <aside class="sidebar">
+            <hr>
+            <header class="sidebar__header">Available search params:</header>
+            <div th:each="category : ${categories}">
+                <section th:text="${category.requestId}"></section>
+            </div>
+        </aside>
+
+        <section th:if="${banner == null}" class="content content_center">
+            Example of request:  http://localhost:8080/bid?cat=humor&cat=sport
+
+            <div class="error" th:if="${error !=null}">
+                <span class="error__text" th:text="${error}" ></span>
+            </div>
+        </section>
+
+            <div th:if="${banner != null}" class="content__body">
+                <div class="content__form">
+                    <div class="content__form-item">
+                        <div class="content__form-item-title">Name</div>
+                        <div class="content__form-item-content">
+                            <text class="content__textarea" th:text="${banner.getName()}"/>
+                        </div>
+                    </div>
+                    <div class="content__form-item">
+                        <div class="content__form-item-title">Price</div>
+                        <div class="content__form-item-content">
+                            <text class="content__textarea" th:text="${banner.getPrice()}"/>
+                        </div>
+                    </div>
+                    <div class="content__form-item">
+                        <div class="content__form-item-title">Category</div>
+                        <div class="content__form-item-content">
+                            <text class="content__textarea" th:text="${banner.getCategories()}"/>
+                        </div>
+                    </div>
+                    <div class="content__form-item">
+                        <div class="content__form-item-title">Text</div>
+                        <div class="content__form-item-content">
+                            <text class="content__textarea" th:text="${banner.getText()}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </main>
+</div>
+</body>
+</html>
