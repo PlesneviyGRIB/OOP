@@ -35,3 +35,6 @@ Send a request to an open address with parameters, example (available request pa
 Information about the user viewing a particular banner is taken from the logs.
 For the convenience of checking, logs can be deleted.
 Server rises on Apache TomCat 127.0.0.1
+The starting point of the startup is a static method in the class:
+
+	TestTask/src/main/java/ com.savchenko.spring.config.MySpringDispatcherServletInitializer.java
