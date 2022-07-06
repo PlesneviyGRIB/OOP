@@ -1,23 +1,18 @@
 package com.savchenko.spring.controllers;
 
-import com.savchenko.spring.DAO.BannersDAO;
 import com.savchenko.spring.DAO.CategoriesDAO;
-import com.savchenko.spring.models.Banner;
 import com.savchenko.spring.models.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.Objects;
 
 @Controller
 @RequestMapping("/bid/categories")
-@Validated
 public class CategoriesController {
 
     private final CategoriesDAO categoriesDAO;

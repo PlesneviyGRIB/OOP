@@ -3,7 +3,6 @@ package com.savchenko.spring.config;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,12 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
-
-import javax.management.relation.Role;
 import java.util.Arrays;
 
 @Configuration
@@ -30,10 +24,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/bid").permitAll()
-                .antMatchers(HttpMethod.GET, "/bid/**").hasRole("bug")
-                .antMatchers(HttpMethod.POST, "/bid/**").hasRole("bug")
-                .antMatchers(HttpMethod.DELETE, "/bid/**").hasRole("bug")
-                .antMatchers(HttpMethod.PATCH, "/bid/**").hasRole("bug")
+                .antMatchers(HttpMethod.GET, "/bid/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/bid/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/bid/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/bid/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -57,7 +51,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 User.builder()
                         .username("admin")
                         .password(passwordEncoder().encode("admin"))
-                        .roles("bug")
+                        .roles("ADMIN")
                         .build()
         );
     }
