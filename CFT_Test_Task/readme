@@ -1,0 +1,5 @@
+Для запуска:
+
+	javac Main.java
+
+	java Main -s -d  absolutePath/out absolutePath/in1 absolutePath/in2 absolutePath/in3
