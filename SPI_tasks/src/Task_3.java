@@ -1,6 +1,4 @@
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
+import java.util.ArrayList;
 public class Task_3 implements Runnable{
 
     public static void print(String s){
@@ -8,11 +6,12 @@ public class Task_3 implements Runnable{
     }
 
     public static void main(String[] args) {
-
-        ExecutorService executorService = Executors.newCachedThreadPool();
+        ArrayList<Thread> arr = new ArrayList<>();
 
         for(int i = 0; i<4; i++)
-            executorService.execute(new Task_3("Thread " + i));
+            arr.add(new Thread(new Task_3("Thread " + i)));
+
+        arr.forEach(Thread::start);
     }
 
     private String text;
@@ -23,7 +22,7 @@ public class Task_3 implements Runnable{
 
     @Override
     public void run() {
-        for(int i = 0; i<10; i++)
+        for(int i = 0; i<100; i++)
             print(text);
     }
 }

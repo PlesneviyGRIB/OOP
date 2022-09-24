@@ -1,9 +1,13 @@
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Task_1 implements Runnable{
     public static void main(String[] args) {
 
-        Executors.newSingleThreadExecutor().execute(new Task_1());
+        ExecutorService exec = Executors.newSingleThreadExecutor();
+        exec.execute(new Task_1());
+
+        exec.shutdown();
 
         for(int i = 0; i<10; i++)
             System.out.println("Main thread");

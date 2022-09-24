@@ -1,29 +1,41 @@
 import java.time.LocalTime;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
-public class Task_5 implements Runnable{
+public class Task_5 {
     public static void main(String[] args) {
 
-        Thread thread = new Thread(new Task_5());
-        thread.start();
+        Timer timer = new Timer();
 
-        try {
-            Thread.sleep(2000);
-            thread.interrupt();
-        }
-        catch (InterruptedException e) {throw new RuntimeException(e);}
+        AtomicReference<Thread> threadAtomicReference = new AtomicReference<>();
 
-        System.out.println("Interrupted by main thread");
-    }
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Thread thread = new Thread(() -> {
+                    while (!Thread.currentThread().isInterrupted()) {
+                        System.out.println(LocalTime.now());
 
-    @Override
-    public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            System.out.println(LocalTime.now());
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(100);}
+                        catch (InterruptedException e) {Thread.currentThread().interrupt();}
+                    }
+                    System.out.println("Interrupted");
+                });
+                thread.start();
+                threadAtomicReference.set(thread);
+            }
+        }, 0);
 
-            try {Thread.sleep(100);}
-            catch (InterruptedException e) {Thread.currentThread().interrupt();}
-        }
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                threadAtomicReference.get().interrupt();
+                timer.cancel();
+            }
+        }, 2000);
 
-        System.out.println("Thread Interrupted");
     }
 }
