@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimerTask;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Task_8 {
+    private static CyclicBarrier cyclicBarrier;
     private static int cntOfThreads;
     private static List<Future<Double>> futures = new ArrayList<>();
 
@@ -13,6 +15,13 @@ public class Task_8 {
     public static void main(String[] args) {
 
         checkParams(args);
+
+        cyclicBarrier = new CyclicBarrier(cntOfThreads, new TimerTask() {
+            @Override
+            public void run() {
+                cyclicBarrier.reset();
+            }
+        });
 
         AtomicReference<ExecutorService> ref = new AtomicReference<>();
 
@@ -24,7 +33,7 @@ public class Task_8 {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Shutdown hook ran!");
             ref.get().shutdownNow();
-            System.out.println("HERE");
+            cyclicBarrier.reset();
             try {
                 result(time.get(), futures);
             } catch (ExecutionException | InterruptedException e) {
@@ -66,6 +75,7 @@ public class Task_8 {
     }
 
     static class Calculator implements Callable<Double>{
+	private final int ITERCOUNT = 100000;
         private final boolean singh;
         private final long startNum;
         private final long pace;
@@ -81,8 +91,15 @@ public class Task_8 {
             long del = startNum;
 
             while (!Thread.currentThread().isInterrupted()){
-                res += 1.0 / del;
-                del += pace;
+                for (int i = 0; i < ITERCOUNT; i++) {
+                    res += 1.0 / del;
+                    del += pace;
+                }
+                try { cyclicBarrier.await(); }
+                catch ( BrokenBarrierException ignored){}
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
             }
             return singh ? res : -res;
         }
