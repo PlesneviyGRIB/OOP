@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Task_6 {
     public static void main(String[] args) {
-        new Founder(new Company(10)).start();
+        new Founder(new Company(70)).start();
     }
 }
 final class Company {
@@ -113,12 +113,7 @@ final class Founder {
 
         this.workers = new ArrayList<>(cnt);
 
-        barrier = new CyclicBarrier(cnt, new TimerTask() {
-            @Override
-            public void run() {
-                company.showCollaborativeResult();
-            }
-        });
+        barrier = new CyclicBarrier(cnt, company::showCollaborativeResult);
 
         for(int i = 0; i<cnt; i++){
             workers.add(new Worker(company.getFreeDepartment(i)));

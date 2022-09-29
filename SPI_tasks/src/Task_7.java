@@ -10,7 +10,7 @@ public class Task_7 {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
 
-        checkParams(args);
+        cntOfThreads = checkParams(args);
 
         long time = System.currentTimeMillis();
 
@@ -29,17 +29,19 @@ public class Task_7 {
         result(time, futures);
     }
 
-    static void checkParams(String[] args){
+    static int checkParams(String[] args){
+        int res = 0;
         if(args.length<1) {
             System.out.println("Provide count of threads as param!");
             System.exit(0);
         }
         try{
-            cntOfThreads = Integer.parseInt(args[0]);
+            res = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
             System.out.println("Wrong param!");
             System.exit(0);
         }
+        return res;
     }
 
     static void result(long startTime, List<Future<Double>> futures) throws ExecutionException, InterruptedException {
@@ -48,13 +50,14 @@ public class Task_7 {
             res += future.get();
 
         System.out.println("RES: " + res);
+        System.out.println("MISTAKE: " + (res - Math.PI/4));
 
         startTime -= System.currentTimeMillis();
         System.out.println("Time: " + -startTime);
     }
 
     static class Calculator implements Callable<Double>{
-        private final boolean singh;
+        private boolean singh;
         private final long startNum;
         private final long pace;
         private final long iterationCnt;
@@ -71,10 +74,12 @@ public class Task_7 {
             long del = startNum;
 
             for (int i = 0; i<iterationCnt; i++) {
-                res += 1.0 / del;
+                if(singh) res += 1.0 / del;
+                else res -= 1.0 / del;
                 del += pace;
+                if(cntOfThreads % 2 == 1) singh = !singh;
             }
-            return singh ? res : -res;
+            return res;
         }
     }
 }

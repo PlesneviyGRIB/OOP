@@ -9,10 +9,10 @@ import java.util.concurrent.locks.ReentrantLock;
 // Sometimes it takes quite long to catch deadlock, u can change constants to do better.
 // U can determine deadlock condition if no new raws appearing in console.
 //
-// To reduce opportunity of deadlock one of philosopher should firstly pick up right fork (not all philosophers as first pick up fork from the same side).
+    // To reduce opportunity of deadlock one of philosopher should firstly pick up right fork (not all philosophers as first pick up fork from the same side).
 
 public class Task_9 {
-    private static final int CNT = 5;
+    private static final int CNT = 2;
 
     public static void main(String[] args) {
 
