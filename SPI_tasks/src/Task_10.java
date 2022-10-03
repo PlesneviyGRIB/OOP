@@ -1,10 +1,9 @@
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Task_10 implements Runnable{
     private static final int CNT = 10000;
-    private static final AtomicBoolean ORDER = new AtomicBoolean(true);
+    private static boolean order = true;
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -18,9 +17,9 @@ public class Task_10 implements Runnable{
             System.out.println("Main thread");
 
             synchronized (Task_10.class){
-                ORDER.set(false);
+                order = false;
                 Task_10.class.notify();
-                while (!ORDER.get())
+                while (!order)
                     Task_10.class.wait();
             }
         }
@@ -32,10 +31,10 @@ public class Task_10 implements Runnable{
             System.out.println("Supportive thread");
 
             synchronized (Task_10.class){
-                ORDER.set(true);
+                order = true;
                 Task_10.class.notify();
                 if(i != CNT-1)
-                    while (ORDER.get()) {
+                    while (order) {
                         try {
                             Task_10.class.wait();
                         } catch (InterruptedException e) {
