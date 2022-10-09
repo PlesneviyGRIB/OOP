@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 // To reduce opportunity of deadlock one of philosopher should firstly pick up right fork (not all philosophers as first pick up fork from the same side).
 
 public class Task_13 {
-    private static final int CNT = 10;
+    private static final int CNT = 5;
 
     public static void main(String[] args) {
 
@@ -53,22 +53,20 @@ public class Task_13 {
             while (true){
                 try {
                     System.out.println("Philosopher " + id + " reflecting");
-                    TimeUnit.MILLISECONDS.sleep(ThreadLocalRandom.current().nextInt(1, maxReflectionTime));
+                    TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(1, maxReflectionTime));
                     System.out.println("Philosopher " + id + " try eat");
-                    leftFork.use();
-                    System.out.println("Philosopher " + id + " picked up left fork");
-                    if(rightFork.use()) {
+                    AtomicPickingUpBothForks atomic = new AtomicPickingUpBothForks(leftFork, rightFork);
+                    while(!atomic.atomicPickUp()) {} // if philosopher want to eat he will eat.
+                    TimeUnit.MILLISECONDS.sleep(100);
+                    try {
+                        System.out.println("Philosopher " + id + " picked up left fork");
                         System.out.println("Philosopher " + id + " picked up right fork");
                         System.out.println("Philosopher " + id + " having meal");
-                        TimeUnit.MILLISECONDS.sleep(ThreadLocalRandom.current().nextInt(1, maxMealTime));
-                        rightFork.release();
-                        System.out.println("Philosopher " + id + " released right fork");
-
-                        leftFork.release();
-                        System.out.println("Philosopher " + id + " released left fork");
+                        TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(1, maxMealTime));
                     }
-                    else {
-                        leftFork.release();
+                    finally {
+                        atomic.atomicRelease();
+                        System.out.println("Philosopher " + id + " released right fork");
                         System.out.println("Philosopher " + id + " released left fork");
                     }
                 } catch (InterruptedException e) {
@@ -78,12 +76,42 @@ public class Task_13 {
         }
     }
 
+    static class AtomicPickingUpBothForks{
+        private Fork right;
+        private Fork left;
+
+        AtomicPickingUpBothForks(Fork left, Fork right){
+            this.left = left;
+            this.right = right;
+        }
+
+        private boolean atomicPickUp(){
+            boolean l = false, r = false;
+            try {
+                l = left.use();
+                r = right.use();
+                if(l && r) return true;
+            }   catch (InterruptedException e){
+                if(l) left.release();
+                if(r) right.release();
+            }
+            if(l) left.release();
+            if(r) right.release();
+            return false;
+        }
+        private void atomicRelease(){
+            right.release();
+            left.release();
+        }
+    }
+
     static class Fork{
         private final Lock lock = new ReentrantLock();
-        private synchronized boolean use() throws InterruptedException {
+
+        private boolean use() throws InterruptedException {
             return lock.tryLock();
         }
-        private synchronized void release(){
+        private void release(){
             lock.unlock();
         }
     }

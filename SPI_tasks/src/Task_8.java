@@ -21,10 +21,19 @@ public class Task_8 {
         AtomicReference<CountDownLatch> countDownLatchAtomicReference = new AtomicReference<>();
         countDownLatchAtomicReference.set(new CountDownLatch(1));
 
+        AtomicReference<CountDownLatch> countDownLatchAtomicReference0 = new AtomicReference<>();
+        countDownLatchAtomicReference0.set(new CountDownLatch(cntOfThreads));
+
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Shutdown hook ran!");
             executorServiceAtomicReference.get().shutdownNow();
+
+            try {
+                countDownLatchAtomicReference0.get().await();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
 
             long maxCnt = callableListAtomicReference.get().stream().map(c -> c.getCnt()).max(Long::compareTo).get();
             callableListAtomicReference.get().forEach(c -> c.setMaxCnt(maxCnt));
@@ -37,7 +46,7 @@ public class Task_8 {
 
         boolean singh = false;
         for(int i = 0; i<cntOfThreads; i++) {
-            var callable = new Calculator(singh, 3 + i * 2, cntOfThreads * 2, countDownLatchAtomicReference.get());
+            var callable = new Calculator(singh, 3 + i * 2, cntOfThreads * 2, countDownLatchAtomicReference.get(), countDownLatchAtomicReference0.get());
             callableListAtomicReference.get().add(callable);
             listAtomicReference.get().add(executorServiceAtomicReference.get().submit(callable));
             singh = !singh;
@@ -75,19 +84,21 @@ public class Task_8 {
     }
 
     static class Calculator implements Callable<Double>{
-	    private long cnt;
-        private long maxCnt;
+	    private volatile long cnt;
+        private volatile long maxCnt;
         private boolean singh;
         private final long startNum;
         private final long pace;
 
         private CountDownLatch countDownLatch;
+        private CountDownLatch countDownLatch0;
 
-        public Calculator(boolean singh, long startNum, long pace, CountDownLatch countDownLatch) {
+        public Calculator(boolean singh, long startNum, long pace, CountDownLatch countDownLatch, CountDownLatch countDownLatch0) {
             this.singh = singh;
             this.startNum = startNum;
             this.pace = pace;
             this.countDownLatch = countDownLatch;
+            this.countDownLatch0 = countDownLatch0;
         }
         @Override
         public Double call() throws InterruptedException {
@@ -103,6 +114,7 @@ public class Task_8 {
             }
 
             Thread.interrupted(); // to reset interrupted flag
+            countDownLatch0.countDown();
             countDownLatch.await();
 
             for(long i = 0; i<maxCnt-cnt; i++){

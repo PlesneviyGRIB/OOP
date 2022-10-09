@@ -42,7 +42,7 @@ public class Task_12 {
     }
 
     private synchronized void addElem(String str){
-        list.add(str);
+        list.add(0,str);
     }
 
     private synchronized void print(){
