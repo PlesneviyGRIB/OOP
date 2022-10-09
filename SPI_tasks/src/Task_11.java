@@ -5,7 +5,7 @@ import java.util.concurrent.Semaphore;
 public class Task_11 implements Runnable{
     private static final int CNT = 100;
     private static Semaphore semaphore = new Semaphore(1);
-    private static Semaphore semaphore0 = new Semaphore(1);
+    private static Semaphore semaphore0 = new Semaphore(0);
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -17,9 +17,7 @@ public class Task_11 implements Runnable{
 
         for(int i = 0; i<CNT; i++) {
             semaphore.acquire();
-            semaphore0.acquire();
             System.out.println("Main thread");
-            semaphore.release();
             semaphore0.release();
         }
     }
@@ -29,9 +27,7 @@ public class Task_11 implements Runnable{
         for(int i = 0; i<CNT; i++) {
             try {
                 semaphore0.acquire();
-                semaphore.acquire();
                 System.out.println("Supportive thread");
-                semaphore0.release();
                 semaphore.release();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
