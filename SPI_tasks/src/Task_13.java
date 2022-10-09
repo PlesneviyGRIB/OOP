@@ -9,10 +9,10 @@ import java.util.concurrent.locks.ReentrantLock;
 // Sometimes it takes quite long to catch deadlock, u can change constants to do better.
 // U can determine deadlock condition if no new raws appearing in console.
 //
-    // To reduce opportunity of deadlock one of philosopher should firstly pick up right fork (not all philosophers as first pick up fork from the same side).
+// To reduce opportunity of deadlock one of philosopher should firstly pick up right fork (not all philosophers as first pick up fork from the same side).
 
-public class Task_9 {
-    private static final int CNT = 2;
+public class Task_13 {
+    private static final int CNT = 10;
 
     public static void main(String[] args) {
 
@@ -57,15 +57,20 @@ public class Task_9 {
                     System.out.println("Philosopher " + id + " try eat");
                     leftFork.use();
                     System.out.println("Philosopher " + id + " picked up left fork");
-                    rightFork.use();
-                    System.out.println("Philosopher " + id + " picked up right fork");
-                    System.out.println("Philosopher " + id + " having meal");
-                    TimeUnit.MILLISECONDS.sleep(ThreadLocalRandom.current().nextInt(1,maxMealTime));
-                    rightFork.release();
-                    System.out.println("Philosopher " + id + " released right fork");
+                    if(rightFork.use()) {
+                        System.out.println("Philosopher " + id + " picked up right fork");
+                        System.out.println("Philosopher " + id + " having meal");
+                        TimeUnit.MILLISECONDS.sleep(ThreadLocalRandom.current().nextInt(1, maxMealTime));
+                        rightFork.release();
+                        System.out.println("Philosopher " + id + " released right fork");
 
-                    leftFork.release();
-                    System.out.println("Philosopher " + id + " released left fork");
+                        leftFork.release();
+                        System.out.println("Philosopher " + id + " released left fork");
+                    }
+                    else {
+                        leftFork.release();
+                        System.out.println("Philosopher " + id + " released left fork");
+                    }
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -75,8 +80,8 @@ public class Task_9 {
 
     static class Fork{
         private final Lock lock = new ReentrantLock();
-        private synchronized void use() throws InterruptedException {
-            lock.lock();
+        private synchronized boolean use() throws InterruptedException {
+            return lock.tryLock();
         }
         private synchronized void release(){
             lock.unlock();

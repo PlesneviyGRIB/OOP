@@ -1,44 +1,47 @@
 import java.util.*;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class Task_8 {
     private static int cntOfThreads;
-    private static List<Future<Data>> futures = new ArrayList<>();
 
-    private static AtomicLong time = new AtomicLong();
-
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         cntOfThreads = checkParams(args);
 
-        AtomicReference<ExecutorService> ref = new AtomicReference<>();
+        AtomicReference<List<Future<Double>>> listAtomicReference = new AtomicReference<>();
+        listAtomicReference.set(new ArrayList<>());
 
-        ExecutorService executorService = Executors.newFixedThreadPool(cntOfThreads);
+        AtomicReference<List<Calculator>> callableListAtomicReference = new AtomicReference<>();
+        callableListAtomicReference.set(new ArrayList<>());
 
-        ref.set(executorService);
-        time.set(System.currentTimeMillis());
+        AtomicReference<ExecutorService> executorServiceAtomicReference = new AtomicReference<>();
+        executorServiceAtomicReference.set(Executors.newFixedThreadPool(cntOfThreads));
+
+        AtomicReference<CountDownLatch> countDownLatchAtomicReference = new AtomicReference<>();
+        countDownLatchAtomicReference.set(new CountDownLatch(1));
+
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("Shutdown hook ran!");
-            ref.get().shutdownNow();
-            try {
-                result(time.get(), futures);
-            } catch (ExecutionException | InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            executorServiceAtomicReference.get().shutdownNow();
+
+            long maxCnt = callableListAtomicReference.get().stream().map(c -> c.getCnt()).max(Long::compareTo).get();
+            callableListAtomicReference.get().forEach(c -> c.setMaxCnt(maxCnt));
+
+            countDownLatchAtomicReference.get().countDown();
+
+            result(listAtomicReference.get());
         }
         ));
 
         boolean singh = false;
         for(int i = 0; i<cntOfThreads; i++) {
-            futures.add(executorService.submit(new Calculator(singh,  3 + i*2, cntOfThreads * 2)));
+            var callable = new Calculator(singh, 3 + i * 2, cntOfThreads * 2, countDownLatchAtomicReference.get());
+            callableListAtomicReference.get().add(callable);
+            listAtomicReference.get().add(executorServiceAtomicReference.get().submit(callable));
             singh = !singh;
         }
-
-        TimeUnit.SECONDS.sleep(6);
-        System.exit(0);
     }
 
     static int checkParams(String[] args){
@@ -56,58 +59,38 @@ public class Task_8 {
         return res;
     }
 
-    static void result(long startTime, List<Future<Data>> futures) throws ExecutionException, InterruptedException {
-        double res = count(futures);
-
-        System.out.println("RES: " + res);
-        System.out.println("MISTAKE: " + (res - Math.PI/4));
-
-        startTime -= System.currentTimeMillis();
-        System.out.println("Time: " + -startTime);
-    }
-
-    static private double count(List<Future<Data>> futures){
-
-        List<Data> data = futures.stream().map(f -> {
+    static void result(List<Future<Double>> futures) {
+        double res;
+        res = futures.stream().map(f -> {
             try {
                 return f.get();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }
-        }).toList();
+        }).mapToDouble(d -> d).sum();
+        res +=1;
 
-        int maxCnt = data.stream().map(d -> d.cnt).max(Integer::compareTo).get();
-        double res = 1;
-
-        for (Data d : data) {
-            res += d.res;
-            long pace = cntOfThreads * 2;
-            long del = d.startNum + pace * (d.cnt+1);
-            boolean singh = d.singh;
-
-            for(int i = 0; i<maxCnt - d.cnt; i++){
-                if(singh) res += 1.0 / del;
-                else res -= 1.0 / del;
-                del += pace;
-                if(cntOfThreads % 2 == 1) singh = !singh;
-            }
-        }
-        return res;
+        System.out.println("RES: " + res);
+        System.out.println("MISTAKE: " + (res - Math.PI/4));
     }
 
-    static class Calculator implements Callable<Data>{
-	    private int cnt = 0;
+    static class Calculator implements Callable<Double>{
+	    private long cnt;
+        private long maxCnt;
         private boolean singh;
         private final long startNum;
         private final long pace;
 
-        public Calculator(boolean singh, long startNum, long pace) {
+        private CountDownLatch countDownLatch;
+
+        public Calculator(boolean singh, long startNum, long pace, CountDownLatch countDownLatch) {
             this.singh = singh;
             this.startNum = startNum;
             this.pace = pace;
+            this.countDownLatch = countDownLatch;
         }
         @Override
-        public Data call() {
+        public Double call() throws InterruptedException {
             double res = 0;
             long del = startNum;
 
@@ -118,9 +101,26 @@ public class Task_8 {
                 del += pace;
                 if(cntOfThreads % 2 == 1) singh = !singh;
             }
-            return new Data(cnt, res, startNum, singh);
+
+            Thread.interrupted(); // to reset interrupted flag
+            countDownLatch.await();
+
+            for(long i = 0; i<maxCnt-cnt; i++){
+                if(singh) res += 1.0 / del;
+                else res -= 1.0 / del;
+                del += pace;
+                if(cntOfThreads % 2 == 1) singh = !singh;
+            }
+
+            return res;
+        }
+
+        public void setMaxCnt(long maxCnt){
+            this.maxCnt = maxCnt;
+        }
+
+        public long getCnt(){
+            return cnt;
         }
     }
-
-    record Data(int cnt, double res, long startNum, boolean singh){}
 }
