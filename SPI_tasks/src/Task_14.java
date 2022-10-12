@@ -61,14 +61,17 @@ public class Task_14 {
 
         static class Widget{
             public Widget(C_Line.C C, Module module) {}
+            @Override
+            public String toString(){
+                return "New widget done!";
+            }
         }
 
         @Override
         public void run() {
             while (!Thread.currentThread().isInterrupted()){
                 try {
-                    new Widget(C_Line.heapC.take(), new Module(A_Line.heapA.take(), B_Line.heapB.take()));
-                    System.out.println("New widget done!");
+                    System.out.println(new Widget(C_Line.heapC.take(), new Module(A_Line.heapA.take(), B_Line.heapB.take())));
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }
@@ -79,8 +82,8 @@ public class Task_14 {
 
     public static void main(String[] args) throws InterruptedException {
         int cntOfALines = 1;
-        int cntOfBLines = 1;
-        int cntOfCLines = 1;
+        int cntOfBLines = 2;
+        int cntOfCLines = 3;
 
         ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -95,8 +98,11 @@ public class Task_14 {
 
         executorService.execute(new widgetProducer());
 
-
-        TimeUnit.SECONDS.sleep(10);
+        TimeUnit.SECONDS.sleep(20);
         executorService.shutdownNow();
+
+        System.out.println(A_Line.heapA.size());
+        System.out.println(B_Line.heapB.size());
+        System.out.println(C_Line.heapC.size());
     }
 }

@@ -113,7 +113,7 @@ public class Task_8 {
                 if(cntOfThreads % 2 == 1) singh = !singh;
             }
 
-            Thread.interrupted(); // to reset interrupted flag
+            Thread.interrupted(); // to reset interrupt flag
             countDownLatch0.countDown();
             countDownLatch.await();
 
