@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 // To reduce opportunity of deadlock one of philosopher should firstly pick up right fork (not all philosophers as first pick up fork from the same side).
 
 public class Task_13 {
-    private static final int CNT = 5;
+    private static final int CNT = 2;
 
     public static void main(String[] args) {
 
@@ -23,9 +23,10 @@ public class Task_13 {
             forks[i] = new Fork();
         }
 
-        philosophers[0] = new Philosopher(forks[CNT-1], forks[0], 0);
+        Waiter waiter = new Waiter();
+        philosophers[0] = new Philosopher(forks[CNT-1], forks[0], 0, waiter);
         for(int i = 1; i<CNT; i++){
-            philosophers[i] = new Philosopher(forks[i-1], forks[i], i);
+            philosophers[i] = new Philosopher(forks[i-1], forks[i], i, waiter);
         }
 
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -41,11 +42,13 @@ public class Task_13 {
         private Fork leftFork;
         private Fork rightFork;
         private int id;
+        private Waiter waiter;
 
-        Philosopher(Fork leftFork, Fork rightFork, int id){
+        Philosopher(Fork leftFork, Fork rightFork, int id, Waiter waiter){
             this.leftFork = leftFork;
             this.rightFork = rightFork;
             this.id = id;
+            this.waiter = waiter;
         }
 
         @Override
@@ -55,13 +58,13 @@ public class Task_13 {
                     System.out.println("Philosopher " + id + " reflecting");
                     TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(1, maxReflectionTime));
                     System.out.println("Philosopher " + id + " try eat");
-                    AtomicPickingUpBothForks atomic = new AtomicPickingUpBothForks(leftFork, rightFork);
+                    AtomicPickingUpBothForks atomic = new AtomicPickingUpBothForks(leftFork, rightFork, waiter);
                     while(!atomic.atomicPickUp()) {} // if philosopher want to eat he will eat.
                     TimeUnit.MILLISECONDS.sleep(100);
                     try {
                         System.out.println("Philosopher " + id + " picked up left fork");
                         System.out.println("Philosopher " + id + " picked up right fork");
-                        System.out.println("Philosopher " + id + " having meal");
+                        System.out.println("Philosopher " + id + " HAVING MEAL");
                         TimeUnit.SECONDS.sleep(ThreadLocalRandom.current().nextInt(1, maxMealTime));
                     }
                     finally {
@@ -76,32 +79,58 @@ public class Task_13 {
         }
     }
 
+    static class Waiter{
+        private Lock lock = new ReentrantLock();
+
+        public void lock(){
+            lock.lock();
+        }
+
+        public void release(){
+            lock.unlock();
+        }
+    }
+
     static class AtomicPickingUpBothForks{
         private Fork right;
         private Fork left;
+        private Waiter waiter;
 
-        AtomicPickingUpBothForks(Fork left, Fork right){
+        AtomicPickingUpBothForks(Fork left, Fork right, Waiter waiter){
             this.left = left;
             this.right = right;
+            this.waiter = waiter;
         }
 
         private boolean atomicPickUp(){
-            boolean l = false, r = false;
-            try {
-                l = left.use();
-                r = right.use();
-                if(l && r) return true;
-            }   catch (InterruptedException e){
+            try{
+                waiter.lock();
+                boolean l = false, r = false;
+                try {
+                    l = left.use();
+                    r = right.use();
+                    if(l && r) return true;
+                }   catch (InterruptedException e){
+                    if(l) left.release();
+                    if(r) right.release();
+                }
                 if(l) left.release();
                 if(r) right.release();
             }
-            if(l) left.release();
-            if(r) right.release();
+            finally {
+                waiter.release();
+            }
             return false;
         }
         private void atomicRelease(){
-            right.release();
-            left.release();
+            try{
+                waiter.lock();
+                right.release();
+                left.release();
+            }
+            finally {
+                waiter.release();
+            }
         }
     }
 
