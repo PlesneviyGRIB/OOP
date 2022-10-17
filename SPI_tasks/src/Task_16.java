@@ -4,7 +4,7 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 public class Task_16 {
@@ -30,15 +30,21 @@ public class Task_16 {
         printer(response.body());
     }
 
-    public static void printer(Stream<String> lines) throws IOException {
-        List<String> list = lines.toList();
-
-        for(int i = 0; i<list.size(); i++){
-            if(i != 0 && i % 25 == 0) {
+    public static void printer(Stream<String> lines) {
+        AtomicInteger i = new AtomicInteger(0);
+        lines.forEach(l -> {
+            i.getAndIncrement();
+            System.out.println(l);
+            if(i.get() % 25 == 0) {
                 System.out.println("Press space to scroll down..");
-                while (System.in.read() != ' '){}
+                while (true){
+                    try {
+                        if (!(System.in.read() != ' ')) break;
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
-            System.out.println(list.get(i));
-        }
+        });
     }
 }
