@@ -17,13 +17,9 @@
     (getPrimes (tryGet sieveMap next) (+ 2 next))
     (cons next (lazy-seq (getPrimes (tryGet sieveMap next) (+ 2 next))))))
 
-(defn getPrimesSequence []
-  (cons 2 (getPrimes {} 3)))
+(def getPrimesSequence
+   (cons 2 (getPrimes {} 3)))
 
-(print (->> (getPrimesSequence)
-            (take 30)
-            )
-       )
 
-;(println (time (nth (getPrimesSequence) 1000)))
-;(println (time (nth (getPrimesSequence) 1000)))
+(println (time (nth getPrimesSequence 1000)))
+(println (time (nth getPrimesSequence 1000)))

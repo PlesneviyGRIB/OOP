@@ -23,7 +23,7 @@ public class NonblockingClient {
         sc = SocketChannel.open();
         sc.configureBlocking(false);
         sc.connect(new InetSocketAddress(InetAddress.getByName(nodeName), port));
-        sc.register(selector, SelectionKey.OP_CONNECT, SelectionKey.OP_WRITE);
+        sc.register(selector, SelectionKey.OP_CONNECT | SelectionKey.OP_WRITE |SelectionKey.OP_READ);
     }
 
     public void start() throws Exception {
@@ -69,7 +69,6 @@ public class NonblockingClient {
     }
 
     public String receiveMessage() throws Exception {
-        TimeUnit.MILLISECONDS.sleep(20);
         ByteBuffer bb = ByteBuffer.allocate(1024);
         sc.read(bb);
         return new String(bb.array()).trim();

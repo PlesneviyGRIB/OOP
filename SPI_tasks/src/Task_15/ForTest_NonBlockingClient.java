@@ -11,11 +11,13 @@ import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 public class ForTest_NonBlockingClient {
-    private static BufferedReader console = null;
     private final SocketChannel sc;
+    private final LinkedBlockingQueue<String> input = new LinkedBlockingQueue<>();
 
     public ForTest_NonBlockingClient(int port, String nodeName) throws Exception {
 
@@ -26,17 +28,29 @@ public class ForTest_NonBlockingClient {
         sc.connect(new InetSocketAddress(InetAddress.getByName(nodeName), port));
         sc.register(selector, SelectionKey.OP_CONNECT | SelectionKey.OP_READ | SelectionKey.OP_WRITE);
 
-        console = new BufferedReader(new InputStreamReader(System.in));
+        var executorService = Executors.newFixedThreadPool(1);
+
+        executorService.execute(() -> {
+            var console = new BufferedReader(new InputStreamReader(System.in));
+
+            while (!Thread.currentThread().isInterrupted()){
+                try {
+                    input.put(console.readLine());
+                    TimeUnit.MILLISECONDS.sleep(100);
+                } catch (IOException | InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+        executorService.shutdown();
 
         while (true) {
                 if (selector.select() > 0) {
                     if (processReadySet(selector.selectedKeys())) break;
                 }
-            TimeUnit.MILLISECONDS.sleep(100);
         }
         sc.close();
     }
-    private int cnt =0;
 
     private Boolean processReadySet(Set<SelectionKey> readySet) throws Exception {
         SelectionKey key = null;
@@ -56,22 +70,23 @@ public class ForTest_NonBlockingClient {
             ByteBuffer bb = ByteBuffer.allocate(1024);
             sc.read(bb);
 
-            String message = new String(bb.array()).trim();
-            System.out.println("Message received from Server: " + message);
+            String message = Utils.unwrapMessage(new String(bb.array()).trim());
+            System.out.println("SERVER: " + message);
         }
 
-
         if (key.isWritable()) {
-            System.out.print("Type a message:");
-            String msg = console.readLine();
-
-            SocketChannel sc = (SocketChannel) key.channel();
-            ByteBuffer bb = ByteBuffer.wrap(msg.getBytes());
-            sc.write(bb);
+            String message = input.poll();
+            if(message != null) {
+                SocketChannel sc = (SocketChannel) key.channel();
+                message = Utils.wrapMessage(message);
+                ByteBuffer bb = ByteBuffer.wrap(message.getBytes());
+                sc.write(bb);
+            }
         }
 
         return false;
     }
+
     private Boolean processConnect(SelectionKey key) {
         SocketChannel sc = (SocketChannel) key.channel();
         try {
