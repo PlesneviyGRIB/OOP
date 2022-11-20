@@ -1,16 +1,23 @@
 (ns untitled.Task-3)
 
 (defn heavy-check [entry]
-  (Thread/sleep 1000)
+  (Thread/sleep 100)
   (not= 0 (mod entry 2)))
 
 (defn inner-filter [func block]
   (future (doall (filter func block))))
 
+(defn p-filter-inner [func seq]
+   (let [block-size 2]
+     (->> (partition-all block-size seq)
+          (map #(inner-filter func %))
+          (doall)
+          (map deref)
+          (concat)
+          )))
+
 (defn p-filter [func seq]
-  (let [block-size 2]
-  (apply concat (map deref (pmap #(inner-filter func %) (partition-all block-size seq)))))
-  )
+  (flatten (apply concat (map #(p-filter-inner func %) (partition-all 20 seq)))))
 
 (time (println (->> (iterate inc 1)
                   (p-filter heavy-check)
