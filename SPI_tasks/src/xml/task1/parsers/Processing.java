@@ -1,6 +1,5 @@
 package xml.task1.parsers;
 
-import lombok.Getter;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -8,14 +7,17 @@ import xml.task1.Merge;
 import xml.task1.MyAttrs;
 import xml.task1.My_Utils;
 import xml.task1.Person;
-
 import java.util.*;
 
 public class Processing extends DefaultHandler{
     private Map<String, MyAttrs> tagAttr = new HashMap<>();
-    @Getter
     private Map<String, Person> people;
     private String currentVal = null;
+
+    public Map<String, Person> getPeople() {
+        return people;
+    }
+
     public Processing(Map<String, Boolean> availableTag){
         availableTag.forEach((key, value) -> tagAttr.put(key, null));
     }
@@ -64,10 +66,6 @@ public class Processing extends DefaultHandler{
 
         mapSurname(people);
         mapName(people, relativePeople, peopleWithoutId);
-
-//        System.out.println("++++++++++++++++++++++++++++++++++");
-//        peopleWithoutId.forEach(System.out::println);
-//        System.out.println("++++++++++++++++++++++++++++++++++");
 
         this.people = new HashMap<>(people);
     }

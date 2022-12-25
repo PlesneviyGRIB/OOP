@@ -1,12 +1,14 @@
 package xml.task1;
 
-import lombok.AllArgsConstructor;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@AllArgsConstructor
 public class ValidationReport {
     private Map<String, Person> people;
+
+    public ValidationReport(Map<String, Person> people) {
+        this.people = people;
+    }
 
     public void report(){
 

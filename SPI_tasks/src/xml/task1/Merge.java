@@ -1,10 +1,7 @@
 package xml.task1;
 
-import lombok.AllArgsConstructor;
-
 import java.util.*;
 
-@AllArgsConstructor
 public class Merge {
     public static Person merge(Person mainPerson, Person supportivePerson){
         if(supportivePerson.getName() != null) mainPerson.setName(supportivePerson.getName());

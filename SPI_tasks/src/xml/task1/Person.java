@@ -1,11 +1,7 @@
 package xml.task1;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import java.util.*;
 
-@Data
-@NoArgsConstructor
 public class Person implements Comparable{
     private String id;           // id
     private String name;         // fullname first firstname
@@ -18,6 +14,43 @@ public class Person implements Comparable{
     private Map<String, String> validation = new HashMap<>(); //siblings-number children-number
     private static Person currentPerson = new Person();
     private static final Map<String, Person> people = new HashMap<>();
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public Set<String> getParents() {
+        return parents;
+    }
+
+    public Set<String> getSiblings() {
+        return siblings;
+    }
+
+    public Set<String> getChildren() {
+        return children;
+    }
+
+    public String getSpouce() {
+        return spouce;
+    }
+
+    public Map<String, String> getValidation() {
+        return validation;
+    }
+
     private static final List<Person> peopleWithoutId = new ArrayList<>();
 
     private static int cnt = 0;
@@ -377,5 +410,56 @@ public class Person implements Comparable{
         if(o.getClass() != Person.class) return 0;
         Person person = (Person) o;
         return this.id.compareTo(person.id);
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setParents(Set<String> parents) {
+        this.parents = parents;
+    }
+
+    public void setSiblings(Set<String> siblings) {
+        this.siblings = siblings;
+    }
+
+    public void setChildren(Set<String> children) {
+        this.children = children;
+    }
+
+    public void setSpouce(String spouce) {
+        this.spouce = spouce;
+    }
+
+    public void setValidation(Map<String, String> validation) {
+        this.validation = validation;
+    }
+
+    @Override
+    public String toString(){
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append("ID: ").append(this.id).append("    ")
+                     .append("NAME: ").append(this.name).append("    ")
+                     .append("SURNAME: ").append(this.surname).append("    ")
+                     .append("PARENTS:").append(this.parents).append("    ")
+                     .append("SIBLINGS:").append(this.siblings).append("    ")
+                     .append("CHILDREN:").append(this.children).append("    ")
+                     .append("VAALIDATION:").append(this.validation);
+
+        return stringBuilder.toString();
     }
 }
