@@ -1,6 +1,11 @@
 package xml.task1;
 
+import jakarta.xml.bind.annotation.*;
+
 import java.util.*;
+
+@XmlRootElement(name = "person")
+@XmlType(propOrder = { "id", "name", "surname", "gender", "spouce", "parents", "siblings", "children", "validation"})
 
 public class Person implements Comparable{
     private String id;           // id
@@ -412,6 +417,7 @@ public class Person implements Comparable{
         return this.id.compareTo(person.id);
     }
 
+    @XmlAttribute
     public void setId(String id) {
         this.id = id;
     }
@@ -428,22 +434,25 @@ public class Person implements Comparable{
         this.gender = gender;
     }
 
+    @XmlElementWrapper(name = "parents")
     public void setParents(Set<String> parents) {
         this.parents = parents;
     }
 
+    @XmlElementWrapper(name = "siblings")
     public void setSiblings(Set<String> siblings) {
         this.siblings = siblings;
     }
 
+    @XmlElementWrapper(name = "children")
     public void setChildren(Set<String> children) {
         this.children = children;
     }
-
     public void setSpouce(String spouce) {
         this.spouce = spouce;
     }
 
+    @XmlElementWrapper(name = "validation")
     public void setValidation(Map<String, String> validation) {
         this.validation = validation;
     }

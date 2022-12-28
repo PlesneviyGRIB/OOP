@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="people" type="peopleType"/>
+
+  <xs:complexType name="peopleType">
+    <xs:sequence>
+      <xs:element type="personType" name="person" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="parentsType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="parents" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="siblingsType" mixed="true">
+    <xs:sequence>
+      <xs:element type="xs:string" name="siblings" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="childrenType" mixed="true">
+    <xs:sequence>
+      <xs:element type="xs:string" name="children" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="validationType">
+    <xs:sequence>
+      <xs:element type="entryType" name="entry" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="personType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:string" name="surname"/>
+      <xs:element name="gender">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="M"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value=""/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+
+      <xs:element type="xs:string" name="spouce"/>
+
+      <xs:element name="parents">
+        <xs:complexType mixed="true">
+          <xs:sequence>
+            <xs:element type="xs:string" name="parents" maxOccurs="unbounded" minOccurs="0"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+
+      <xs:element type="siblingsType" name="siblings"/>
+      <xs:element type="childrenType" name="children"/>
+
+      <xs:element name="validation">
+        <xs:complexType mixed="true">
+          <xs:sequence>
+            <xs:element type="entryType" name="entry" maxOccurs="unbounded" minOccurs="0"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+
+    <xs:attribute name="id" use="required">
+      <xs:simpleType >
+        <xs:restriction base="xs:string">
+          <xs:pattern value="P[0-9]{1,}"/>
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="entryType">
+    <xs:sequence>
+      <xs:element name="key">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="children-number"/>
+            <xs:enumeration value="siblings-number"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="value">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+</xs:schema>

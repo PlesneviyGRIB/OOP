@@ -63,6 +63,14 @@ public class My_Utils {
                 }
             }
         });
+
+        people.entrySet().forEach(entry -> {
+            Person person = entry.getValue();
+            if(person.getName() == null) person.setName("");
+            if(person.getSurname() == null) person.setSurname("");
+            if(person.getGender() == null) person.setGender("");
+            if(person.getSpouce() == null) person.setSpouce("");
+        });
     }
 
     private static Set<String> idToFullName(Set<String> ids, Map<String, Person> people){

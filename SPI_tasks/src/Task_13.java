@@ -12,7 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 // To reduce opportunity of deadlock one of philosopher should firstly pick up right fork (not all philosophers as first pick up fork from the same side).
 
 public class Task_13 {
-    private static final int CNT = 20;
+    private static final int CNT = 5;
 
     public static void main(String[] args) {
 
