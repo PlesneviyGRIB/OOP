@@ -45,6 +45,7 @@ public class ConverterJAXB {
 
         SchemaFactory schemaFactory =
                 SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+
         File schemaFile = new File ("./resources/schema.xsd");
         mar.setSchema(schemaFactory.newSchema(schemaFile));
 
