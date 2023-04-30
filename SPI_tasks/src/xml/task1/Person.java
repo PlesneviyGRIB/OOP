@@ -5,7 +5,7 @@ import jakarta.xml.bind.annotation.*;
 import java.util.*;
 
 @XmlRootElement(name = "person")
-@XmlType(propOrder = { "id", "name", "surname", "gender", "spouce", "parents", "siblings", "children", "validation"})
+@XmlType(propOrder = { "id", "name", "surname", "gender", "spouse", "parents", "siblings", "children", "validation"})
 
 public class Person implements Comparable{
     private String id;           // id
@@ -15,7 +15,7 @@ public class Person implements Comparable{
     private Set<String> parents = new HashSet<>();    // parent mother father
     private Set<String> siblings = new HashSet<>();   //siblings brother sister
     private Set<String> children = new HashSet<>();   //children daughter son child
-    private String spouce;       //wife spouce husband
+    private String spouse;       //wife spouce husband
     private Map<String, String> validation = new HashMap<>(); //siblings-number children-number
     private static Person currentPerson = new Person();
     private static final Map<String, Person> people = new HashMap<>();
@@ -48,8 +48,8 @@ public class Person implements Comparable{
         return children;
     }
 
-    public String getSpouce() {
-        return spouce;
+    public String getSpouse() {
+        return spouse;
     }
 
     public Map<String, String> getValidation() {
@@ -331,10 +331,10 @@ public class Person implements Comparable{
         }
 
         if(currentPerson.getId() != null)
-            spouce.setSpouce(currentPerson.getId());
-        else spouce.setSpouce(setRM(currentPerson));
+            spouce.setSpouse(currentPerson.getId());
+        else spouce.setSpouse(setRM(currentPerson));
 
-        currentPerson.setSpouce(fullname);
+        currentPerson.setSpouse(fullname);
 
         peopleWithoutId.add(spouce);
     }
@@ -350,8 +350,8 @@ public class Person implements Comparable{
             }
 
             if(currentPerson.getId() != null)
-                spouce.setSpouce(currentPerson.getId());
-            else spouce.setSpouce(setRM(currentPerson));
+                spouce.setSpouse(currentPerson.getId());
+            else spouce.setSpouse(setRM(currentPerson));
         }
         else {
             Person spouce = new Person();
@@ -364,12 +364,12 @@ public class Person implements Comparable{
             }
 
             if(currentPerson.getId() != null)
-                spouce.setSpouce(currentPerson.getId());
-            else spouce.setSpouce(setRM(currentPerson));
+                spouce.setSpouse(currentPerson.getId());
+            else spouce.setSpouse(setRM(currentPerson));
 
             people.put(spouce.id, spouce);
         }
-        currentPerson.setSpouce(id);
+        currentPerson.setSpouse(id);
     }
 
     private static void spouceHandler(String tag, MyAttrs myAttrs, String value){
@@ -448,8 +448,8 @@ public class Person implements Comparable{
     public void setChildren(Set<String> children) {
         this.children = children;
     }
-    public void setSpouce(String spouce) {
-        this.spouce = spouce;
+    public void setSpouse(String spouse) {
+        this.spouse = spouse;
     }
 
     @XmlElementWrapper(name = "validation")

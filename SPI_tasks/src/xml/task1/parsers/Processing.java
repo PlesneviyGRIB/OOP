@@ -71,10 +71,10 @@ public class Processing extends DefaultHandler{
     }
 
     private static void mapSurname(Map<String, Person> people){
-        List<Person> peop = people.values().stream().filter(person -> person.getSurname() == null && My_Utils.isId(person.getSpouce())).toList();
+        List<Person> peop = people.values().stream().filter(person -> person.getSurname() == null && My_Utils.isId(person.getSpouse())).toList();
 
         peop.forEach(p -> {
-            Person spouce = people.get(p.getSpouce());
+            Person spouce = people.get(p.getSpouse());
 
             if(spouce != null && spouce.getSurname() != null){
                 Person person = people.get(p.getId());

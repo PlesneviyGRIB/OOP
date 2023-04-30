@@ -1,12 +1,10 @@
 package xml.task2;
 
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.Marshaller;
 import xml.People;
 import xml.task1.My_Utils;
 import xml.task1.Person;
-import jakarta.xml.bind.JAXBContext;
-import jakarta.xml.bind.JAXBException;
-import jakarta.xml.bind.Marshaller;
-import xml.task1.ValidationReport;
 import xml.task1.parsers.Preprocessing;
 import xml.task1.parsers.Processing;
 
@@ -14,8 +12,9 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.SchemaFactory;
 import java.io.File;
-import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ConverterJAXB {

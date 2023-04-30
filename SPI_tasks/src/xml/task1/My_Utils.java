@@ -55,11 +55,11 @@ public class My_Utils {
             person.setChildren(My_Utils.idToFullName(person.getChildren(), people));
             person.setSiblings(My_Utils.idToFullName(person.getSiblings(), people));
 
-            if(My_Utils.isId(person.getSpouce())){
-                Person person1 = people.get(person.getSpouce());
+            if(My_Utils.isId(person.getSpouse())){
+                Person person1 = people.get(person.getSpouse());
                 if(person1.getName() != null && person1.getSurname() != null){
                     String fio = person.getName() + " " + person.getSurname();
-                    person.setSpouce(fio);
+                    person.setSpouse(fio);
                 }
             }
         });
@@ -69,7 +69,7 @@ public class My_Utils {
             if(person.getName() == null) person.setName("");
             if(person.getSurname() == null) person.setSurname("");
             if(person.getGender() == null) person.setGender("");
-            if(person.getSpouce() == null) person.setSpouce("");
+            if(person.getSpouse() == null) person.setSpouse("");
         });
     }
 

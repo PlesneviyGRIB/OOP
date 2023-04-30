@@ -47,7 +47,7 @@
         </xs:simpleType>
       </xs:element>
 
-      <xs:element type="xs:string" name="spouce"/>
+      <xs:element type="xs:string" name="spouse"/>
 
       <xs:element name="parents">
         <xs:complexType mixed="true">

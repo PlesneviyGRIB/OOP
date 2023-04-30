@@ -64,10 +64,11 @@
         cnt @(state :storage),
         notify-step (state :notify-step),
         consumers (state :consumers)]
-    (when (and (> notify-step 0)
+    (when
+      (and (> notify-step 0)
                (> (int (/ cnt notify-step))
                   (int (/ (- cnt amount) notify-step))))
-    (println "[" (.format (new SimpleDateFormat "hh.mm.ss.SSS") (new Date)) "]" ware "amount =" cnt))
+      (println "[" (.format (new SimpleDateFormat "hh.mm.ss.SSS") (new Date)) "]" ware "amount =" cnt))
     (when consumers
       (doseq [consumer (shuffle consumers)]
         (send (consumer :worker) notify-msg ware (state :storage) amount))))

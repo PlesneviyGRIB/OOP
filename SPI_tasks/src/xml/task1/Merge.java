@@ -7,7 +7,7 @@ public class Merge {
         if(supportivePerson.getName() != null) mainPerson.setName(supportivePerson.getName());
         if(supportivePerson.getSurname() != null) mainPerson.setSurname(supportivePerson.getSurname());
         if(supportivePerson.getGender() != null) mainPerson.setGender(supportivePerson.getGender());
-        if(supportivePerson.getSpouce() != null) mainPerson.setSpouce(supportivePerson.getSpouce());
+        if(supportivePerson.getSpouse() != null) mainPerson.setSpouse(supportivePerson.getSpouse());
 
         mainPerson.setChildren(My_Utils.addSet(mainPerson.getChildren(), supportivePerson.getChildren()));
         mainPerson.setParents(My_Utils.addSet(mainPerson.getParents(), supportivePerson.getParents()));
@@ -21,9 +21,9 @@ public class Merge {
         Map<String, Person> newMap = new HashMap<>(relativePeople);
 
         relativePeople.forEach((k,v) -> {
-            if(My_Utils.isMyId(v.getSpouce())){
-                Person person = newMap.get(v.getSpouce());
-                person.setSpouce(k);
+            if(My_Utils.isMyId(v.getSpouse())){
+                Person person = newMap.get(v.getSpouse());
+                person.setSpouse(k);
                 if(person.getGender() != null)
                     v.setGender(My_Utils.reverseGender(person.getGender()));
                 else
@@ -74,9 +74,9 @@ public class Merge {
 
             if(p.getName() != null && p.getSurname() != null)  fio = p.getName() + " " + p.getSurname();
 
-            if(My_Utils.isId(p.getSpouce()) && people.containsKey(p.getSpouce()) && fio != null){
-                Person person = people.get(p.getSpouce());
-                person.setSpouce(fio);
+            if(My_Utils.isId(p.getSpouse()) && people.containsKey(p.getSpouse()) && fio != null){
+                Person person = people.get(p.getSpouse());
+                person.setSpouse(fio);
 
                 if(person.getGender() != null)
                     p.setGender(My_Utils.reverseGender(person.getGender()));
@@ -122,9 +122,9 @@ public class Merge {
     public static void mergeByMyIdPeopleWithoutId(Map<String, Person> relativePeople, List<Person> withoitId){
 
         withoitId.forEach(p -> {
-            if(My_Utils.isMyId(p.getSpouce()) && p.getSurname() != null && p.getName() != null){
-                    Person person = relativePeople.get(p.getSpouce());
-                    person.setSpouce(p.getName() + " " + p.getSurname());
+            if(My_Utils.isMyId(p.getSpouse()) && p.getSurname() != null && p.getName() != null){
+                    Person person = relativePeople.get(p.getSpouse());
+                    person.setSpouse(p.getName() + " " + p.getSurname());
 
                 if(person.getGender() != null)
                     p.setGender(My_Utils.reverseGender(person.getGender()));
@@ -168,10 +168,10 @@ public class Merge {
 
     public static void mergeRelative(Map<String, Person> people, Map<String, Person> relativePeople){
         people.forEach((k, p) ->{
-            if(My_Utils.isMyId(p.getSpouce())){
-                Person person = relativePeople.get(p.getSpouce());
+            if(My_Utils.isMyId(p.getSpouse())){
+                Person person = relativePeople.get(p.getSpouse());
                 if(person.getId() != null)
-                    p.setSpouce(person.getId());
+                    p.setSpouse(person.getId());
 
                 if(person.getGender() != null)
                     p.setGender(My_Utils.reverseGender(person.getGender()));
