@@ -90,6 +90,7 @@
         city_2 : null | string
         airport_code_1 : null | string
         airport_code_2 : null | string
+        max_waiting_time : long
         departure_date : Timestamp
         booking_class : "Economy" | "Comfort" | "Business"
         connections : null | number
