@@ -1,6 +1,6 @@
 # Endpoints Documentation
 
-**/api** - general prefix
+**/api/{locale}/** - general prefix ("ru", "en")
 
 **/cities/sources** `GET params["_page={number}", "_limit={number}"]` - sources cities
 
@@ -68,7 +68,7 @@
 
     HTTP statuses: 200, 400
 
-### DTO Description 
+### DTO Description
 
     AirportDTO {
         code : String
@@ -83,6 +83,16 @@
         flight_no : string
         origin : AirportDTO
         destination : AirportDTO
+    }
+
+    FilterDTO{
+        city_1 : null | string
+        city_2 : null | string
+        airport_code_1 : null | string
+        airport_code_2 : null | string
+        departure_date : Timestamp
+        booking_class : "Economy" | "Comfort" | "Business"
+        connections : null | number
     }
 
     TicketInfoDTO{
