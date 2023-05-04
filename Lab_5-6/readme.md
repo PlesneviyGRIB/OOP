@@ -46,13 +46,13 @@
 
 **/airports/{airport_id}/inbound** `GET` - inbound schedule for airport
 
-    Return type: ScheduleDTO
+    Return type: List<ScheduleDTO>
 
     HTTP statuses: 200, 204, 400 
 
 **/airports/{airport_id}/outbound** `GET` - inbound schedule for airport
 
-    Return type: ScheduleDTO
+    Return type: List<ScheduleDTO>
 
     HTTP statuses: 200, 204, 400
 
@@ -78,8 +78,7 @@
     }
 
     ScheduleDTO {
-        days : number[]
-        departure : Timestamp
+        days : {day :number, departure : Timestamp}[]
         flight_no : string
         origin : AirportDTO
         destination : AirportDTO
