@@ -4,43 +4,43 @@
 
 **/cities/sources** `GET params["_page={number}", "_limit={number}"]` - sources cities
 
-    Return type: Page<String>
+    Return type: List<String>
 
     HTTP statuses: 200
 
 **/cities/destinations** `GET params["_page={number}", "_limit={number}"]` - destinations cities
 
-    Return type: Page<String>
+    Return type: List<String>
 
     HTTP statuses: 200
 
 **/cities** `GET params["_page={number}", "_limit={number}"]` - all cities
 
-    Return type: Page<String>
+    Return type: List<String>
 
     HTTP statuses: 200
 
 **/cities/sources/airports** `GET params["_page={number}", "_limit={number}"]` - sources cities airports
 
-    Return type: Page<AirportDTO>
+    Return type: List<AirportDTO>
 
     HTTP statuses: 200
 
 **/cities/destinations/airports** `GET params["_page={number}", "_limit={number}"]` - destinations cities airports
 
-    Return type: Page<AirportDTO>
+    Return type: List<AirportDTO>
 
     HTTP statuses: 200
 
 **/cities/{city_id}/airports** `GET params["_page={number}", "_limit={number}"]` - all airports by city
 
-    Return type: Page<AirportDTO>
+    Return type: List<AirportDTO>
 
     HTTP statuses: 200, 400
 
 **/airports** `GET params["_page={number}", "_limit={number}"]` - all airports
 
-    Return type: Page<AirportDTO>
+    Return type: List<AirportDTO>
 
     HTTP statuses: 200
 
@@ -58,7 +58,7 @@
 
 **/routes/filter** `POST` - routes by filter (filter - object that encapsulates all search criteria)
 
-    Return type: Page<RouteDTO>
+    Return type: List<RouteDTO>
 
     HTTP statuses: 200
 
@@ -74,7 +74,7 @@
         code : String
         name : String
         city : String
-        timezone : Timezone
+        timezone : String
     }
 
     ScheduleDTO {

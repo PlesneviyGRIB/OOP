@@ -1,7 +1,6 @@
 package Task6;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class Main {
@@ -39,7 +38,7 @@ public class Main {
             int index = i;
 
             for (int j = i + 1; j < people.size(); j++) {
-                if (tmp.age() > people.get(j).age()) {
+                if (tmp.getAge() > people.get(j).getAge()) {
                     tmp = people.get(j);
                     index = j;
                 }
@@ -58,19 +57,3 @@ public class Main {
         System.out.println("Method call");
     }
 }
-
-class Processor{
-    public int length(String str){
-        return str.length();
-    }
-
-    public void caller(Main main){
-        main.method();
-    }
-
-    public void setter(Main main, int num){
-        main.setNum(num);
-    }
-}
-
-record Person(String name, int age){}
