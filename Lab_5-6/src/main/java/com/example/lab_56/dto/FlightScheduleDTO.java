@@ -1,16 +1,19 @@
 package com.example.lab_56.dto;
 
+import lombok.AllArgsConstructor;
+
 import java.sql.Timestamp;
 import java.util.List;
 
+@AllArgsConstructor
 public class FlightScheduleDTO {
-    public List<DayTimeDTO> days;
+    @AllArgsConstructor
+    public static class DayTimeDTO {
+        public Integer day;
+        public String departure;
+    }
     public String flightId;
     public AirportDTO origin;
     public AirportDTO destination;
-}
-
-class DayTimeDTO {
-    public Integer day;
-    public Timestamp departure;
+    public List<DayTimeDTO> days;
 }

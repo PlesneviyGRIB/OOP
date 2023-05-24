@@ -1,23 +1,64 @@
 package com.example.lab_56.services;
 
 import com.example.lab_56.converters.Converter;
+import com.example.lab_56.converters.Processor;
 import com.example.lab_56.dto.AirportDTO;
+import com.example.lab_56.dto.FlightScheduleDTO;
+import com.example.lab_56.models.supportive.ScheduleRawLine;
 import com.example.lab_56.repositories.AirportRepository;
 import com.example.lab_56.repositories.FlightsRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.example.lab_56.models.QAirport.airport;
 import static com.example.lab_56.models.QFlights.flights;
+import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
 @Component
 public class FlightsRepositoryLayer {
     private final FlightsRepository flightsRepository;
     private final AirportRepository airportRepository;
+
+    private static Processor<List<ScheduleRawLine>, List<FlightScheduleDTO>, Map<String, AirportDTO>> scheduleRawLineProcessor = (List<ScheduleRawLine> lines, Map<String, AirportDTO> airports) -> {
+        record ScheduleLine(String flightNo, String originAirport, String destinationAirport, Integer dayOfWeek, String time){
+            @Override
+            public boolean equals(Object obj) {
+                if(obj.getClass() != ScheduleLine.class) return false;
+
+                ScheduleLine o = (ScheduleLine) obj;
+
+                return o.flightNo.equals(this.flightNo) &&
+                       o.originAirport.equals(this.originAirport) &&
+                       o.destinationAirport.equals(this.destinationAirport) &&
+                       o.time.equals(this.time);
+            }
+        }
+
+        return lines.stream()
+                .map(l -> new ScheduleLine(l.flightNo(), l.originAirport(), l.destinationAirport(), l.timestamp().getDay(), DateTimeFormatter.ofPattern("HH:mm:ss").format(l.timestamp().toLocalDateTime())))
+                .distinct()
+                .collect(groupingBy(l -> l.flightNo))
+                .entrySet().stream()
+                .map(entry -> {
+                    var origin = entry.getValue().get(0).originAirport;
+                    var destination = entry.getValue().get(0).destinationAirport;
+                    return new FlightScheduleDTO(
+                            entry.getKey(),
+                            airports.get(origin),
+                            airports.get(destination),
+                            entry.getValue().stream().map(l -> new FlightScheduleDTO.DayTimeDTO(l.dayOfWeek, l.time)).toList()
+                    );
+                }).toList();
+    };
 
     public List<String> getCities(Long limit, Long page){
         return flightsRepository.query(q -> q
@@ -109,6 +150,9 @@ public class FlightsRepositoryLayer {
     }
 
     public List<AirportDTO> getAirportsByCity(String city){
+        if(!airportRepository.existsAirportByCity(city))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No such city!");
+
         var airports = airportRepository.query(q -> q
                 .select(airportRepository.entityProjection())
                 .from(airport)
@@ -121,5 +165,41 @@ public class FlightsRepositoryLayer {
                 .stream()
                 .map(Converter::airportToDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<FlightScheduleDTO> inboundSchedule(String code){
+        if(!airportRepository.existsById(code))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No such airport!");
+
+        var rawResult = airportRepository.query(q -> q
+                .select(flights.flightNo, flights.departureAirport, flights.scheduledArrival)
+                .distinct()
+                .from(airport)
+                .join(flights).on(flights.departureAirport.eq(airport.code))
+                .where(flights.arrivalAirport.eq(code).and(flights.status.eq("Scheduled")))
+                .fetch());
+
+        return scheduleRawLineProcessor.process(
+                rawResult.stream().map(t -> new ScheduleRawLine(t.get(0, String.class), t.get(1, String.class), code, t.get(2, Timestamp.class))).toList(),
+                airportRepository.findAll().stream().map(Converter::airportToDTO).collect(Collectors.toMap(AirportDTO::getCode, a -> a))
+        );
+    }
+
+    public List<FlightScheduleDTO> outboundSchedule(String code){
+        if(!airportRepository.existsById(code))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No such airport!");
+
+        var rawResult = airportRepository.query(q -> q
+                .select(flights.flightNo, flights.arrivalAirport, flights.scheduledArrival)
+                .distinct()
+                .from(airport)
+                .join(flights).on(flights.arrivalAirport.eq(airport.code))
+                .where(flights.departureAirport.eq(code).and(flights.status.eq("Scheduled")))
+                .fetch());
+
+        return scheduleRawLineProcessor.process(
+                rawResult.stream().map(t -> new ScheduleRawLine(t.get(0, String.class), code, t.get(1, String.class), t.get(2, Timestamp.class))).toList(),
+                airportRepository.findAll().stream().map(Converter::airportToDTO).collect(Collectors.toMap(AirportDTO::getCode, a -> a))
+        );
     }
 }

@@ -42,11 +42,11 @@ public class AirportsController extends BaseController{
 
     @GetMapping("/airports/{code}/inbound")
     public List<FlightScheduleDTO> inboundSchedule(@PathVariable String code){
-        return Collections.emptyList();
+        return flightsRepositoryImpl.inboundSchedule(code);
     }
 
     @GetMapping("/airports/{code}/outbound")
     public List<FlightScheduleDTO> outboundSchedule(@PathVariable String code){
-        return Collections.emptyList();
+        return flightsRepositoryImpl.outboundSchedule(code);
     }
 }
