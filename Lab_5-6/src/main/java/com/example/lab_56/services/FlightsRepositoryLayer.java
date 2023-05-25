@@ -55,7 +55,7 @@ public class FlightsRepositoryLayer {
                             entry.getKey(),
                             airports.get(origin),
                             airports.get(destination),
-                            entry.getValue().stream().map(l -> new FlightScheduleDTO.DayTimeDTO(l.dayOfWeek, l.time)).toList()
+                            entry.getValue().stream().map(l -> new FlightScheduleDTO.DayTimeDTO(l.dayOfWeek, l.time)).sorted().toList()
                     );
                 }).toList();
     };
@@ -174,8 +174,7 @@ public class FlightsRepositoryLayer {
         var rawResult = airportRepository.query(q -> q
                 .select(flights.flightNo, flights.departureAirport, flights.scheduledArrival)
                 .distinct()
-                .from(airport)
-                .join(flights).on(flights.departureAirport.eq(airport.code))
+                .from(flights)
                 .where(flights.arrivalAirport.eq(code).and(flights.status.eq("Scheduled")))
                 .fetch());
 
@@ -192,8 +191,7 @@ public class FlightsRepositoryLayer {
         var rawResult = airportRepository.query(q -> q
                 .select(flights.flightNo, flights.arrivalAirport, flights.scheduledArrival)
                 .distinct()
-                .from(airport)
-                .join(flights).on(flights.arrivalAirport.eq(airport.code))
+                .from(flights)
                 .where(flights.departureAirport.eq(code).and(flights.status.eq("Scheduled")))
                 .fetch());
 
