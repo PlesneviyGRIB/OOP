@@ -112,5 +112,15 @@
 
     RouteDTO {
         id : number
-        List<TicketDTO>
+        price: number
+        List<FlightDTO>
+    }
+
+    FlightDTO {
+        origin: AirportDTO
+        destination: AirportDTO
+        departure: Timestamp
+        arrival: Timestamp
+        aircraftCode: string
+        price: number
     }

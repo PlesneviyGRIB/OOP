@@ -7,6 +7,7 @@ import com.example.lab_56.dto.FlightScheduleDTO;
 import com.example.lab_56.models.supportive.ScheduleRawLine;
 import com.example.lab_56.repositories.AirportRepository;
 import com.example.lab_56.repositories.FlightsRepository;
+import com.example.lab_56.repositories.TicketFlightRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,8 @@ import java.util.stream.Collectors;
 
 import static com.example.lab_56.models.QAirport.airport;
 import static com.example.lab_56.models.QFlights.flights;
+import static com.example.lab_56.models.QSeat.seat;
+import static com.example.lab_56.models.QTicketFlights.ticketFlights;
 import static java.util.stream.Collectors.groupingBy;
 
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ import static java.util.stream.Collectors.groupingBy;
 public class FlightsRepositoryLayer {
     private final FlightsRepository flightsRepository;
     private final AirportRepository airportRepository;
+    private final TicketFlightRepository ticketFlightRepository;
 
     private static Processor<List<ScheduleRawLine>, List<FlightScheduleDTO>, Map<String, AirportDTO>> scheduleRawLineProcessor = (List<ScheduleRawLine> lines, Map<String, AirportDTO> airports) -> {
         record ScheduleLine(String flightNo, String originAirport, String destinationAirport, Integer dayOfWeek, String time){
@@ -189,7 +193,7 @@ public class FlightsRepositoryLayer {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No such airport!");
 
         var rawResult = airportRepository.query(q -> q
-                .select(flights.flightNo, flights.arrivalAirport, flights.scheduledArrival)
+                .select(flights.flightNo, flights.arrivalAirport, flights.scheduledDeparture)
                 .distinct()
                 .from(flights)
                 .where(flights.departureAirport.eq(code).and(flights.status.eq("Scheduled")))
@@ -199,5 +203,26 @@ public class FlightsRepositoryLayer {
                 rawResult.stream().map(t -> new ScheduleRawLine(t.get(0, String.class), code, t.get(1, String.class), t.get(2, Timestamp.class))).toList(),
                 airportRepository.findAll().stream().map(Converter::airportToDTO).collect(Collectors.toMap(AirportDTO::getCode, a -> a))
         );
+    }
+
+    public boolean isBookingAvailable(Long flightId, String fareCondition){
+        var countOfSeats = flightsRepository.query(q -> q
+                .select(seat.seatNo)
+                .from(seat)
+                .distinct()
+                .join(flights).on(flights.aircraftCode.eq(seat.aircraftCode))
+                .where(flights.id.eq(flightId).and(seat.fareCondition.eq(fareCondition)))
+                .fetchCount()
+        );
+
+        var countOfBoughtTickets = ticketFlightRepository.query(q -> q
+                .select(ticketFlights.ticketNo)
+                .from(ticketFlights)
+                .distinct()
+                .where(ticketFlights.flightId.eq(flightId).and(ticketFlights.fareCondition.eq(fareCondition)))
+                .fetchCount()
+        );
+
+        return countOfSeats - countOfBoughtTickets > 0;
     }
 }

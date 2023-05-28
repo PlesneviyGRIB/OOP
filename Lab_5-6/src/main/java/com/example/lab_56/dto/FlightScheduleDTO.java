@@ -9,7 +9,7 @@ public class FlightScheduleDTO {
     @AllArgsConstructor
     public static class DayTimeDTO implements Comparable<DayTimeDTO>{
         public Integer day;
-        public String departure;
+        public String time;
 
         @Override
         public int compareTo(DayTimeDTO o) {
