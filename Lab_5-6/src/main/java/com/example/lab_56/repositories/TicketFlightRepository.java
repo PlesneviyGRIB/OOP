@@ -6,6 +6,8 @@ import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface TicketFlightRepository extends QuerydslJdbcRepository<TicketFlights, String> {
     @Modifying
     @Query("insert into ticket_flights (ticket_no, flight_id, fare_conditions, amount) VALUES (:ticket_no, :flight_id, :fare_conditions, :amount)")
@@ -13,4 +15,6 @@ public interface TicketFlightRepository extends QuerydslJdbcRepository<TicketFli
                     @Param("flight_id") Long flight_id,
                     @Param("fare_conditions") String fare_conditions,
                     @Param("amount") Long amount);
+
+    Optional<TicketFlights> getTicketFlightsByTicketNo(String ticketNo);
 }

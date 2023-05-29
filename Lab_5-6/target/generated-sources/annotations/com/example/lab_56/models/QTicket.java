@@ -35,7 +35,7 @@ public class QTicket extends com.querydsl.sql.RelationalPathBase<Ticket> {
     public final StringPath contactData = createString("contactData");
 
     public QTicket(String variable) {
-        super(Ticket.class, forVariable(variable), null, "Tickets");
+        super(Ticket.class, forVariable(variable), null, "tickets");
         addMetadata();
     }
 
@@ -45,17 +45,17 @@ public class QTicket extends com.querydsl.sql.RelationalPathBase<Ticket> {
     }
 
     public QTicket(String variable, String schema) {
-        super(Ticket.class, forVariable(variable), schema, "Tickets");
+        super(Ticket.class, forVariable(variable), schema, "tickets");
         addMetadata();
     }
 
     public QTicket(Path<? extends Ticket> path) {
-        super(path.getType(), path.getMetadata(), null, "Tickets");
+        super(path.getType(), path.getMetadata(), null, "tickets");
         addMetadata();
     }
 
     public QTicket(PathMetadata metadata) {
-        super(Ticket.class, metadata, null, "Tickets");
+        super(Ticket.class, metadata, null, "tickets");
         addMetadata();
     }
 

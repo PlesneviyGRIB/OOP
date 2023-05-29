@@ -6,21 +6,20 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.sql.In;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table("tickets")
-public class Ticket {
-    @Id
+@Table("boarding_passes")
+public class BoardingPass {
     @Column("ticket_no")
     private String ticketNo;
-    @Column("book_ref")
-    private String bookRef;
-    @Column("passenger_id")
-    private String passengerId;
-    @Column("passenger_name")
-    private String passengerName;
-    @Column("contact_data")
-    private String contactData;
+    @Id
+    @Column("flight_id")
+    private Long flightId;
+    @Column("boarding_no")
+    private Integer boardingNo;
+    @Column("seat_no")
+    private String seatNo;
 }

@@ -2,12 +2,11 @@ package com.example.lab_56.services;
 
 import com.example.lab_56.dto.FilterDTO;
 import com.example.lab_56.dto.RouteDTO;
+import com.example.lab_56.dto.TicketDTO;
+import com.example.lab_56.models.BoardingPass;
 import com.example.lab_56.models.Booking;
 import com.example.lab_56.models.Route;
-import com.example.lab_56.repositories.BookingRepository;
-import com.example.lab_56.repositories.FlightsRepository;
-import com.example.lab_56.repositories.TicketFlightRepository;
-import com.example.lab_56.repositories.TicketRepository;
+import com.example.lab_56.repositories.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
@@ -29,6 +28,7 @@ public class RoutesService {
     private final BookingRepository bookingRepository;
     private final TicketRepository ticketRepository;
     private final TicketFlightRepository ticketFlightRepository;
+    private final BoardingPassRepository boardingPassRepository;
 
     public List<RouteDTO> routes(FilterDTO filter){
         ServiceUtils.validateFilter(filter);
@@ -83,5 +83,29 @@ public class RoutesService {
                 });
 
         return passengerId;
+    }
+
+    public List<TicketDTO> getTickets(String passengerId){
+        return ticketRepository.getTicketsByPassengerId(passengerId);
+    }
+
+    public boolean checkIn(String ticketId, String passengerId){
+        var ticketDTO = ticketRepository.getTicketById(ticketId).get();
+
+        if(!ticketDTO.passengerId.equals(passengerId))
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Passenger in not owner!");
+
+        var ticketFlight = ticketFlightRepository.getTicketFlightsByTicketNo(ticketId).get();
+
+        if(boardingPassRepository.existsById(ticketFlight.getFlightId()))
+            throw new ResponseStatusException(HttpStatus.ACCEPTED, "Already passed!");
+
+        boardingPassRepository.manualSave(
+                ticketDTO.ticketNo,
+                ticketFlight.getFlightId(),
+                0,
+                ServiceUtils.generateKey(4)
+        );
+        return true;
     }
 }

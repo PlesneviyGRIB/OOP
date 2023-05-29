@@ -206,14 +206,17 @@ public class FlightsRepositoryLayer {
     }
 
     public boolean isBookingAvailable(Long flightId, String fareCondition){
+        var flight = flightsRepository.findById(flightId).get();
+
         var countOfSeats = flightsRepository.query(q -> q
                 .select(seat.seatNo)
                 .from(seat)
                 .distinct()
-                .join(flights).on(flights.aircraftCode.eq(seat.aircraftCode))
-                .where(flights.id.eq(flightId).and(seat.fareCondition.eq(fareCondition)))
+                .where(seat.aircraftCode.eq(flight.getAircraftCode()).and(seat.fareCondition.eq(fareCondition)))
                 .fetchCount()
         );
+
+        System.out.println(countOfSeats);
 
         var countOfBoughtTickets = ticketFlightRepository.query(q -> q
                 .select(ticketFlights.ticketNo)
@@ -222,6 +225,8 @@ public class FlightsRepositoryLayer {
                 .where(ticketFlights.flightId.eq(flightId).and(ticketFlights.fareCondition.eq(fareCondition)))
                 .fetchCount()
         );
+
+        System.out.println(countOfBoughtTickets);
 
         return countOfSeats - countOfBoughtTickets > 0;
     }
