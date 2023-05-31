@@ -2,14 +2,13 @@ package com.example.lab_56.controllers;
 
 import com.example.lab_56.dto.AirportDTO;
 import com.example.lab_56.dto.FlightScheduleDTO;
-import com.example.lab_56.services.FlightsRepositoryLayer;
+import com.example.lab_56.repositories.layers.FlightsRepositoryLayer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor

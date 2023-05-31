@@ -1,22 +1,15 @@
 package com.example.lab_56.services;
 
 import com.example.lab_56.dto.FilterDTO;
+import com.example.lab_56.dto.FlightDTO;
 import com.example.lab_56.dto.RouteDTO;
-import com.example.lab_56.dto.TicketDTO;
-import com.example.lab_56.models.BoardingPass;
-import com.example.lab_56.models.Booking;
-import com.example.lab_56.models.Route;
-import com.example.lab_56.repositories.*;
+import com.example.lab_56.repositories.FlightsRepository;
+import com.example.lab_56.repositories.layers.FlightsRepositoryLayer;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,10 +18,6 @@ import java.util.stream.Collectors;
 public class RoutesService {
     private final FlightsRepository flightsRepository;
     private final FlightsRepositoryLayer flightsRepositoryLayer;
-    private final BookingRepository bookingRepository;
-    private final TicketRepository ticketRepository;
-    private final TicketFlightRepository ticketFlightRepository;
-    private final BoardingPassRepository boardingPassRepository;
 
     public List<RouteDTO> routes(FilterDTO filter){
         ServiceUtils.validateFilter(filter);
@@ -42,70 +31,18 @@ public class RoutesService {
                 filter.connections
         );
 
+        var flightIds = res.stream().flatMap(r -> Arrays.stream(r.split("->"))).map(Long::parseLong).distinct().toList();
+        var flightsMap = flightsRepositoryLayer.getFlightDTOs(flightIds, filter.fareCondition).stream().collect(Collectors.toMap(FlightDTO::getFlightId, f -> f));
+
         return res.stream().map(r -> {
-            String[] flights = r.getRouteSequence().split("->");
-            var dto = new RouteDTO();
-            dto.flights = new ArrayList<>(Arrays.asList(flights));
-            dto.price = r.getAmount();
-            dto.fareCondition = filter.fareCondition;
-            return dto;
-        }).collect(Collectors.toList());
-    }
-
-    public String makeBooking(RouteDTO route){
-        ServiceUtils.validateRoute(route);
-
-        route.flights.stream()
-                .map(Long::parseLong)
-                .filter(f ->  !flightsRepositoryLayer.isBookingAvailable(f, route.fareCondition))
-                .findAny().map(f -> {throw new ResponseStatusException(HttpStatus.CONFLICT, "Unable to book due to lack of tickets for flight: '" + f + "' with fare condition: '" + route.fareCondition + "'");});
-
-        var bookingId = ServiceUtils.generateKey(6);
-        bookingRepository.manualSave(
-                bookingId,
-                new Date(System.currentTimeMillis()),
-                route.price
-        );
-
-        var passengerId = ServiceUtils.generateKey(20);
-        route.flights.stream()
-                .map(Long::parseLong)
-                .forEach(f -> {
-                    var ticketId = ServiceUtils.generateKey(13);
-                    ticketRepository.manualSave(
-                            ticketId,
-                            bookingId,
-                            passengerId,
-                            "Ivan",
-                            "{\"phone\": \"+79137771428\"}"
-                    );
-                    ticketFlightRepository.manualSave(ticketId, f, route.fareCondition, 0L);
-                });
-
-        return passengerId;
-    }
-
-    public List<TicketDTO> getTickets(String passengerId){
-        return ticketRepository.getTicketsByPassengerId(passengerId);
-    }
-
-    public boolean checkIn(String ticketId, String passengerId){
-        var ticketDTO = ticketRepository.getTicketById(ticketId).get();
-
-        if(!ticketDTO.passengerId.equals(passengerId))
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Passenger in not owner!");
-
-        var ticketFlight = ticketFlightRepository.getTicketFlightsByTicketNo(ticketId).get();
-
-        if(boardingPassRepository.existsById(ticketFlight.getFlightId()))
-            throw new ResponseStatusException(HttpStatus.ACCEPTED, "Already passed!");
-
-        boardingPassRepository.manualSave(
-                ticketDTO.ticketNo,
-                ticketFlight.getFlightId(),
-                0,
-                ServiceUtils.generateKey(4)
-        );
-        return true;
+                    var currentFlightIds = Arrays.stream(r.split("->")).map(Long::parseLong).toList();
+                    var dto = new RouteDTO();
+                    dto.flights = currentFlightIds.stream().map(flightsMap::get).toList();
+                    dto.price = dto.flights.stream().map(f -> f.prices.get(0)).mapToLong(Long::longValue).sum();
+                    dto.fareCondition = filter.fareCondition;
+                    return dto;
+                })
+                .sorted(Comparator.comparing(r -> r.price))
+                .collect(Collectors.toList());
     }
 }

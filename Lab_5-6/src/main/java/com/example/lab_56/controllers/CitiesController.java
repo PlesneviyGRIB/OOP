@@ -1,6 +1,6 @@
 package com.example.lab_56.controllers;
 
-import com.example.lab_56.services.FlightsRepositoryLayer;
+import com.example.lab_56.repositories.layers.FlightsRepositoryLayer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -2,8 +2,7 @@ package com.example.lab_56.dto;
 
 import java.util.List;
 
-public class RouteDTO {
-    public Long price;
+public class PartialRouteDTO {
     public String fareCondition;
-    public List<FlightDTO> flights;
+    public List<PartialFlightDTO> partialFlights;
 }

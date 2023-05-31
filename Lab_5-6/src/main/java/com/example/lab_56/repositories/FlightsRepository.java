@@ -1,19 +1,17 @@
 package com.example.lab_56.repositories;
 
-import com.example.lab_56.models.Flights;
-import com.example.lab_56.models.Route;
+import com.example.lab_56.models.Flight;
 import com.infobip.spring.data.jdbc.QuerydslJdbcRepository;
-import com.querydsl.core.Tuple;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.sql.Date;
 import java.util.List;
 
-public interface FlightsRepository extends QuerydslJdbcRepository<Flights, Long> {
+public interface FlightsRepository extends QuerydslJdbcRepository<Flight, Long> {
     @Query("""
             with recursive node AS (
-                select f.departure_airport, f.arrival_airport, f.scheduled_arrival, cast(f.flight_id as varchar(50)) as route, 0 as count, cast(tf.amount as numeric)
+                select f.departure_airport, f.arrival_airport, f.scheduled_arrival, cast(f.flight_id as varchar(50)) as route, 0 as count
                 from flights as f
                 join ticket_flights tf on f.flight_id = tf.flight_id
                   where f.status = 'Scheduled'
@@ -22,7 +20,7 @@ public interface FlightsRepository extends QuerydslJdbcRepository<Flights, Long>
                   and date(f.scheduled_arrival) < :arrivalDate
                   and departure_airport = :origin
                 union
-                select f.departure_airport, f.arrival_airport, f.scheduled_arrival, cast(n.route || '->' || f.flight_id as varchar(50)), n.count + 1, n.amount + tf.amount
+                select f.departure_airport, f.arrival_airport, f.scheduled_arrival, cast(n.route || '->' || f.flight_id as varchar(50)), n.count + 1
                 from node as n
                 join flights as f on f.departure_airport = n.arrival_airport
                 join ticket_flights tf on f.flight_id = tf.flight_id
@@ -35,16 +33,15 @@ public interface FlightsRepository extends QuerydslJdbcRepository<Flights, Long>
                     and n.scheduled_arrival < f.scheduled_departure
                   and count < :transfersCount
             )
-            select n.route as routeSequence, n.amount
+            select n.route
             from node as n
-            where n.arrival_airport = :destination
-            order by n.amount;
+            where n.arrival_airport = :destination;
             """)
-    List<Route> getRoutes(@Param("departureDate") Date departureDate,
-                          @Param("arrivalDate") Date arrivalDate,
-                          @Param("origin") String originAirportCode,
-                          @Param("destination") String destinationAirportCode,
-                          @Param("fareCondition") String fareCondition,
-                          @Param("transfersCount") int transfersCount
+    List<String> getRoutes(@Param("departureDate") Date departureDate,
+                           @Param("arrivalDate") Date arrivalDate,
+                           @Param("origin") String originAirportCode,
+                           @Param("destination") String destinationAirportCode,
+                           @Param("fareCondition") String fareCondition,
+                           @Param("transfersCount") int transfersCount
     );
 }

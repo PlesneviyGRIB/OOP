@@ -1,6 +1,7 @@
 package com.example.lab_56.services;
 
 import com.example.lab_56.dto.FilterDTO;
+import com.example.lab_56.dto.PartialRouteDTO;
 import com.example.lab_56.dto.RouteDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
@@ -8,7 +9,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Random;
-
 
 public class ServiceUtils {
     public static void validateFilter(FilterDTO filter){
@@ -31,11 +31,10 @@ public class ServiceUtils {
         if(filter.departureDate == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid departureDate");
 
-
-        if(filter.connections == null) filter.connections = 4;
+        if(filter.connections == null) filter.connections = 5;
     }
 
-    public static void validateRoute(RouteDTO route){
+    public static void validatePartialRoute(PartialRouteDTO route){
         if(route.fareCondition == null ||
          !(route.fareCondition.equals("Economy") ||
            route.fareCondition.equals("Comfort") ||

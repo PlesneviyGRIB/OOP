@@ -1,4 +1,4 @@
-package com.example.lab_56.models.supportive;
+package com.example.lab_56.repositories.rawData;
 
 import java.sql.Timestamp;
 

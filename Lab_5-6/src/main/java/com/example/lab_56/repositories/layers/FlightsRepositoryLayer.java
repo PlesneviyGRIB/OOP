@@ -1,13 +1,15 @@
-package com.example.lab_56.services;
+package com.example.lab_56.repositories.layers;
 
 import com.example.lab_56.converters.Converter;
 import com.example.lab_56.converters.Processor;
 import com.example.lab_56.dto.AirportDTO;
+import com.example.lab_56.dto.FlightDTO;
 import com.example.lab_56.dto.FlightScheduleDTO;
-import com.example.lab_56.models.supportive.ScheduleRawLine;
+import com.example.lab_56.repositories.rawData.ScheduleRawLine;
 import com.example.lab_56.repositories.AirportRepository;
 import com.example.lab_56.repositories.FlightsRepository;
 import com.example.lab_56.repositories.TicketFlightRepository;
+import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -15,12 +17,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static com.example.lab_56.models.QAirport.airport;
-import static com.example.lab_56.models.QFlights.flights;
+import static com.example.lab_56.models.QFlight.flight;
+import static com.example.lab_56.models.QPriceInfo.priceInfo;
 import static com.example.lab_56.models.QSeat.seat;
 import static com.example.lab_56.models.QTicketFlights.ticketFlights;
 import static java.util.stream.Collectors.groupingBy;
@@ -79,8 +85,8 @@ public class FlightsRepositoryLayer {
         return flightsRepository.query(q -> q
                         .select(airport.city)
                         .distinct()
-                        .from(flights)
-                        .join(airport).on(airport.code.eq(flights.departureAirport))
+                        .from(flight)
+                        .join(airport).on(airport.code.eq(flight.departureAirport))
                         .offset(limit * page)
                         .limit(limit)
                         .orderBy(airport.city.asc())
@@ -92,8 +98,8 @@ public class FlightsRepositoryLayer {
         return flightsRepository.query(q -> q
                         .select(airport.city)
                         .distinct()
-                        .from(flights)
-                        .join(airport).on(airport.code.eq(flights.arrivalAirport))
+                        .from(flight)
+                        .join(airport).on(airport.code.eq(flight.arrivalAirport))
                         .offset(limit * page)
                         .limit(limit)
                         .orderBy(airport.city.asc())
@@ -121,8 +127,8 @@ public class FlightsRepositoryLayer {
         var airports = airportRepository.query(q -> q
                 .select(airportRepository.entityProjection())
                 .distinct()
-                .from(flights)
-                .join(airport).on(airport.code.eq(flights.departureAirport))
+                .from(flight)
+                .join(airport).on(airport.code.eq(flight.departureAirport))
                 .offset(limit * page)
                 .limit(limit)
                 .orderBy(airport.code.asc())
@@ -139,8 +145,8 @@ public class FlightsRepositoryLayer {
         var airports = airportRepository.query(q -> q
                 .select(airportRepository.entityProjection())
                 .distinct()
-                .from(flights)
-                .join(airport).on(airport.code.eq(flights.arrivalAirport))
+                .from(flight)
+                .join(airport).on(airport.code.eq(flight.arrivalAirport))
                 .offset(limit * page)
                 .limit(limit)
                 .orderBy(airport.code.asc())
@@ -176,10 +182,10 @@ public class FlightsRepositoryLayer {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No such airport!");
 
         var rawResult = airportRepository.query(q -> q
-                .select(flights.flightNo, flights.departureAirport, flights.scheduledArrival)
+                .select(flight.flightNo, flight.departureAirport, flight.scheduledArrival)
                 .distinct()
-                .from(flights)
-                .where(flights.arrivalAirport.eq(code).and(flights.status.eq("Scheduled")))
+                .from(flight)
+                .where(flight.arrivalAirport.eq(code).and(flight.status.eq("Scheduled")))
                 .fetch());
 
         return scheduleRawLineProcessor.process(
@@ -193,10 +199,10 @@ public class FlightsRepositoryLayer {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "No such airport!");
 
         var rawResult = airportRepository.query(q -> q
-                .select(flights.flightNo, flights.arrivalAirport, flights.scheduledDeparture)
+                .select(flight.flightNo, flight.arrivalAirport, flight.scheduledDeparture)
                 .distinct()
-                .from(flights)
-                .where(flights.departureAirport.eq(code).and(flights.status.eq("Scheduled")))
+                .from(flight)
+                .where(flight.departureAirport.eq(code).and(flight.status.eq("Scheduled")))
                 .fetch());
 
         return scheduleRawLineProcessor.process(
@@ -216,8 +222,6 @@ public class FlightsRepositoryLayer {
                 .fetchCount()
         );
 
-        System.out.println(countOfSeats);
-
         var countOfBoughtTickets = ticketFlightRepository.query(q -> q
                 .select(ticketFlights.ticketNo)
                 .from(ticketFlights)
@@ -226,8 +230,53 @@ public class FlightsRepositoryLayer {
                 .fetchCount()
         );
 
-        System.out.println(countOfBoughtTickets);
-
         return countOfSeats - countOfBoughtTickets > 0;
+    }
+
+    public List<FlightDTO> getFlightDTOs(List<Long> flightIds, String fareCondition){
+        BooleanBuilder predicate = new BooleanBuilder(priceInfo.fareCondition.eq(fareCondition));
+        if(fareCondition.equals("Economy")){
+            predicate.or(priceInfo.fareCondition.eq("Economy_+"));
+        }
+        var rawResult = flightsRepository.query(q -> q
+                .select(flight.id,
+                        flight.scheduledDeparture,
+                        flight.scheduledArrival,
+                        flight.departureAirport,
+                        flight.arrivalAirport,
+                        flight.aircraftCode,
+                        priceInfo.amount)
+                .distinct()
+                .from(flight)
+                .join(priceInfo).on(
+                        priceInfo.aircraftCode.eq(flight.aircraftCode)
+                        .and(priceInfo.origin.eq(flight.departureAirport))
+                        .and(priceInfo.destination.eq(flight.arrivalAirport)))
+                .where(predicate.and(flight.id.in(flightIds)))
+                .fetch());
+
+        var airportIds = rawResult.stream().flatMap(row -> Stream.of(row.get(3, String.class), row.get(4, String.class))).distinct().toList();
+
+        var airportsMap = StreamSupport.stream(airportRepository.findAllById(airportIds).spliterator(), false)
+                .map(a -> new AirportDTO(a.getCode(), a.getName(), a.getCity(), a.getTimezone()))
+                .collect(Collectors.toMap(AirportDTO::getCode, a -> a));
+
+        return rawResult.stream()
+                .collect(groupingBy(row -> new FlightDTO(
+                    row.get(0, Long.class),
+                    airportsMap.get(row.get(3, String.class)),
+                    airportsMap.get(row.get(4, String.class)),
+                    row.get(1, Timestamp.class),
+                    row.get(2, Timestamp.class),
+                    row.get(5, String.class),
+                    Collections.emptyList()))
+                )
+                .entrySet().stream()
+                .map(e -> {
+                    var dto = e.getKey();
+                    dto.prices = e.getValue().stream().map(v -> v.get(6, Long.class)).toList();
+                    return dto;
+                })
+                .toList();
     }
 }

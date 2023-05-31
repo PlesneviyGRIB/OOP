@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table("flights")
-public class Flights {
+public class Flight {
     @Id
     @Column("flight_id")
     private Long id;

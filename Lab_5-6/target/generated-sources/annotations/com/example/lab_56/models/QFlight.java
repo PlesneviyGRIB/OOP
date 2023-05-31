@@ -15,14 +15,14 @@ import java.sql.Types;
 
 
 /**
- * QFlights is a Querydsl query type for Flights
+ * QFlight is a Querydsl query type for Flight
  */
 @Generated("com.infobip.spring.data.jdbc.annotation.processor.CustomMetaDataSerializer")
-public class QFlights extends com.querydsl.sql.RelationalPathBase<Flights> {
+public class QFlight extends com.querydsl.sql.RelationalPathBase<Flight> {
 
-    private static final long serialVersionUID = 326688233;
+    private static final long serialVersionUID = -405103670;
 
-    public static final QFlights flights = new QFlights("Flights");
+    public static final QFlight flight = new QFlight("Flight");
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
@@ -44,28 +44,28 @@ public class QFlights extends com.querydsl.sql.RelationalPathBase<Flights> {
 
     public final StringPath actualArrival = createString("actualArrival");
 
-    public QFlights(String variable) {
-        super(Flights.class, forVariable(variable), null, "flights");
+    public QFlight(String variable) {
+        super(Flight.class, forVariable(variable), null, "flights");
         addMetadata();
     }
 
-    public QFlights(String variable, String schema, String table) {
-        super(Flights.class, forVariable(variable), schema, table);
+    public QFlight(String variable, String schema, String table) {
+        super(Flight.class, forVariable(variable), schema, table);
         addMetadata();
     }
 
-    public QFlights(String variable, String schema) {
-        super(Flights.class, forVariable(variable), schema, "flights");
+    public QFlight(String variable, String schema) {
+        super(Flight.class, forVariable(variable), schema, "flights");
         addMetadata();
     }
 
-    public QFlights(Path<? extends Flights> path) {
+    public QFlight(Path<? extends Flight> path) {
         super(path.getType(), path.getMetadata(), null, "flights");
         addMetadata();
     }
 
-    public QFlights(PathMetadata metadata) {
-        super(Flights.class, metadata, null, "flights");
+    public QFlight(PathMetadata metadata) {
+        super(Flight.class, metadata, null, "flights");
         addMetadata();
     }
 
