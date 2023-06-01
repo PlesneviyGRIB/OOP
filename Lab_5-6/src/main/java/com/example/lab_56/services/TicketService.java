@@ -52,8 +52,8 @@ public class TicketService {
                             ticketId,
                             bookingId,
                             passengerId,
-                            "Ivan",
-                            "{\"phone\": \"+79137771428\"}"
+                            route.name,
+                            route.phoneNumber
                     );
                     ticketFlightRepository.manualSave(ticketId, pf.flightId, route.fareCondition, pf.price);
                 });

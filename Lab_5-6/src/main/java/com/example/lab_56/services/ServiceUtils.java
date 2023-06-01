@@ -41,6 +41,12 @@ public class ServiceUtils {
            route.fareCondition.equals("Business"))
         )
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid fare condition");
+
+        if(route.name == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid name");
+
+        if(route.phoneNumber == null)
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid phone");
     }
 
     public static Date addDays(Date date, int count){

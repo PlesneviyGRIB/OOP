@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,7 @@ public class RoutesService {
                     dto.fareCondition = filter.fareCondition;
                     return dto;
                 })
+                .filter(r -> r.flights.stream().map(f -> f.origin.city).allMatch(new HashSet<>()::add))
                 .sorted(Comparator.comparing(r -> r.price))
                 .collect(Collectors.toList());
     }
